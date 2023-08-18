@@ -1,7 +1,15 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const port = 3500
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+const connectDB = require('./config/dbConn');
+
+connectDB();
+
+const PORT = 3500
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -67,7 +75,7 @@ app.get('/rivers', (req, res) => {
     res.json(rivers);
 })
 
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
-})
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB');
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});
