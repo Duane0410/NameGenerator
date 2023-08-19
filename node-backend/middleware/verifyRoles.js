@@ -4,7 +4,10 @@ const verifyRoles = (...allowedRoles) => {
             return res.sendStatus(401).json({ "message": 'Unauthorized!'});
         }
         const rolesArray = [...allowedRoles];
-        const result = req.roles.map(role => rolesArray.includes(role)).find(val => val === true);
+        console.log('Allowed Roles - ', rolesArray);
+        console.log('Requested Roles - ', req.roles);
+        const result = req.roles.some(role => rolesArray.includes(role))
+        console.log('Result - ', result)
         if (!result) {
             return res.sendStatus(401).json({ "message": 'Unauthorized!'});
         }

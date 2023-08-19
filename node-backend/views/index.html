@@ -10,7 +10,73 @@
 </head>
 
 <body>
-    <h1>Index</h1>
+    <div>
+        <h1>Instructions:</h1>
+        <p>
+            <br>
+            <h2>All allowed routes:</h2>
+            <br>
+            <b>'/register'</b><br>
+            Post request for registering new user<br>
+            Example body: { "name": "Name", "user": "Username", "pass": "Pa$w0rd8" }<br>
+            <br>
+            <b>'/login'</b><br>
+            Post request for loging in<br>
+            Example body: { "user": "Username", "pass": "Pa$w0rd8" }<br>
+            Returns an access token<br>
+            <br>
+            <b>'/refresh'</b><br>
+            Get request that returns a new refresh token<br>
+            <br>
+            <b>'/logout'</b><br>
+            Get request that clears the refresh token from cookie<br>
+            <br><br><br>
+            <h2>JWT authenticated routes:</h2>
+            <br>
+            <h3>'/names'</h3><br>
+            <em>Allows Create Read Update Delete options</em><br>
+            <br>
+            <b>Create:</b><br>
+            Post request to create entry<br>
+            Example body: { "name": "Name", "category": "Category" }<br>
+            <br>
+            <b>Read all:</b><br>
+            Get request that returns all entries<br>
+            <b>Read one:</b><br>
+            Get request that returns a single entry from passing ID as parameter<br>
+            Here: '/names/{parameter}'<br>
+            <br>
+            <b>Update:</b><br>
+            Put request that uses ID as an identifier and updates the required field<br>
+            Example body: { "id": "{ID}", "name": "Name", "category": "Category" }<br>
+            <br>
+            <b>Delete:</b><br>
+            Delete request that uses ID as an identifier and deletes data entry from database<br>
+            Example body: { "id": "{ID}" }<br>
+            <br><br>
+            <h3>'/teams'</h3><br>
+            <em>Allows Create Read Update Delete options</em><br>
+            <br>
+            <b>Create:</b><br>
+            Post request to create entry<br>
+            Example body: { "team_id": {ID}, "team_leader": "LeaderName", "team_members": ["MemberName", "MemberName", ...] }<br>
+            <br>
+            <b>Read all:</b><br>
+            Get request that returns all entries<br>
+            <b>Read one:</b><br>
+            Get request that returns a single entry from passing ID as parameter<br>
+            Here: '/teams/{parameter}'<br>
+            <br>
+            <b>Update:</b><br>
+            Put request that uses ID as an identifier and updates the required field<br>
+            Example body: { "team_id": {ID}, "team_leader": "LeaderName", "team_members": ["MemberName", "MemberName", ...] }<br>
+            <br>
+            <b>Delete:</b><br>
+            Delete request that uses ID as an identifier and deletes data entry from database<br>
+            Example body: { "team_id": {ID} }<br>
+            <br>
+        </p>
+    </div>
 </body>
 
 </html>

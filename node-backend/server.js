@@ -33,7 +33,6 @@ app.use('/names', require('./routes/api/names'));
 app.use('/teams', require('./routes/api/teams'))
 
 const rivers = [
-    'Amazon',
     'Nile',
     'Yangtze',
     'Mississippi',
