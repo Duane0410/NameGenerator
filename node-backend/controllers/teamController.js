@@ -1,4 +1,5 @@
 const IT_team = require('../model/IT_team');
+const User = require('../model/User');
 
 const getAllTeams = async (req, res) => {
     const Teams = await IT_team.find();
@@ -25,6 +26,23 @@ const createNewTeam = async (req, res) => {
             team_members: req.body.team_members
         })
 
+        const leader = await User.findOne({ name: req.body.team_leader }).exec();
+        if (leader) {
+            leader.roles.Leader = 4001;
+            const result = leader.save();
+            console.log(result);
+        }
+
+        req.body.team_members.map( async (person) => {
+            const member = await User.findOne({ name: person }).exec();
+            if (member) {
+                member.roles.Member = 2001;
+                const result = member.save();
+                console.log(result);
+            }
+        })
+        
+
         res.status(201).json(result);
     } catch (error) {
         console.error(error);
@@ -43,10 +61,42 @@ const updateTeam = async (req, res) => {
     }
 
     if (req.body?.team_leader) {
+        const leader = await User.findOne({ name: Team.team_leader }).exec();
+        if (leader) {
+            leader.roles.Leader = null;
+            const result = leader.save();
+            console.log(result);
+        }
+
         Team.team_leader = req.body.team_leader;
+
+        const newLeader = await User.findOne({ name: req.body.team_leader }).exec();
+        if (newLeader) {
+            newLeader.roles.Leader = 4001;
+            const result = newLeader.save();
+            console.log(result);
+        }
     }
     if (req.body?.team_members) {
+        Team.team_members.map( async (person) => {
+            const member = await User.findOne({ name: person }).exec();
+            if (member) {
+                member.roles.Member = null;
+                const result = member.save();
+                console.log(result);
+            }
+        })
+
         Team.team_members = req.body.team_members;
+
+        req.body.team_members.map( async (person) => {
+            const member = await User.findOne({ name: person }).exec();
+            if (member) {
+                member.roles.Member = 2001;
+                const result = member.save();
+                console.log(result);
+            }
+        })
     }
     if (req.body?.resources) {
         if (req.body.resources?.resource) {

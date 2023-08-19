@@ -15,7 +15,6 @@ const PORT = process.env.PORT || 3500;
 connectDB();
 
 app.use(credentials);
-
 app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: false }));
@@ -29,9 +28,9 @@ app.use('/login', require('./routes/login'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 
-app.use('/teams', require('./routes/api/teams'))
 app.use(verifyJWT);
 app.use('/names', require('./routes/api/names'));
+app.use('/teams', require('./routes/api/teams'))
 
 const rivers = [
     'Amazon',
@@ -59,7 +58,6 @@ const rivers = [
 app.get('/rivers', (req, res) => {
   res.json(rivers);
 })
-
 
 app.all('*', (req, res) => {
   res.status(404);
