@@ -23,44 +23,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/', express.static(path.join(__dirname, '/public')));
 
-// routes
 app.use('/', require('./routes/root'));
-// app.use('/register', require('./routes/register'));
-// app.use('/auth', require('./routes/auth'));
-// app.use('/refresh', require('./routes/refresh'));
-// app.use('/logout', require('./routes/logout'));
+app.use('/register', require('./routes/register'));
+app.use('/login', require('./routes/login'));
+app.use('/refresh', require('./routes/refresh'));
+app.use('/logout', require('./routes/logout'));
 
-// app.use(verifyJWT);
+app.use('/teams', require('./routes/api/teams'))
+app.use(verifyJWT);
 app.use('/names', require('./routes/api/names'));
-
-
-const celestial_bodies = [
-    'Mercury',
-    'Venus',
-    'Earth',
-    'Mars',
-    'Jupiter',
-    'Saturn',
-    'Uranus',
-    'Neptune',
-    'Moon',
-    'Sun',
-    'Ceres',
-    'Pluto',
-    'Haumea',
-    'Makemake',
-    'Eris',
-    'Io',
-    'Europa',
-    'Ganymede',
-    'Callisto',
-    'Titan',
-    'Enceladus',
-    'Triton',
-    'Charon',
-    'Phobos',
-    'Deimos'
-]
 
 const rivers = [
     'Amazon',
@@ -84,13 +55,9 @@ const rivers = [
     'Tigris',
     'Euphrates'
 ]
- 
-app.get('/celestial-bodies', (req, res) => {
-  res.json(celestial_bodies);
-})
 
 app.get('/rivers', (req, res) => {
-    res.json(rivers);
+  res.json(rivers);
 })
 
 

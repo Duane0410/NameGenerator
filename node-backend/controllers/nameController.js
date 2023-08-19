@@ -10,13 +10,12 @@ const getAllNames = async (req, res) => {
 
 const createNewName = async (req, res) => {
     if (!req?.body?.name || !req.body?.category) {
-        return res.status(400).json({ "message": 'First and last names are required!' });
+        return res.status(400).json({ "message": 'Name and category are required!' });
     }
 
     const exists = await Name.findOne({ name: req.body.name }).exec()
-
     if (exists) {
-        return res.status(400).json({ "message": 'Name already exists!' });
+        return res.status(409).json({ "message": 'Name already exists!' });
     }
 
     try {
@@ -41,6 +40,12 @@ const updateName = async (req, res) => {
     if (!name) {
         return res.status(204).json({ "message": `No name matches ID ${req.body.id}.` });
     }
+
+    const exists = await Name.findOne({ name: req.body.name }).exec()
+    if (exists) {
+        return res.status(409).json({ "message": 'Name already exists!' });
+    }
+
     if (req.body?.name) {
         name.name = req.body.name;
     }

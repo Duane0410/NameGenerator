@@ -1,18 +1,28 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
+const resourceSchema = new Schema({
+    resource: {
+        type: String
+    },
+    name: [{ type: String }]
+})
+
 const itTeamSchema = new Schema({
-    resources: {
-        resource: { type: String },
-        name: [{ type: String }],
+    team_id: {
+        type: Number,
+        unique: true,
         required: true
     },
+    resources: [resourceSchema],
     team_leader: {
         type: String,
         required: true
     },
     team_members: {
-        name: [array]
+        type: [{ type: String }],
+        required: true
     }
 });
 
