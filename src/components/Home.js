@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import useFetchData from '../hooks/useFetchData'
+import './style.css'
 
 const BASE_URL = 'http://localhost:3500'
 
@@ -9,7 +10,7 @@ const Home = () => {
     const names = useFetchData(BASE_URL + '/rivers')
 
     const handler = () => {
-        
+
         const randomName = () => {
             const randomIndex = Math.floor(Math.random() * names.length)
             return names[randomIndex]
@@ -20,14 +21,39 @@ const Home = () => {
 
     }
 
-  return (
-    <div>
-        <button onClick={handler}>
-            Chick Here
-        </button>
-        <h1>{name}</h1>
-    </div>
-  )
+    return (
+        <div>
+            <main>
+                <nav>
+                    <div className='leftNav' >
+                        <ul>
+                            <a href='/' ><li>CREATE</li></a>
+                            <a href='/' ><li>READ</li></a>
+                            <a href='/' ><li>UPDATE</li></a>
+                            <a href='/' ><li>DELETE</li></a>
+                        </ul>
+                    </div>
+                    <div className='rightNav' >
+                        <button>LOGIN</button>
+                    </div>
+                </nav>
+                <img className='backBanner' src={require('./1014.jpg')} alt='backBanner' />
+                <div className='bannerContent'>
+                    <div className='generateContainer'>
+                        <div className='category'>
+                            
+                        </div>
+                        <div className='generateBtn'>
+                            <button className='btn' onClick={handler}>
+                                Click Here
+                            </button>
+                            <h1>{name}</h1>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    )
 }
 
 export default Home

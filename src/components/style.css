@@ -1,0 +1,91 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+nav{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 80px;
+    background-color: #001C30;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bolder;
+}
+
+nav ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+nav ul li {
+    list-style: none;
+    margin: 0 10px;
+    color: aliceblue;
+}
+
+nav a{
+    text-decoration: none;
+}
+
+nav ul li:hover {
+    color: rgb(22, 255, 255);
+    border-bottom: 1px solid;
+}
+
+nav .rightNav button{
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #23333d;
+    border: none;
+    font-family: 'POPPINS', sans-serif;
+    color: aliceblue;
+    letter-spacing: 0.2ch;
+    font-weight: bold;
+}
+
+nav .rightNav button:hover{
+    cursor: pointer;
+    background-color: rgb(34, 167, 255);
+}
+
+.backBanner {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    z-index: -1;
+}
+
+.bannerContent {
+    position: relative;
+    text-align: center;
+    top: 15rem;
+    color: white;
+    max-width: 100%; 
+    padding: 0 20px; 
+    box-sizing: border-box; 
+}
+
+.bannerContent .generateContainer .generateBtn button{
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #23333d;
+    border: none;
+    font-family: 'POPPINS', sans-serif;
+    color: aliceblue;
+    letter-spacing: 0.2ch;
+    font-weight: bold;
+}
+
+.bannerContent .generateContainer .generateBtn button:hover{
+    cursor: pointer;
+    background-color: rgb(34, 167, 255);
+}
+
+.bannerContent .generateContainer .generateBtn button:active{
+    background-color: #23333d;
+    color: aliceblue;
+}
