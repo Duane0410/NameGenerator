@@ -41,7 +41,13 @@ const Home = () => {
                 <div className='bannerContent'>
                     <div className='generateContainer'>
                         <div className='category'>
-                            
+                            <label for="names">Choose a category </label>
+                            <select name='category'>
+                                <option value="River">River</option>
+                                <option value="Planet">Planet</option>
+                                <option value="Country">Country</option>
+                                <option value="Monuments">Monuments</option>
+                            </select>
                         </div>
                         <div className='generateBtn'>
                             <button className='btn' onClick={handler}>

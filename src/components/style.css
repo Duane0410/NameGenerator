@@ -89,3 +89,20 @@ nav .rightNav button:hover{
     background-color: #23333d;
     color: aliceblue;
 }
+
+.bannerContent .generateContainer .category{
+    padding-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    
+}
+
+.bannerContent .generateContainer .category select{
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
