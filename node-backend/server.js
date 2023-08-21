@@ -8,33 +8,25 @@ app.use(cors({
     credentials: true
 }))
 
-const celestial_bodies = [
-    'Mercury',
-    'Venus',
-    'Earth',
-    'Mars',
-    'Jupiter',
-    'Saturn',
-    'Uranus',
-    'Neptune',
-    'Moon',
-    'Sun',
-    'Ceres',
-    'Pluto',
-    'Haumea',
-    'Makemake',
-    'Eris',
-    'Io',
-    'Europa',
-    'Ganymede',
-    'Callisto',
-    'Titan',
-    'Enceladus',
-    'Triton',
-    'Charon',
-    'Phobos',
-    'Deimos'
-]
+connectDB();
+
+app.use(credentials);
+app.use(cors(corsOptions));
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
+app.use('/', express.static(path.join(__dirname, '/public')));
+
+app.use('/', require('./routes/root'));
+app.use('/register', require('./routes/register'));
+app.use('/login', require('./routes/login'));
+app.use('/refresh', require('./routes/refresh'));
+app.use('/logout', require('./routes/logout'));
+
+app.use(verifyJWT);
+app.use('/names', require('./routes/api/names'));
+app.use('/teams', require('./routes/api/teams'))
 
 const rivers = [
     'Amazon',
