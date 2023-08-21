@@ -1,5 +1,5 @@
 {
-  "name": "name-generator",
+  "name": "jwt_auth",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
