@@ -1,43 +1,38 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
-const port = 3500
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
+const path = require('path');
+const verifyJWT = require('./middleware/verifyJWT');
+const credentials = require('./middleware/credentials');
+const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+const connectDB = require('./config/dbConn');
 
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-}))
+const PORT = process.env.PORT || 3500;
 
-const celestial_bodies = [
-    'Mercury',
-    'Venus',
-    'Earth',
-    'Mars',
-    'Jupiter',
-    'Saturn',
-    'Uranus',
-    'Neptune',
-    'Moon',
-    'Sun',
-    'Ceres',
-    'Pluto',
-    'Haumea',
-    'Makemake',
-    'Eris',
-    'Io',
-    'Europa',
-    'Ganymede',
-    'Callisto',
-    'Titan',
-    'Enceladus',
-    'Triton',
-    'Charon',
-    'Phobos',
-    'Deimos'
-]
+connectDB();
+
+app.use(credentials);
+app.use(cors(corsOptions));
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cookieParser());
+app.use('/', express.static(path.join(__dirname, '/public')));
+
+app.use('/', require('./routes/root'));
+app.use('/register', require('./routes/register'));
+app.use('/login', require('./routes/login'));
+app.use('/refresh', require('./routes/refresh'));
+app.use('/logout', require('./routes/logout'));
+
+app.use(verifyJWT);
+app.use('/names', require('./routes/api/names'));
+app.use('/teams', require('./routes/api/teams'))
 
 const rivers = [
-    'Amazon',
     'Nile',
     'Yangtze',
     'Mississippi',
@@ -58,16 +53,23 @@ const rivers = [
     'Tigris',
     'Euphrates'
 ]
- 
-app.get('/celestial-bodies', (req, res) => {
-  res.json(celestial_bodies);
-})
 
 app.get('/rivers', (req, res) => {
-    res.json(rivers);
+  res.json(rivers);
 })
 
+app.all('*', (req, res) => {
+  res.status(404);
+  if (req.accepts('html')) {
+      res.sendFile(path.join(__dirname, 'views', '404.html'));
+  } else if (req.accepts('json')) {
+      res.json({ "error": "404 Not Found" });
+  } else {
+      res.type('txt').send("404 Not Found");
+  }
+});
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
-})
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB');
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});
