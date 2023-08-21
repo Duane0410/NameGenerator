@@ -13,7 +13,7 @@ const useFetchData = (url) => {
                 console.log(error)
                 setData(['Error!','Failure!'])
             })
-    }, [])
+    }, [url])
 
   return data
 }
