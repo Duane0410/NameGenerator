@@ -1,15 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../context/AuthProvider";
+import axios from "../api/axios"
+
+const LOGIN_URL = '/login'
 
 function Login() {
+    const { setAuth } = useContext(AuthContext)
 
     const userRef = useRef()
     const errRef = useRef()
 
     const [user, setUser] = useState('')
     const [pass, setPass] = useState('')
+
     const [errMsg, setErrMsg] = useState('')
-    const [success, setSuccess] = useState('')
+    const [success, setSuccess] = useState(false)
 
     useEffect(() => {
         userRef.current.focus()
@@ -19,8 +25,42 @@ function Login() {
         setErrMsg('')
     }, [user, pass])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        try {
+            const response = await axios.post(LOGIN_URL, 
+                JSON.stringify({ "user": user, "pass": pass }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            )
+            console.log(JSON.stringify(response?.data))
+
+            const accessToken = response?.data?.accessToken
+            const roles = response?.data?.roles
+
+            setAuth({ user, pass, roles, accessToken })
+            
+            setUser('')
+            setPass('')
+            setSuccess(true)
+            
+        } catch (error) {
+            if (!success) {
+                if (!error?.response) {
+                    setErrMsg('No Server Response!')
+                } else if (error.response?.status === 400) {
+                    setErrMsg('Missing Username or Password!')
+                } else if (error.response?.status === 401) {
+                    setErrMsg('Unauthorized!')
+                } else {
+                    setErrMsg('Login Failed!')
+                }
+                errRef.current.focus()
+            }
+        }
     }
 
 

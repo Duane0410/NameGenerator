@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from "react-router-dom";
+import axios from "../api/axios"
 
 const NAME_REGEX = /^[A-Z][a-z]{3,7}[ ]{0,1}[A-Z]{0,1}[a-z]{0,10}$/
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
 const PASS_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
+
+const REGISTER_URL = '/register'
 
 function Register() {
 
@@ -25,7 +28,7 @@ function Register() {
     const [passFocus, setPassFocus] = useState(false)
 
     const [errMsg, setErrMsg] = useState('')
-    const [success, setSuccess] = useState('')
+    const [success, setSuccess] = useState(false)
 
     useEffect(() => {
         nameRef.current.focus()
@@ -56,10 +59,36 @@ function Register() {
         setErrMsg('')
     }, [name, user, pass])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
-        setSuccess(true)
+
+        try {
+            const response = await axios.post(REGISTER_URL, 
+                JSON.stringify({ "name": name, "user": user, "pass": pass }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            )
+            console.log(response.data)
+            console.log(response.accessToken)
+            console.log(JSON.stringify(response))
+
+            setSuccess(true)
+        } catch (error) {
+            if (!success) {
+                console.log('Error response - ', error)
+                if (!error?.response) {
+                    setErrMsg('No Server Response!')
+                } else if (error.response?.status === 409) {
+                    setErrMsg('Username Already Exists!')
+                } else {
+                    setErrMsg('Registration Failed!')
+                }
+                errRef.current.focus()
+            }
+        }
     }
 
     return(
