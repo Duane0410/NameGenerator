@@ -39,20 +39,25 @@
             <b>Create:</b><br>
             Post request to create entry<br>
             Example body: { "name": "Name", "category": "Category" }<br>
+            <em>Required role: Admin or Leader or Member</em><br>
             <br>
             <b>Read all:</b><br>
             Get request that returns all entries<br>
+            <em>Required role: Admin or Leader or Member or User</em><br>
             <b>Read one:</b><br>
             Get request that returns a single entry from passing ID as parameter<br>
             Here: '/names/{parameter}'<br>
+            <em>Required role: Admin or Leader or Member or User</em><br>
             <br>
             <b>Update:</b><br>
             Put request that uses ID as an identifier and updates the required field<br>
             Example body: { "id": "{ID}", "name": "Name", "category": "Category" }<br>
+            <em>Required role: Admin or Leader or Member</em><br>
             <br>
             <b>Delete:</b><br>
             Delete request that uses ID as an identifier and deletes data entry from database<br>
             Example body: { "id": "{ID}" }<br>
+            <em>Required role: Admin or Leader</em><br>
             <br><br>
             <h3>'/teams'</h3><br>
             <em>Allows Create Read Update Delete options</em><br>
@@ -60,20 +65,25 @@
             <b>Create:</b><br>
             Post request to create entry<br>
             Example body: { "team_id": {ID}, "team_leader": "LeaderName", "team_members": ["MemberName", "MemberName", ...] }<br>
+            <em>Required role: Admin or Leader</em><br>
             <br>
             <b>Read all:</b><br>
             Get request that returns all entries<br>
+            <em>Required role: Admin or Leader or Member</em><br>
             <b>Read one:</b><br>
             Get request that returns a single entry from passing ID as parameter<br>
             Here: '/teams/{parameter}'<br>
+            <em>Required role: Admin or Leader or Member</em><br>
             <br>
             <b>Update:</b><br>
             Put request that uses ID as an identifier and updates the required field<br>
             Example body: { "team_id": {ID}, "team_leader": "LeaderName", "team_members": ["MemberName", "MemberName", ...] }<br>
+            <em>Required role: Leader or Member</em><br>
             <br>
             <b>Delete:</b><br>
             Delete request that uses ID as an identifier and deletes data entry from database<br>
             Example body: { "team_id": {ID} }<br>
+            <em>Required role: Admin or Leader</em><br>
             <br>
         </p>
     </div>
