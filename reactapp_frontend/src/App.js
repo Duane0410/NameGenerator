@@ -1,43 +1,27 @@
-<<<<<<< HEAD
-import './App.css';
-import Home from './components/Home';
-
-function App() {
-  return (
-    <div className="App">
-      <Home />
-    </div>
-  );
-}
-
-export default App;
-=======
-import logo from './logo.svg';
-import './App.css';
-import Page1 from './compts/Page1'
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import Register from './compts/Register'
-import Login from './compts/Login'
+import './static/App.css';
+import Page1 from './components/Page1'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import Register from './components/Register'
+import Login from './components/Login'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import SignIn from './compts/SignIn';
+import Home from './components/Home'
 
 
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
        <Routes>
-        <Route path='/' element={<Login/>}> </Route>
-        <Route path='/signup' element={<Register/>}> </Route>
+        <Route path='/' element={<Login/>} />
+        <Route path='/signup' element={<Register/>} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/page1' element={<Page1 />} />
 
        </Routes>
-    </BrowserRouter>
+    </Router>
 
     // <Page1/>
   );
 }
 
 export default App;
-
-
->>>>>>> main
