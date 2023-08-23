@@ -1,9 +1,19 @@
 import React, { useState } from 'react'
 import useFetchData from '../hooks/useFetchData'
+import useLogout from '../hooks/useLogout';
+import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = 'http://localhost:3500'
 
 const Home = () => {
+    const navigate = useNavigate();
+    const logout = useLogout()
+
+    const signOut = async () => {
+        await logout()
+        navigate('/login')
+    }
+
     const [name, setName] = useState('')
     // const names = useFetchData(BASE_URL + '/celestial-bodies')
     const names = useFetchData(BASE_URL + '/rivers')
@@ -26,6 +36,9 @@ const Home = () => {
             Chick Here
         </button>
         <h1>{name}</h1>
+        <button onClick={signOut} className="btn btn-primary">
+            Sign Out
+        </button>
     </div>
   )
 }

@@ -12,12 +12,13 @@ const userSchema = new Schema({
         required: true
     },
     roles: {
+        Admin: Number,
+        Leader: Number,
+        Member: Number,
         User: {
             type: Number,
             default: 1001
-        },
-        Member: Number,
-        Leader: Number
+        }
     },
     password: {
         type: String,
