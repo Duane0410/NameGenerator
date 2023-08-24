@@ -1,0 +1,116 @@
+
+.heading{
+    background-color: black;
+    color: aliceblue;
+    margin-top: 0%;
+    text-align: center;
+    font-style: italic;
+    display: flex;
+}
+.logout{
+    justify-content: left;
+    position: absolute;
+    top: 20; /* Adjust this value as needed */
+    right: 0;
+}
+
+body{
+    background-color: rgb(101, 101, 241);
+}
+
+.background{
+    display: flex;
+    
+}
+
+.resources{
+    display: flex;
+}
+
+.card-container{
+    width:300px;
+    overflow:hidden;
+    box-shadow: 0px 0px 15px -5px;
+    text-align: center;
+    height: 250px;
+    background-color: aliceblue;
+    transition: 0.3s;
+    animation: ease-in;
+}
+
+.card-container:hover{
+    transform:scale(1,1);
+    box-shadow:0px 0px 15px 0px ;
+}
+.card-sapce{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 100px;
+}
+
+
+.add{
+    margin-top: 100px;
+    justify-content: center;
+    display: flex;
+}
+
+/* Style the entire table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    /* Add other styles as needed */
+  }
+  
+  /* Style table headers (th) */
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #ddd;
+    /* Add other styles as needed */
+  }
+  
+  /* Style table data cells (td) */
+  td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    /* Add other styles as needed */
+  }
+  
+  .tbl{
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  /* Highlight rows on hover */
+  tr:hover {
+    background-color: #ddd;
+  }
+  
+  /* Add borders to the table */
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+  
+  /* Center text in table cells */
+  td, th {
+    text-align: center;
+  }
+  
+  /* Add spacing between table cells */
+  table {
+    border-spacing: 0;
+    /* Adjust the spacing value as needed */
+  }
+  
+  .generate{
+    justify-content: center;
+    text-align: center;
+    border: #302a8c solid 2px;
+    margin-left: 500px;
+    margin-right: 500px;
+    margin-top: 20px;
+  }
