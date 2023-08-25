@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../api/axios"
 
 const NAME_REGEX = /^[A-Z][a-z]{3,7}[ ]{0,1}[A-Z]{0,1}[a-z]{0,10}$/
@@ -12,6 +12,7 @@ const REGISTER_URL = '/register'
 
 function Register() {
 
+    const navigate = useNavigate()
     const nameRef = useRef()
     const errRef = useRef()
 
@@ -76,6 +77,7 @@ function Register() {
             console.log(JSON.stringify(response))
 
             setSuccess(true)
+            navigate('login')
         } catch (error) {
             if (!success) {
                 console.log('Error response - ', error)
@@ -209,7 +211,7 @@ function Register() {
                         </button>
                     </div>
                     <p className="text-end mt-2">
-                        Already registered?<Link to='/' className="ms-2">Sign in</Link>
+                        Already registered?<Link to='/login' className="ms-2">Sign in</Link>
                     </p>
                 </form>
             </div>

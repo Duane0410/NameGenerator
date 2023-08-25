@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-class Page1 extends Component
+class Page2 extends Component
 {
 
     constructor()
@@ -88,4 +88,4 @@ class Page1 extends Component
     }
 }
 
-export default Page1
+export default Page2

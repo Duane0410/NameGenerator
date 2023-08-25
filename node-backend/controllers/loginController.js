@@ -1,6 +1,7 @@
 const User = require('../model/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const IT_team = require('../model/IT_team');
 
 const handleLogin = async (req, res) => {
     const { user, pass } = req.body;
@@ -14,8 +15,11 @@ const handleLogin = async (req, res) => {
     }
 
     const match = await bcrypt.compare(pass, foundUser.password);
+    const foundNameLeader = await IT_team.findOne({ team_leader: foundUser.name }).exec()
+    const foundNameMember = await IT_team.findOne({ team_members: foundUser.name }).exec()
     if (match) {
         const roles = Object.values(foundUser.roles).filter(Boolean);
+        let teamID = 0;
 
         const accessToken = jwt.sign(
             {
@@ -36,9 +40,16 @@ const handleLogin = async (req, res) => {
         foundUser.refreshToken = refreshToken;
         const result = await foundUser.save();
         console.log(result)
+
+        if (foundNameLeader) {
+            teamID = foundNameLeader.team_id;
+        }
+        if (foundNameMember) {
+            teamID = foundNameMember.team_id;
+        }
         
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.json({ accessToken, roles });
+        res.json({ accessToken, roles, teamID });
     } else {
         res.sendStatus(401);
     }

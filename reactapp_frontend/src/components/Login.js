@@ -6,7 +6,7 @@ import axios from "../api/axios"
 const LOGIN_URL = '/login'
 
 function Login() {
-    const { setAuth } = useAuth()
+    const { auth, setAuth } = useAuth()
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -43,8 +43,10 @@ function Login() {
 
             const accessToken = response?.data?.accessToken
             const roles = response?.data?.roles
+            const teamID = response?.data?.teamID
 
-            setAuth({ user, pass, roles, accessToken })
+            setAuth({ user, pass, roles, teamID, accessToken })
+            console.log('Auth - ', auth)
             
             setUser('')
             setPass('')
@@ -87,7 +89,7 @@ function Login() {
                     </div>
 
                     <div className="mb-2">
-                        <label htmlFor="password" >Password: </label>
+                        <label htmlFor="password">Password: </label>
                         <input 
                             type="password" 
                             placeholder=" Enter password" 
@@ -101,7 +103,7 @@ function Login() {
                         <button className="btn btn-primary">Sign In</button>
                     </div>
                     <p className="text-end mt-2">
-                        Not registered yet?<Link to='/signup' className="ms-2">Sign Up</Link>
+                        Not registered yet?<Link to='/register' className="ms-2">Sign Up</Link>
                     </p>
                 </form>
             </div>

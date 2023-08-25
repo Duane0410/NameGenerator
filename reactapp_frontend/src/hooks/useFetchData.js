@@ -8,6 +8,7 @@ const useFetchData = (url) => {
         axios.get(`${url}`)
             .then(response => {
                 setData(response.data)
+                console.log('Data - ', data)
             })
             .catch(error => {
                 console.log(error)

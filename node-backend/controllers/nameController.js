@@ -71,7 +71,7 @@ const deleteName = async (req, res) => {
     if (!foundname) {
         return res.status(204).json({ "message": `No name matches ID ${id}.` });
     }
-    const result = await name.deleteOne({ _id: id });
+    const result = await foundname.deleteOne({ _id: id });
     res.json(result);
 }
 

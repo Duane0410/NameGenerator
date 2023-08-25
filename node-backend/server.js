@@ -28,9 +28,10 @@ app.use('/login', require('./routes/login'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 
-app.use(verifyJWT);
+// app.use(verifyJWT);
 app.use('/names', require('./routes/api/names'));
-app.use('/teams', require('./routes/api/teams'))
+app.use('/teams', require('./routes/api/teams'));
+app.use('/resources', require('./routes/api/resources'));
 
 // const rivers = [
 //     'Nile',
