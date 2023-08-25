@@ -12,7 +12,6 @@ import Layout from './components/Layout';
 import Page2 from './compts/Page1';
 import SignIn from './compts/SignIn';
 import Resources from './components/Resources';
-import NameGenerate from './components/NameGenerate';
 import UpdateName from './components/UpdateName';
 import ViewCard from './components/ViewCard';
 import CreateResource from './components/CreateResource';
@@ -49,6 +48,7 @@ function App() {
           </Route>
         </Route>
       </Route>
+
 
       <Route path='/Page2' element={<Page2 />} />
       <Route path='/SignIn' element={<SignIn />} />

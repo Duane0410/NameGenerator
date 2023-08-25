@@ -55,15 +55,22 @@ function Resources () {
     }, [])
 
     const handleDelete = async (ID) => {
-        console.log('ResourceID - ', ID)
-        try {
-            const response = await axios.delete(`http://localhost:3500/resources/${ID}`)
-            console.log(response)
-            window.location.reload()
-        } catch (error) {
-            console.error(error)
-        } finally {
-            console.log('Its the END')
+        const allowedRoles = [5001, 4001]
+        // console.log(!auth.roles.some(role => allowedRoles.includes(role)))
+        // console.log('ResourceID - ', ID)
+        if (!auth.roles.some(role => allowedRoles.includes(role))) {
+            navigate('/unauthorized')
+        } else {
+            try {
+                const response = await axios.delete(`http://localhost:3500/resources/${ID}`)
+                console.log(response)
+                window.location.reload()
+                console.log('Trial')
+            } catch (error) {
+                console.error(error)
+            } finally {
+                console.log('Its the END')
+            }
         }
     }
     

@@ -30,8 +30,17 @@ const NameGenerate = ({resourceID, operationType}) => {
     const [name, setName] = useState('')
     const [data, setData] = useState()
     // const [id, setId] = useState()
-    const values = ["Greek Gods","Roman Gods","Celestial Bodies"]
-    const url = BASE_URL + values[pos]
+    const dataLinks = {
+        "Roman Gods": 'https://api.npoint.io/63ae457da8005293be52',
+        "Greek Gods": 'https://api.npoint.io/1f0d7b016a4df3a4dbc0',
+        "Celestial Bodies": 'https://api.npoint.io/f18d6b5e3625ee9491a1',
+        "Rivers": 'https://api.npoint.io/f0dfe400ba2d54332259'
+    }
+    
+    const values = ["Greek Gods","Roman Gods","Celestial Bodies","Rivers"]
+    // const url = BASE_URL + values[pos]
+    const key = values[pos]
+    const url = dataLinks[key]
     const names = useFetchData(url)
     let temp = []
     
