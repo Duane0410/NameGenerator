@@ -20,7 +20,7 @@ function Resources () {
     const resource = searchParams.get('resource')
 
 
-    const goBack = () => navigate(-1);
+    const goBack = () => navigate('/');
 
     useEffect(() => {
         let isMounted = true

@@ -24,7 +24,7 @@ const NameGenerate = ({resourceID, operationType}) => {
     }
 
     const navigate = useNavigate()
-    const goBack = () => navigate(-1);
+    const goBack = () => navigate(`/resources?resource=${encodeURIComponent(resource)}`);
 
     const { auth } = useAuth()
     const [name, setName] = useState('')
@@ -57,7 +57,7 @@ const NameGenerate = ({resourceID, operationType}) => {
                     withCredentials: true
                 })
                 console.log(JSON.stringify(response?.data))
-                navigate('/')
+                navigate(`/resources?resource=${encodeURIComponent(resource)}`)
             } catch (error) {
                 console.error(error)
             }
@@ -71,7 +71,7 @@ const NameGenerate = ({resourceID, operationType}) => {
                     withCredentials: true
                 })
                 console.log(JSON.stringify(response?.data))
-                navigate('/')
+                navigate(`/resources?resource=${encodeURIComponent(resource)}`)
             } catch (error) {
                 console.error(error)
             }

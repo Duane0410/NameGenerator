@@ -77,7 +77,7 @@ function Register() {
             console.log(JSON.stringify(response))
 
             setSuccess(true)
-            navigate('login')
+            navigate('/')
         } catch (error) {
             if (!success) {
                 console.log('Error response - ', error)
