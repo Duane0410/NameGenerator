@@ -5,7 +5,7 @@ const path = require('path');
 const routes = '^/$|/index(.html)?|/instruction(s)?(.html)?|/note(s)?(.html)?'
 
 router.get(`${routes}`, (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'views', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'views', 'index.html'));
 });
 
 module.exports = router;

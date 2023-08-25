@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="static/style.css" />
+</head>
+
+<body>
+    <div>
+        <h1>Instructions:</h1>
+        <p>
+            <br>
+            <h2>All allowed routes:</h2>
+            <br>
+            <b>'/register'</b><br>
+            Post request for registering new user<br>
+            Example body: { "name": "Name", "user": "Username", "pass": "Pa$w0rd8" }<br>
+            <br>
+            <b>'/login'</b><br>
+            Post request for loging in<br>
+            Example body: { "user": "Username", "pass": "Pa$w0rd8" }<br>
+            Returns an access token<br>
+            <br>
+            <b>'/refresh'</b><br>
+            Get request that returns a new refresh token<br>
+            <br>
+            <b>'/logout'</b><br>
+            Get request that clears the refresh token from cookie<br>
+            <br><br><br>
+            <h2>JWT authenticated routes:</h2>
+            <br>
+            <h3>'/names'</h3><br>
+            <em>Allows Create Read Update Delete options</em><br>
+            <br>
+            <b>Create:</b><br>
+            Post request to create entry<br>
+            Example body: { "name": "Name", "category": "Category" }<br>
+            <em>Required role: Admin or Leader or Member</em><br>
+            <br>
+            <b>Read all:</b><br>
+            Get request that returns all entries<br>
+            <em>Required role: Admin or Leader or Member or User</em><br>
+            <b>Read one:</b><br>
+            Get request that returns a single entry from passing ID as parameter<br>
+            Here: '/names/{parameter}'<br>
+            <em>Required role: Admin or Leader or Member or User</em><br>
+            <br>
+            <b>Update:</b><br>
+            Put request that uses ID as an identifier and updates the required field<br>
+            Example body: { "id": "{ID}", "name": "Name", "category": "Category" }<br>
+            <em>Required role: Admin or Leader or Member</em><br>
+            <br>
+            <b>Delete:</b><br>
+            Delete request that uses ID as an identifier and deletes data entry from database<br>
+            Example body: { "id": "{ID}" }<br>
+            <em>Required role: Admin or Leader</em><br>
+            <br><br>
+            <h3>'/teams'</h3><br>
+            <em>Allows Create Read Update Delete options</em><br>
+            <br>
+            <b>Create:</b><br>
+            Post request to create entry<br>
+            Example body: { "team_id": {ID}, "team_leader": "LeaderName", "team_members": ["MemberName", "MemberName", ...] }<br>
+            <em>Required role: Admin or Leader</em><br>
+            <br>
+            <b>Read all:</b><br>
+            Get request that returns all entries<br>
+            <em>Required role: Admin or Leader or Member</em><br>
+            <b>Read one:</b><br>
+            Get request that returns a single entry from passing ID as parameter<br>
+            Here: '/teams/{parameter}'<br>
+            <em>Required role: Admin or Leader or Member</em><br>
+            <br>
+            <b>Update:</b><br>
+            Put request that uses ID as an identifier and updates the required field<br>
+            Example body: { "team_id": {ID}, "team_leader": "LeaderName", "team_members": ["MemberName", "MemberName", ...] }<br>
+            <em>Required role: Leader or Member</em><br>
+            <br>
+            <b>Delete:</b><br>
+            Delete request that uses ID as an identifier and deletes data entry from database<br>
+            Example body: { "team_id": {ID} }<br>
+            <em>Required role: Admin or Leader</em><br>
+            <br>
+        </p>
+    </div>
+</body>
+
+</html>

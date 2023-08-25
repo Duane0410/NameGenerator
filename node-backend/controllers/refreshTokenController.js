@@ -1,3 +1,4 @@
+const IT_team = require('../model/IT_team');
 const User = require('../model/User');
 const jwt = require('jsonwebtoken');
 
@@ -12,7 +13,9 @@ const handleRefreshToken = async (req, res) => {
     if (!foundUser) {
         return res.sendStatus(403);
     } 
-     
+    const foundNameLeader = await IT_team.findOne({ team_leader: foundUser.name }).exec()
+    const foundNameMember = await IT_team.findOne({ team_members: foundUser.name }).exec()
+    
     jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
@@ -20,7 +23,15 @@ const handleRefreshToken = async (req, res) => {
             if (error || foundUser.username !== decoded.username) {
                 return res.sendStatus(403);
             }
-            const roles = Object.values(foundUser.roles)
+            const roles = Object.values(foundUser.roles).filter(Boolean)
+            let teamID = 0;
+            const user = foundUser.username
+            if (foundNameLeader) {
+                teamID = foundNameLeader.team_id;
+            }
+            if (foundNameMember) {
+                teamID = foundNameMember.team_id;
+            }
             const accessToken = jwt.sign(
                 {
                     "UserInfo": {
@@ -31,7 +42,8 @@ const handleRefreshToken = async (req, res) => {
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: '10min' }
             );
-            res.json({ accessToken })
+            console.log('User - ', user, '\nRoles - ', roles, '\nTeamID - ', teamID, '\nAccessToken - ', accessToken)
+            res.json({ user, roles, teamID, accessToken })
         }
     );
 }
