@@ -8,7 +8,7 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate'
 
 const BASE_URL = 'http://localhost:3001/'
 
-const NameGenerate = ({resourceID}) => {
+const NameGenerate = ({resourceID, operationType}) => {
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
@@ -39,7 +39,7 @@ const NameGenerate = ({resourceID}) => {
 
         console.log("team_id: ", auth.teamID, "\nresource: ", resource, "\nname: ", name, "\ncategory: ", values[pos])
 
-        if (resourceID) {
+        if (operationType === 'update') {
             try {
                 const response = await axios.put('http://localhost:3500/resources', {
                     "_id": resourceID, "team_id": auth.teamID, "resource": resource, "name": name, "category": values[pos]
@@ -53,7 +53,7 @@ const NameGenerate = ({resourceID}) => {
                 console.error(error)
             }
 
-        } else {
+        } else if (operationType === 'create') {
             try {
                 const response = await axios.post('http://localhost:3500/resources', {
                     "team_id": auth.teamID, "resource": resource, "name": name, "category": values[pos]
@@ -66,6 +66,8 @@ const NameGenerate = ({resourceID}) => {
             } catch (error) {
                 console.error(error)
             }
+        } else {
+            console.log('Service not available!')
         }
     }
 
@@ -116,7 +118,7 @@ const NameGenerate = ({resourceID}) => {
     }, [])
 
   return (
-    <div className='w-100 vh-50 bg-white rounded p-3 my-3 generate'>
+    <div className='bg-white rounded p-3 my-3 generate'>
         <div className='heading'>
             <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "10px", right: "20px"}}>Go back</button>
         </div>
@@ -130,7 +132,7 @@ const NameGenerate = ({resourceID}) => {
                 {name}
             </h2>
 
-            <button className='btn btn-success btn-block w-50 py-3' onClick={handleSetName}>
+            <button className='btn btn-success btn-block w-50 py-3 mb-3' onClick={handleSetName}>
                 Select
             </button>
         </div>

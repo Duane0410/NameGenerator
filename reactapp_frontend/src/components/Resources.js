@@ -54,16 +54,17 @@ function Resources () {
         }
     }, [])
 
-    const handleDelete = (ID) => {
+    const handleDelete = async (ID) => {
         console.log('ResourceID - ', ID)
-        axios.delete('http://localhost:3500/resources', { "_id": ID })
-            .then(response => {
-                console.log(response)
-                window.location.reload()
-            })
-            .catch(error => {
-                console.log(error)
-            })
+        try {
+            const response = await axios.delete(`http://localhost:3500/resources/${ID}`)
+            console.log(response)
+            window.location.reload()
+        } catch (error) {
+            console.error(error)
+        } finally {
+            console.log('Its the END')
+        }
     }
     
 
@@ -79,7 +80,7 @@ function Resources () {
 
             <div className='w-100 bg-white rounded p-3 my-3' style={{width: '200%'}}>
                 <Link 
-                    to={`/generate?resource=${encodeURIComponent(resource)}`}
+                    to={`/create?resource=${encodeURIComponent(resource)}`}
                     className='btn btn-success position-relative mb-1' 
                     style={{left: '80%', width: '20%'}}
                 >Add +</Link>

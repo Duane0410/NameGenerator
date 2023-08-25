@@ -15,6 +15,7 @@ import Resources from './components/Resources';
 import NameGenerate from './components/NameGenerate';
 import UpdateName from './components/UpdateName';
 import ViewCard from './components/ViewCard';
+import CreateResource from './components/CreateResource';
 
 const ROLES = {
   "Admin": 5001,
@@ -42,7 +43,7 @@ function App() {
             <Route path='/view' element={<ViewCard />} />
           
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
-              <Route path='/generate' element={<NameGenerate />} />
+              <Route path='/create' element={<CreateResource />} />
               <Route path='/update' element={<UpdateName />} />
             </Route>
           </Route>

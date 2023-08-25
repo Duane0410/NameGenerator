@@ -9,10 +9,10 @@ router.route('/')
     .post(resourceController.createNewResource)
     // .put(verifyRoles(ROLES_LIST.Leader, ROLES_LIST.Member), resourceController.updateResource)
     // .delete(verifyRoles(ROLES_LIST.Leader), resourceController.deleteResource);
-    .put(resourceController.updateResource)
-    .delete(resourceController.deleteResource);
+    .put(resourceController.updateResource);
 
 router.route('/:id')
+    .delete(resourceController.deleteResource)
     .get(resourceController.getResource);
 
 module.exports = router;
