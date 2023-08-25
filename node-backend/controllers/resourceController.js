@@ -90,7 +90,9 @@ const updateResource = async (req, res) => {
                 return res.status(409).json({ "message": `${req.body.name} is already taken!`});
             } else {
                 foundName.status = 'taken';
-
+                const oldName= await Name.findOne({name:foundResource.name}).exec();
+                oldName.status="available"
+                const oldResult = await oldName.save();
                 const nameResult = await foundName.save();
             }
         }
