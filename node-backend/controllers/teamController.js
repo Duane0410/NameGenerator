@@ -111,15 +111,14 @@ const updateTeam = async (req, res) => {
 }
 
 const deleteTeam = async (req, res) => {
-    const { team_id } = req.body
-    if (!team_id) {
+    if (!req?.params?.id) {
         return res.status(400).json({ "message": 'IT team ID require!' })
     }
 
-    const foundTeam = await IT_team.findOne({ team_id: team_id }).exec()
+    const foundTeam = await IT_team.findOne({ team_id: req.params.id }).exec()
 
     if (!foundTeam) {
-        return res.status(204).json({ "message": `No IT team matches ID ${team_id}.` });
+        return res.status(204).json({ "message": `No IT team matches ID ${req.params.id}.` });
     }
 
     const foundleader = await User.findOne({ name: foundTeam.team_leader }).exec();
@@ -138,7 +137,7 @@ const deleteTeam = async (req, res) => {
         }
     })
 
-    const result = await IT_team.deleteOne({ team_id: team_id });
+    const result = await IT_team.deleteOne({ team_id: req.params.id });
     res.json(result);
 }
 

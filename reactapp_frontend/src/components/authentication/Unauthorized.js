@@ -9,8 +9,8 @@ const Unauthorized = () => {
         <div className="w-40 my-5 p-5 rounded bg-white text-danger">
           <h1>Unauthorized!</h1>
           <br />
-          <p>You do not have access to the requested page.</p>
-            <button className="btn btn-primary btn-block" onClick={goBack}>Go back</button>
+          <p>You do not have access to the requested page.</p><br/><br/><br/>
+          <button className="btn btn-primary btn-block mt-5" onClick={goBack}>Go back</button>
         </div>
   )
 }

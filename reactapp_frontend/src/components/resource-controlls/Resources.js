@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import axios from 'axios'
-import useAuth from '../hooks/useAuth'
+import useAuth from '../../hooks/useAuth'
 
 
 function Resources () {
@@ -111,11 +111,11 @@ function Resources () {
                                             <td>
                                                 <Link 
                                                     state={item?._id}
-                                                    to={`/view`}
+                                                    to={`/view?data=${encodeURIComponent('resources')}`}
                                                     className='btn btn-info btn-block mx-4' 
                                                 >View</Link>
                                                 <Link 
-                                                    state={item?._id}
+                                                    state={item}
                                                     to={`/update?resource=${encodeURIComponent(resource)}`}
                                                     className='btn btn-success btn-block mx-4' 
                                                 >Update</Link>

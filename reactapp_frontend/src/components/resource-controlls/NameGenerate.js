@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import useAuth from '../hooks/useAuth'
+import useAuth from '../../hooks/useAuth'
 import { useLocation, useNavigate } from 'react-router-dom'
-import useFetchData from '../hooks/useFetchData'
-import useAxiosPrivate from '../hooks/useAxiosPrivate'
+import useFetchData from '../../hooks/useFetchData'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 
 const BASE_URL = 'http://localhost:3001/'
@@ -48,35 +48,39 @@ const NameGenerate = ({resourceID, operationType}) => {
 
         console.log("team_id: ", auth.teamID, "\nresource: ", resource, "\nname: ", name, "\ncategory: ", values[pos])
 
-        if (operationType === 'update') {
-            try {
-                const response = await axios.put('http://localhost:3500/resources', {
-                    "_id": resourceID, "team_id": auth.teamID, "resource": resource, "name": name, "category": values[pos]
-                }, {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                })
-                console.log(JSON.stringify(response?.data))
-                navigate(`/resources?resource=${encodeURIComponent(resource)}`)
-            } catch (error) {
-                console.error(error)
-            }
-
-        } else if (operationType === 'create') {
-            try {
-                const response = await axios.post('http://localhost:3500/resources', {
-                    "team_id": auth.teamID, "resource": resource, "name": name, "category": values[pos]
-                }, {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                })
-                console.log(JSON.stringify(response?.data))
-                navigate(`/resources?resource=${encodeURIComponent(resource)}`)
-            } catch (error) {
-                console.error(error)
-            }
+        if (auth.teamID === 0) {
+            navigate('/unauthorized')
         } else {
-            console.log('Service not available!')
+            if (operationType === 'update') {
+                try {
+                    const response = await axios.put('http://localhost:3500/resources', {
+                        "_id": resourceID, "team_id": auth.teamID, "resource": resource, "name": name, "category": values[pos]
+                    }, {
+                        headers: { 'Content-Type': 'application/json' },
+                        withCredentials: true
+                    })
+                    console.log(JSON.stringify(response?.data))
+                    navigate(`/resources?resource=${encodeURIComponent(resource)}`)
+                } catch (error) {
+                    console.error(error)
+                }
+    
+            } else if (operationType === 'create') {
+                try {
+                    const response = await axios.post('http://localhost:3500/resources', {
+                        "team_id": auth.teamID, "resource": resource, "name": name, "category": values[pos]
+                    }, {
+                        headers: { 'Content-Type': 'application/json' },
+                        withCredentials: true
+                    })
+                    console.log(JSON.stringify(response?.data))
+                    navigate(`/resources?resource=${encodeURIComponent(resource)}`)
+                } catch (error) {
+                    console.error(error)
+                }
+            } else {
+                console.log('Service not available!')
+            }
         }
     }
 
