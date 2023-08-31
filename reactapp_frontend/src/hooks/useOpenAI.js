@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react';
-// import '@chatscope/chat-ui-kit-react';
-// import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css'
-// import {MainContainer, ChatContainer, MessageList, Message, MessageInput} from '@chatscope/chat-ui-kit-react';
 
-// const API_KEY = "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";
-// const API_KEY = "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";
 const API_KEY = "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";
-// const API_KEY = "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";
 
 function useOpenAI(category='rivers') {
    const[messages,setMessages]= useState([
@@ -82,25 +76,6 @@ function useOpenAI(category='rivers') {
    
    
   return messages
-//     <div>
-//       <div >
-//     <MainContainer>
-//       <ChatContainer>
-//         <MessageList>
-            
-//             {
-//             messages.map((message, i) => {
-//                 return <Message key={i} model={message}/>
-//             })
-//             }
-
-//         </MessageList>
-//         <MessageInput placeholder='type message' onSend={handle}/>
-//       </ChatContainer>
-//     </MainContainer>
-//     </div>
-//     </div>
-//   );
 }
 
 export default useOpenAI;

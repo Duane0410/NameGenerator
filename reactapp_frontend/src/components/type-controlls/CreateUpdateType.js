@@ -288,7 +288,7 @@ const CreateUpdateType = () => {
                         </label>
                         <input 
                             type="text"
-                            placeholder=" Enter member names"
+                            placeholder=" Enter image URL"
                             className="form-control mb-2"
                             id='imageURL'
                             autoComplete='off'
@@ -393,7 +393,7 @@ const CreateUpdateType = () => {
                         />
                         <input 
                             type="text"
-                            placeholder=" Change member names"
+                            placeholder=" Change image URL"
                             className="form-control mb-2"
                             id='imageURL'
                             autoComplete='off'
