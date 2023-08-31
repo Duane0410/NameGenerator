@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const API_KEY = "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";
+const API_KEY = "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";
 
 function useOpenAI(category='rivers') {
    const[messages,setMessages]= useState([

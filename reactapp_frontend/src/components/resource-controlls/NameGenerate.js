@@ -27,7 +27,7 @@ const NameGenerate = ({resourceID, operationType}) => {
     const messages = useOpenAI(categoryArray[index])
     console.log('Message here - ', messages)
     const [names, setNames] = useState()
-    const [namesArray, setNamesArray] = useState()
+    const [namesArray, setNamesArray] = useState([])
 
     useEffect(() => {
         if (messages[2]?.message) {
@@ -35,8 +35,8 @@ const NameGenerate = ({resourceID, operationType}) => {
                 const index = messages[2].message.indexOf('[') - 1
                 const namesString = messages[2].message.substring(index)
                 console.log('String - ', namesString)
-                setNamesArray(JSON.parse(namesString));
-                console.log('Names - ', namesArray);
+                setNames(JSON.parse(namesString));
+                console.log('Names - ', names);
                 setFlag(true)
                 
             } catch (error) {
@@ -90,18 +90,60 @@ const NameGenerate = ({resourceID, operationType}) => {
     }
 
     const handler = () => {
+        console.log('NAMESARR-',namesArray)
+        console.log('name-',names)
+        // let num = []
+        
+        // try {
+        //     if (data && names) {
+        //         data.map(item => {
+        //             Array.from(names).map(name => {
+        //                 if (name === item.name) {
+        //                     num.push(names.indexOf(name))
+        //                 }
+        //             })
+        //             console.log('num - ', num)
+    
+        //     })}
+        //     if (names) names[num] = ''
+        // } catch (error) {
+        //     console.log(error)
+        // }
+        let flagArray = 0 ; 
         if (names) {
             const randomName = () => {
                 const randomIndex = Math.floor(Math.random() * names.length)
                 let newRandom = names[randomIndex]
-                while (data.includes(newRandom)) {
-                    newRandom = randomName()
-                }
+                while(namesArray.includes(newRandom)){
+                    flagArray = flagArray + 1
+                    
+                 }
+                    if(flagArray === names.length){
+                        return "all names exhausted"
+                    }
+                    console.log('data-',data)
+                data.map(item=>{
+                    if(item === newRandom){
+                       if(!namesArray.includes(newRandom)){
+
+                       setNamesArray([...namesArray, item])
+                       console.log('NAMESARR-',namesArray)}
+                       //newRandom = randomName()
+                    }
+                })
+
                 return newRandom
             }
     
             let random = randomName()
-            setName(random)
+            if(random)
+            {
+                setName(random)
+                setFlag(true)
+            }else{
+                setFlag(false)
+            }
+          
         } else {
             alert('Retrieving names!')
             console.log('Retrieving names!')
@@ -121,7 +163,7 @@ const NameGenerate = ({resourceID, operationType}) => {
                 if (response.data && isMounted) {
                     response.data.map(item => {
                         if (item.status === 'taken') {
-                            temp.push(item)
+                            temp.push(item.name)
                         }
                     })
                     setData(temp);
@@ -141,39 +183,21 @@ const NameGenerate = ({resourceID, operationType}) => {
         }
     }, [])
 
-    useEffect(() => {
-        if (namesArray) {
-            setNames(namesArray)
-            setFlag(true)
-            if (names) console.log(namesArray)
-        } else {
-            setFlag(false)
-        }
-        console.log('Flag - ', flag)
+    // useEffect(() => {
+    //     if (namesArray) {
+    //         setNames(namesArray)
+    //         console.log('naaaame-',names)
+    //         if (names) console.log(namesArray)
+    //     } 
+    //     console.log('Flag - ', flag)
 
-        let num = []
         
-        try {
-            if (data && names) {
-                data.map(item => {
-                    Array.from(names).map(name => {
-                        if (name === item.name) {
-                            num.push(names.indexOf(name))
-                        }
-                    })
-                    console.log('num - ', num)
-    
-            })}
-            if (names) names[num] = ''
-        } catch (error) {
-            console.log(error)
-        }
         
 
-        // Array.form(names).map((name, index) => {
-        //     if ()
-        // })
-    }, [data, namesArray])
+    //     // Array.form(names).map((name, index) => {
+    //     //     if ()
+    //     // })
+    // }, [data, namesArray])
 
   return (
     <div className='bg-white rounded p-3 my-3 generate'>
@@ -193,7 +217,7 @@ const NameGenerate = ({resourceID, operationType}) => {
                 }
             </h2>
 
-            <button className='btn btn-success btn-block w-50 py-3 mb-3' onClick={handleSetName} disabled={flag ? false : true}>
+            <button className='btn btn-success btn-block w-50 py-3 mb-3' onClick={handleSetName} disabled={name ? false : true}>
                 Select
             </button>
         </div>
