@@ -1,4 +1,3 @@
-const IT_team = require('../model/IT_team');
 const Resource = require('../model/Resource')
 const Name = require('../model/Name');
 
@@ -90,10 +89,12 @@ const updateResource = async (req, res) => {
                 return res.status(409).json({ "message": `${req.body.name} is already taken!`});
             } else {
                 foundName.status = 'taken';
-
                 const nameResult = await foundName.save();
             }
         }
+        const oldName= await Name.findOne({ name: foundResource.name }).exec();
+        oldName.status="available";
+        const oldResult = await oldName.save();
 
         foundResource.name = req.body.name;
         // console.log(nameResult)

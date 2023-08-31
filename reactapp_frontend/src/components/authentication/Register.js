@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link, useNavigate } from "react-router-dom";
-import axios from "../api/axios"
+import axios from "../../api/axios"
 
-const NAME_REGEX = /^[A-Z][a-z]{3,7}[ ]{0,1}[A-Z]{0,1}[a-z]{0,10}$/
+const NAME_REGEX = /^[A-Z][a-z]{3,7}([ ][A-Z][a-z]{0,10}){0,1}$/
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
 const PASS_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
 
@@ -77,7 +77,7 @@ function Register() {
             console.log(JSON.stringify(response))
 
             setSuccess(true)
-            navigate('login')
+            navigate('/')
         } catch (error) {
             if (!success) {
                 console.log('Error response - ', error)
@@ -94,8 +94,8 @@ function Register() {
     }
 
     return(
-        <div className="login template d-flex justify-content-center align-items-center 100-w vh-100 bg-primary ">
-            <div className="w-40 p-5 rounded bg-white">
+        <div className="d-flex justify-content-center align-items-center 100-w vh-100 bg-primary ">
+            <div className="p-5 rounded bg-white">
                 <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
                     {errMsg}
                 </p>

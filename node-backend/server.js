@@ -32,32 +32,7 @@ app.use('/logout', require('./routes/logout'));
 app.use('/names', require('./routes/api/names'));
 app.use('/teams', require('./routes/api/teams'));
 app.use('/resources', require('./routes/api/resources'));
-
-// const rivers = [
-//     'Nile',
-//     'Yangtze',
-//     'Mississippi',
-//     'Danube',
-//     'Ganges',
-//     'Murray',
-//     'Volga',
-//     'Rhine',
-//     'Congo',
-//     'Indus',
-//     'Mekong',
-//     'Colorado',
-//     'Yukon',
-//     'Thames',
-//     'Paraná',
-//     'Niger',
-//     'Darling',
-//     'Tigris',
-//     'Euphrates'
-// ]
-
-// app.get('/rivers', (req, res) => {
-//   res.json(rivers);
-// })
+app.use('/resource-types', require('./routes/api/resourceTypes'));
 
 app.all('*', (req, res) => {
   res.status(404);
