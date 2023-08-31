@@ -12,6 +12,13 @@ const resourceTypeSchema = new Schema({
         unique: true,
         required: true
     },
+    name_categories: {
+        type: [{ 
+            type: String,
+            unique:true 
+        }],
+        required: true
+    },
     image_url: {
         type: String,
         required: true

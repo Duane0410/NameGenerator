@@ -87,7 +87,7 @@ const Home = () => {
                         <div className="card-body">
                             <h5 className="card-title">{item.resource_type}</h5>
                             <Link
-                                to={`/resources?resource=${encodeURIComponent(item.resource_type)}`}
+                                to={`/resources?resource=${encodeURIComponent(item.resource_type)}&categories=${encodeURIComponent(item.name_categories)}`}
                                 className="btn btn-info btn-block mx-1"
                             >View</Link>
                             <Link

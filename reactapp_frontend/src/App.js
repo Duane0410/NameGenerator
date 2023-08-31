@@ -16,6 +16,7 @@ import CreateResource from './components/resource-controlls/CreateResource';
 import Teams from './components/team-controlls/Teams';
 import CreateUpdateTeam from './components/team-controlls/CreateUpdateTeam';
 import CreateUpdateType from './components/type-controlls/CreateUpdateType';
+import Trial from './components/Trial';
 
 const ROLES = {
   "Admin": 5001,
@@ -36,6 +37,7 @@ function App() {
 
         {/* <Route path='/' element={<Home />} />
         <Route path='/type-controll' element={<CreateUpdateType />} /> */}
+        <Route path='/trial' element={<Trial />} />
         
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>

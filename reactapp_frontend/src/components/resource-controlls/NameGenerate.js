@@ -2,51 +2,51 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import useAuth from '../../hooks/useAuth'
 import { useLocation, useNavigate } from 'react-router-dom'
-import useFetchData from '../../hooks/useFetchData'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
-
-
-const BASE_URL = 'http://localhost:3001/'
+import useOpenAI from '../../hooks/useOpenAI'
 
 const NameGenerate = ({resourceID, operationType}) => {
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
+    const categories = searchParams.get('categories')
+    const categoryArray = categories.split(',')
     const axiosPrivate = useAxiosPrivate()
 
-    let pos = -1;
-    if (resource === 'Virtual Machines') {
-        pos = 0;
-    } else if (resource === 'S3 Bucket') {
-        pos = 1;
-    } else if (resource === 'Database Server Instance') {
-        pos = 2;
-    }
-
     const navigate = useNavigate()
-    const goBack = () => navigate(`/resources?resource=${encodeURIComponent(resource)}`);
+    const goBack = () => navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`);
 
     const { auth } = useAuth()
     const [name, setName] = useState('')
     const [data, setData] = useState()
-    // const [id, setId] = useState()
-    const dataLinks = {
-        "Roman Gods": 'https://api.npoint.io/63ae457da8005293be52',
-        "Greek Gods": 'https://api.npoint.io/1f0d7b016a4df3a4dbc0',
-        "Celestial Bodies": 'https://api.npoint.io/f18d6b5e3625ee9491a1',
-        "Rivers": 'https://api.npoint.io/f0dfe400ba2d54332259'
-    }
-    
-    const values = ["Greek Gods","Roman Gods","Celestial Bodies","Rivers"]
-    // const url = BASE_URL + values[pos]
-    const key = values[pos]
-    const url = dataLinks[key]
-    const names = useFetchData(url)
+    let index = 0
+
+
+    const messages = useOpenAI(categoryArray[index])
+    console.log('Message here - ', messages)
+    const [names, setNames] = useState()
+
+    useEffect(() => {
+        if (messages[2]?.message) {
+            try {
+                const index = messages[2].message.indexOf('[') - 1
+                const namesString = messages[2].message.substring(index)
+                console.log('String - ', namesString)
+                setNames(JSON.parse(namesString));
+                console.log('Names - ', names);
+            } catch (error) {
+                console.error("Error parsing JSON: ", error);
+            }
+            } else {
+                console.log('Error retrieving names!')
+            }
+        }, [messages])
+
     let temp = []
     
     const handleSetName = async () => {
 
-        console.log("team_id: ", auth.teamID, "\nresource: ", resource, "\nname: ", name, "\ncategory: ", values[pos])
+        console.log("team_id: ", auth.teamID, "\nresource: ", resource, "\nname: ", name, "\ncategory: ", categoryArray[index])
 
         if (auth.teamID === 0) {
             navigate('/unauthorized')
@@ -54,13 +54,13 @@ const NameGenerate = ({resourceID, operationType}) => {
             if (operationType === 'update') {
                 try {
                     const response = await axios.put('http://localhost:3500/resources', {
-                        "_id": resourceID, "team_id": auth.teamID, "resource": resource, "name": name, "category": values[pos]
+                        "_id": resourceID, "team_id": auth.teamID, "resource": resource, "name": name, "category": categoryArray[index]
                     }, {
                         headers: { 'Content-Type': 'application/json' },
                         withCredentials: true
                     })
                     console.log(JSON.stringify(response?.data))
-                    navigate(`/resources?resource=${encodeURIComponent(resource)}`)
+                    navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`)
                 } catch (error) {
                     console.error(error)
                 }
@@ -68,13 +68,13 @@ const NameGenerate = ({resourceID, operationType}) => {
             } else if (operationType === 'create') {
                 try {
                     const response = await axios.post('http://localhost:3500/resources', {
-                        "team_id": auth.teamID, "resource": resource, "name": name, "category": values[pos]
+                        "team_id": auth.teamID, "resource": resource, "name": name, "category": categoryArray[index]
                     }, {
                         headers: { 'Content-Type': 'application/json' },
                         withCredentials: true
                     })
                     console.log(JSON.stringify(response?.data))
-                    navigate(`/resources?resource=${encodeURIComponent(resource)}`)
+                    navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`)
                 } catch (error) {
                     console.error(error)
                 }
@@ -85,17 +85,23 @@ const NameGenerate = ({resourceID, operationType}) => {
     }
 
     const handler = () => {
-        const randomName = () => {
-            const randomIndex = Math.floor(Math.random() * names.length)
-            let newRandom = names[randomIndex]
-            while (data.includes(newRandom)) {
-                newRandom = randomName()
+        if (names) {
+            const randomName = () => {
+                const randomIndex = Math.floor(Math.random() * names.length)
+                let newRandom = names[randomIndex]
+                while (data.includes(newRandom)) {
+                    newRandom = randomName()
+                }
+                return newRandom
             }
-            return newRandom
+    
+            let random = randomName()
+            setName(random)
+        } else {
+            alert('Retrieving names!')
+            console.log('Retrieving names!')
         }
-
-        let random = randomName()
-        setName(random)
+        
     }
 
     useEffect(() => {
@@ -142,7 +148,10 @@ const NameGenerate = ({resourceID, operationType}) => {
             </button>
 
             <h2 className='px-3 py-5'>
-                {name}
+                {name
+                    ? name
+                    : <p>Loading...</p>
+                }
             </h2>
 
             <button className='btn btn-success btn-block w-50 py-3 mb-3' onClick={handleSetName}>

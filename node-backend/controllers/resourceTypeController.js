@@ -9,20 +9,21 @@ const getAllResourceTypes = async (req, res) => {
 }
 
 const createNewResourceType = async (req, res) => {
-    const { type_id, resource_type, image_url } = req.body
-    if (!type_id || !resource_type || !image_url) {
-        return res.status(400).json({ "message": 'Resource ID, resource type and image url are required!' });
+    const { type_id, resource_type, name_categories, image_url } = req.body
+    if (!type_id || !resource_type || !name_categories || !image_url) {
+        return res.status(400).json({ "message": 'Resource ID, resource type, name categories and image url are required!' });
     }
 
     const duplicate = await ResourceType.findOne({ resource_type: resource_type }).exec()
     if (duplicate) {
         return res.status(409).json({ "message": 'Resource type already exists!' });
     }
-    console.log("\ntype_id - ", type_id, "\nresource_type - ", resource_type, "\nimage_url - ", image_url)
+    console.log("\ntype_id - ", type_id, "\nresource_type - ", resource_type, "\nname_categories - ", name_categories, "\nimage_url - ", image_url)
 
     const result = await ResourceType.create({
         type_id: type_id,
         resource_type: resource_type,
+        name_categories: name_categories,
         image_url: image_url
     })
 

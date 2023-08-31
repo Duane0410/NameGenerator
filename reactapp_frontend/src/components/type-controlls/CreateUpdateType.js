@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const ID_REGEX = /^[1-9][0-9]{0,2}$/
+const CATEGORY_REGEX = /^[A-Z][a-z]{3,10}([ ][A-Z][a-z]{0,10}){0,1}$/
 const TYPE_REGEX = /^([A-Z][a-z0-9]{1,14}[ ]{0,1}){1,4}$/
 const URL_REGEX = /^(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?$/
 
@@ -24,6 +25,12 @@ const CreateUpdateType = () => {
     const [resourceType, setResourceType] = useState('')
     const [validResourceType, setValidResourceType] = useState(false)
     const [resourceTypeFocus, setResourceTypeFocus] = useState(false)
+
+    const [nameCategory, setNameCategory] = useState([])
+    const [nameCategoryOne, setNameCategoryOne] = useState('')
+    const [nameCategoryTwo, setNameCategoryTwo] = useState('')
+    const [validNameCategory, setValidNameCategory] = useState(false)
+    const [nameCategoryFocus, setNameCategoryFocus] = useState(false)
 
     const [imageURL, setImageURL] = useState('')
     const [validImageURL, setValidImageURL] = useState(false)
@@ -57,6 +64,31 @@ const CreateUpdateType = () => {
         setValidResourceType(result)
         setHasChanged(true)
     }, [resourceType])
+
+    useEffect(() => {
+        const result1 = CATEGORY_REGEX.test(nameCategoryOne)
+        const result2 = CATEGORY_REGEX.test(nameCategoryTwo)
+        console.log('Results nameCategoryOne - ', result1)
+        console.log('nameCategoryOne - ', nameCategoryOne)
+        console.log('Results nameCategoryTwo - ', result2)
+        console.log('nameCategoryTwo - ', nameCategoryTwo)
+        console.log('Check 1 - ', validNameCategory)
+        setValidNameCategory(result1 && result2)
+        console.log('Check 2 - ', validNameCategory)
+        try {
+            if (validNameCategory) {
+                // console.log()
+                
+                setNameCategory([nameCategoryOne, nameCategoryTwo])
+            } else {
+                console.log('Check 3 - ', validNameCategory)
+            }
+        } catch {
+            console.log('The catch')
+        }
+        
+        setHasChanged(true)
+    }, [nameCategoryOne, nameCategoryTwo])
 
     useEffect(() => {
         const result = URL_REGEX.test(imageURL)
@@ -101,7 +133,7 @@ const CreateUpdateType = () => {
         } else {
             try {
                 const response = await axios.post('http://localhost:3500/resource-types', {
-                    "type_id": typeID, "resource_type": resourceType, "image_url": imageURL
+                    "type_id": typeID, "resource_type": resourceType, "name_categories": nameCategory , "image_url": imageURL
                 }, {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -193,6 +225,52 @@ const CreateUpdateType = () => {
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Resource type must begin with a capital<br />
                             letter.<br />
+                            Underscores, hyphens are not<br />
+                            allowed.
+                        </p>
+                    </div>
+
+                    <div className='mb-2'>
+                        <label htmlFor='category'>
+                            Prefered Categories:
+                            <span className={validNameCategory ? 'valid text-success' : 'd-none'}>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </span>
+                            <span className={validNameCategory || (!nameCategoryOne && !nameCategoryTwo) ? 'd-none' : 'invalid text-danger'}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </span>
+                        </label>
+                        <input 
+                            type='text'
+                            id='preference1'
+                            className='form-control mb-1'
+                            placeholder='First preference'
+                            autoComplete='off'
+                            onChange={e => setNameCategoryOne(e.target.value)}
+                            required
+                            aria-invalid={validNameCategory ? 'false' : 'true'}
+                            aria-describedby='catidnote'
+                            onFocus={() => setNameCategoryFocus(true)}
+                            onBlur={() => setNameCategoryFocus(false)}
+                        />
+                        <input 
+                            type='text'
+                            id='preference2'
+                            className='form-control mb-2'
+                            placeholder='Second preference'
+                            autoComplete='off'
+                            onChange={e => setNameCategoryTwo(e.target.value)}
+                            required
+                            aria-invalid={validNameCategory ? 'false' : 'true'}
+                            aria-describedby='catidnote'
+                            onFocus={() => setNameCategoryFocus(true)}
+                            onBlur={() => setNameCategoryFocus(false)}
+                        />
+                        <p id='catidnote' style={{fontSize: '0.75rem'}} className={nameCategoryFocus && (nameCategoryOne || nameCategoryTwo) && !validNameCategory ? 'instructions text-danger' : 'd-none'}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            Two preferences for name generation<br />
+                            category must be given.<br />
+                            Must begin with a capital letter.<br />
                             Underscores, hyphens are not<br />
                             allowed.
                         </p>

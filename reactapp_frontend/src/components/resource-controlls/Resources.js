@@ -16,8 +16,10 @@ function Resources () {
 
     const navigate = useNavigate()
     const location = useLocation()
+    // const typeData = location.state
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
+    const categories = searchParams.get('categories')
 
 
     const goBack = () => navigate('/');
@@ -87,7 +89,8 @@ function Resources () {
 
             <div className='w-100 bg-white rounded p-3 my-3' style={{width: '200%'}}>
                 <Link 
-                    to={`/create?resource=${encodeURIComponent(resource)}`}
+                    // state={typeData}
+                    to={categories ? `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
                     className='btn btn-success position-relative mb-1' 
                     style={{left: '80%', width: '20%'}}
                 >Add +</Link>
@@ -116,7 +119,7 @@ function Resources () {
                                                 >View</Link>
                                                 <Link 
                                                     state={item}
-                                                    to={`/update?resource=${encodeURIComponent(resource)}`}
+                                                    to={categories ? `/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
                                                     className='btn btn-success btn-block mx-4' 
                                                 >Update</Link>
                                                 <button 
