@@ -19,12 +19,15 @@ const NameGenerate = ({resourceID, operationType}) => {
     const { auth } = useAuth()
     const [name, setName] = useState('')
     const [data, setData] = useState()
+    const [flag, setFlag] = useState(false)
+
     let index = 0
 
 
     const messages = useOpenAI(categoryArray[index])
     console.log('Message here - ', messages)
     const [names, setNames] = useState()
+    const [namesArray, setNamesArray] = useState()
 
     useEffect(() => {
         if (messages[2]?.message) {
@@ -32,15 +35,17 @@ const NameGenerate = ({resourceID, operationType}) => {
                 const index = messages[2].message.indexOf('[') - 1
                 const namesString = messages[2].message.substring(index)
                 console.log('String - ', namesString)
-                setNames(JSON.parse(namesString));
-                console.log('Names - ', names);
+                setNamesArray(JSON.parse(namesString));
+                console.log('Names - ', namesArray);
+                setFlag(true)
+                
             } catch (error) {
                 console.error("Error parsing JSON: ", error);
             }
-            } else {
-                console.log('Error retrieving names!')
-            }
-        }, [messages])
+        } else {
+            console.log('Error retrieving names!')
+        }
+    }, [messages])
 
     let temp = []
     
@@ -136,6 +141,40 @@ const NameGenerate = ({resourceID, operationType}) => {
         }
     }, [])
 
+    useEffect(() => {
+        if (namesArray) {
+            setNames(namesArray)
+            setFlag(true)
+            if (names) console.log(namesArray)
+        } else {
+            setFlag(false)
+        }
+        console.log('Flag - ', flag)
+
+        let num = []
+        
+        try {
+            if (data && names) {
+                data.map(item => {
+                    Array.from(names).map(name => {
+                        if (name === item.name) {
+                            num.push(names.indexOf(name))
+                        }
+                    })
+                    console.log('num - ', num)
+    
+            })}
+            if (names) names[num] = ''
+        } catch (error) {
+            console.log(error)
+        }
+        
+
+        // Array.form(names).map((name, index) => {
+        //     if ()
+        // })
+    }, [data, namesArray])
+
   return (
     <div className='bg-white rounded p-3 my-3 generate'>
         <div className='heading'>
@@ -154,7 +193,7 @@ const NameGenerate = ({resourceID, operationType}) => {
                 }
             </h2>
 
-            <button className='btn btn-success btn-block w-50 py-3 mb-3' onClick={handleSetName}>
+            <button className='btn btn-success btn-block w-50 py-3 mb-3' onClick={handleSetName} disabled={flag ? false : true}>
                 Select
             </button>
         </div>

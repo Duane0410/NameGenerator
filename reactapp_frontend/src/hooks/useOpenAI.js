@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const API_KEY = "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";
+const API_KEY = "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";
 
 function useOpenAI(category='rivers') {
    const[messages,setMessages]= useState([
@@ -71,7 +71,7 @@ function useOpenAI(category='rivers') {
    }
 
     useEffect(() => {
-        handle(`list 100 ${category} names make sure that it is an array of strings do not give any extra text nor index for the list`)
+        handle(`list 5 ${category} names make sure that it is an array of strings do not give any extra text nor index for the list`)
     }, [])
    
    
