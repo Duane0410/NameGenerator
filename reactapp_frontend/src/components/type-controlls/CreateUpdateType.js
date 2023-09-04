@@ -271,6 +271,7 @@ const CreateUpdateType = () => {
                             Two preferences for name generation<br />
                             category must be given.<br />
                             Must begin with a capital letter.<br />
+                            Do not use plural.<br />
                             Underscores, hyphens are not<br />
                             allowed.
                         </p>

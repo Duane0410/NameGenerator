@@ -19,31 +19,45 @@ const NameGenerate = ({resourceID, operationType}) => {
     const { auth } = useAuth()
     const [name, setName] = useState('')
     const [data, setData] = useState()
-    let index = 0
+    const [errMsg, setErrMsg] = useState('')
+    const [flag, setFlag] = useState(false)
+    const [index, setIndex] = useState(0)
+    const [messages, setMessages] = useState([])
 
-
-    const messages = useOpenAI(categoryArray[index])
-    console.log('Message here - ', messages)
+    useEffect(() => {
+        // setMessages(useOpenAI(categoryArray[index]))
+        setMessages([{message:"Hello", sender:"chatgpt"},{message:"Request", sender:"user"},{message:"\[\n    \'Aurea\'\,\n    'Apollo\'\,\n    \'Zeus\'\n\]", sender:"chatgpt"}])      // for trying!
+        console.log('Initial - ', messages)
+    }, [index])
+    
     const [names, setNames] = useState()
+    // const [namesArray, setNamesArray] = useState()
 
     useEffect(() => {
         if (messages[2]?.message) {
             try {
+                console.log('Message here - ', messages)
                 const index = messages[2].message.indexOf('[') - 1
                 const namesString = messages[2].message.substring(index)
                 console.log('String - ', namesString)
-                setNames(JSON.parse(namesString));
+                // setNames(JSON.parse(namesString));
+                setNames(['Aurea','Apollo','Zeus'])  // for trying!
                 console.log('Names - ', names);
+                setFlag(true)
+                
             } catch (error) {
                 console.error("Error parsing JSON: ", error);
             }
-            } else {
-                console.log('Error retrieving names!')
-            }
-        }, [messages])
+        } else {
+            console.log('Error retrieving names!')
+        }
+    }, [messages])
 
-    let temp = []
-    
+    const handleSwitch = () => {
+        setIndex(index + 1)
+        handler()
+    }
+
     const handleSetName = async () => {
 
         console.log("team_id: ", auth.teamID, "\nresource: ", resource, "\nname: ", name, "\ncategory: ", categoryArray[index])
@@ -85,6 +99,13 @@ const NameGenerate = ({resourceID, operationType}) => {
     }
 
     const handler = () => {
+        const isSubset = names.every(name => data.includes(name))
+        console.log("test sub2 -", isSubset )
+        if (isSubset) {
+            setErrMsg(`Exhausted ${categoryArray[index]} names!!!`)
+            // setName(`Would you like to move to category ${categoryArray[index+1]}`)
+            return
+        }
         if (names) {
             const randomName = () => {
                 const randomIndex = Math.floor(Math.random() * names.length)
@@ -106,6 +127,7 @@ const NameGenerate = ({resourceID, operationType}) => {
 
     useEffect(() => {
         let isMounted = true
+        let temp = []
         const controller = new AbortController()
 
         const getData = async () => {
@@ -116,10 +138,10 @@ const NameGenerate = ({resourceID, operationType}) => {
                 if (response.data && isMounted) {
                     response.data.map(item => {
                         if (item.status === 'taken') {
-                            temp.push(item)
+                            temp.push(item.name)
                         }
                     })
-                    setData(temp);
+                    setData([...temp]);
                 }
                 console.log(response.data)
                 // isMounted && setData(response.data)
@@ -136,6 +158,52 @@ const NameGenerate = ({resourceID, operationType}) => {
         }
     }, [])
 
+    // useEffect(() => {
+    //     if (namesArray) {
+    //         setNames(namesArray)
+    //         setFlag(true)
+    //         console.log('trynamesArray - ',namesArray)
+    //         console.log("trynames - ",names)
+    //         // if (names) console.log('sss-',namesArray)
+    //     } else {
+    //         // setFlag(false)
+    //         console.log('else')
+    //     }
+    //     console.log('Flag - ', flag)
+    //     // console.log("try",names)
+    //     // // let num = []
+    //     // const isSubset = (array1, array2) => {array2.every((element) => array1.includes(element))};
+        
+    //     // try {
+    //     //     if (data && names) {
+    //     //         console.log("dataaa",data)
+    //     //         //const Da = JSON.stringify(data[0].name)
+    //     //         console.log("test Data - ",data)
+    //     //         console.log("test Names - ",names)
+    //     //         console.log("test sub -", names.every(name => data.includes(name)))
+    //     //         data.map((item, index) => console.log(`data ${index} - ${item}`))
+    //     //         names.map((item, index) => console.log(`name ${index} - ${item}`))
+    //     //         // data.map(item => {
+    //     //         //     namesArray.map(name => {
+    //     //         //         if (name === item) {
+    //     //         //             num.push(namesArray.indexOf(name))
+    //     //         //         }
+    //     //         //     })
+    //     //         //     console.log('num - ', num)
+    
+    //     //     // })
+    //     //     }
+    //     //     // if (namesArray) namesArray[num] = '';
+    //     // } catch (error) {
+    //     //     console.log(error)
+    //     // }
+        
+
+    //     // Array.form(names).map((name, index) => {
+    //     //     if ()
+    //     // })
+    // }, [data, namesArray])
+
   return (
     <div className='bg-white rounded p-3 my-3 generate'>
         <div className='heading'>
@@ -143,18 +211,26 @@ const NameGenerate = ({resourceID, operationType}) => {
         </div>
         <h1 className='my-5'>Name Generator</h1>
         <div className='row justify-content-center'>
-            <button className='btn btn-success btn-block w-50 py-3' onClick={handler}>
+            <button className='btn btn-success btn-block w-50 py-3 fs-4' onClick={handler}>
                 Generate Name
             </button>
 
-            <h2 className='px-3 py-5'>
-                {name
-                    ? name
-                    : <p>Loading...</p>
+            <div className='px-3 py-5'>
+                {name || errMsg
+                    ? 
+                    <div>
+                        <p className={errMsg ? 'text-danger fs-3' : 'd-none'} aria-live='assertive'>
+                            {errMsg}
+                        </p>
+                        <h2 className='display-6'>{name}</h2>
+                    </div>
+                    : <p className='display-6'>Loading...</p>
                 }
-            </h2>
-
-            <button className='btn btn-success btn-block w-50 py-3 mb-3' onClick={handleSetName}>
+            </div>
+            <button className={(flag && errMsg) ? 'btn btn-success btn-block w-50 py-3 mb-3 fs-4' : 'd-none'} onClick={handleSwitch} disabled={flag ? false : true}>
+                Switch to {categoryArray[index+1]} names
+            </button><br />
+            <button className={(flag && name) ? 'btn btn-success btn-block w-50 py-3 mb-3 fs-4' : 'invisible'} onClick={handleSetName} disabled={flag ? false : true}>
                 Select
             </button>
         </div>
