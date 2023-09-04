@@ -22,11 +22,13 @@ const NameGenerate = ({resourceID, operationType}) => {
     const [errMsg, setErrMsg] = useState('')
     const [flag, setFlag] = useState(false)
     const [index, setIndex] = useState(0)
-    const [messages, setMessages] = useState([])
+    // const [messages, setMessages] = useState([])
+    const [tempArray, setTempArray] = useState(useOpenAI(categoryArray[index]))
+    const messages = useOpenAI(categoryArray[index])
 
     useEffect(() => {
-        // setMessages(useOpenAI(categoryArray[index]))
-        setMessages([{message:"Hello", sender:"chatgpt"},{message:"Request", sender:"user"},{message:"\[\n    \'Aurea\'\,\n    'Apollo\'\,\n    \'Zeus\'\n\]", sender:"chatgpt"}])      // for trying!
+        // setMessages(tempArray)
+        // setMessages([{message:"Hello", sender:"chatgpt"},{message:"Request", sender:"user"},{message:"[\"Aphrodite\", \"Apollo\", \"Ares\", \"Artemis\", \"Athena\"]", sender:"chatgpt"}])      // for trying!
         console.log('Initial - ', messages)
     }, [index])
     
@@ -40,8 +42,9 @@ const NameGenerate = ({resourceID, operationType}) => {
                 const index = messages[2].message.indexOf('[') - 1
                 const namesString = messages[2].message.substring(index)
                 console.log('String - ', namesString)
-                // setNames(JSON.parse(namesString));
-                setNames(['Aurea','Apollo','Zeus'])  // for trying!
+                setNames(JSON.parse(namesString));
+                // setNames(namesString.split('\n'))
+                // setNames(['Aurea','Apollo','Zeus'])  // for trying!
                 console.log('Names - ', names);
                 setFlag(true)
                 
@@ -54,7 +57,9 @@ const NameGenerate = ({resourceID, operationType}) => {
     }, [messages])
 
     const handleSwitch = () => {
+        setNames(null)
         setIndex(index + 1)
+        // setMessages(categoryArray[index])
         handler()
     }
 
@@ -99,14 +104,17 @@ const NameGenerate = ({resourceID, operationType}) => {
     }
 
     const handler = () => {
-        const isSubset = names.every(name => data.includes(name))
-        console.log("test sub2 -", isSubset )
-        if (isSubset) {
-            setErrMsg(`Exhausted ${categoryArray[index]} names!!!`)
-            // setName(`Would you like to move to category ${categoryArray[index+1]}`)
-            return
-        }
         if (names) {
+            console.log('Names Click - ', names)
+            const isSubset = names.every(name => data.includes(name))
+            console.log("test sub2 -", isSubset )
+            if (isSubset) {
+                setErrMsg(`Exhausted ${categoryArray[index]} names!!!`)
+                // setName(`Would you like to move to category ${categoryArray[index+1]}`)
+
+                return
+            }
+
             const randomName = () => {
                 const randomIndex = Math.floor(Math.random() * names.length)
                 let newRandom = names[randomIndex]
@@ -128,6 +136,8 @@ const NameGenerate = ({resourceID, operationType}) => {
     useEffect(() => {
         let isMounted = true
         let temp = []
+        setIndex(0)
+        // setMessages(tempArray)
         const controller = new AbortController()
 
         const getData = async () => {

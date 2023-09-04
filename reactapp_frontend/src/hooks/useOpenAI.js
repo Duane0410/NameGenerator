@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 
-const API_KEY = "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";
+const API_KEY = "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";
 
-function useOpenAI(category='rivers') {
-   const[messages,setMessages]= useState([
-    {
-      message:"Hello",
-      sender: "Chatgpt"
-    }
-   ])
-   const handle= async (message) => {
+function useOpenAI(category='River') {
+  const [messages, setMessages]= useState([
+  {
+    message:"Hello",
+    sender: "Chatgpt"
+  }
+  ])
+  const handle= async (message) => {
     const newMessage = {
       message : message,
       sender:"user"
@@ -18,18 +18,17 @@ function useOpenAI(category='rivers') {
     const newMessages = [...messages, newMessage];
     setMessages(newMessages);
     await process(newMessages);
-   }
+  }
 
-   async function process(chat) {
+  async function process(chat) {
     let apim = chat.map((mesobj) => {
       let role = "";
-      if(mesobj.sender === "chatgpt"){
-        role="assistant"
+      if (mesobj.sender === "chatgpt"){
+        role = "assistant"
+      } else {
+        role = "user"
       }
-      else{
-        role="user"
-      }
-      return{ role: role, content: mesobj.message }
+      return { role: role, content: mesobj.message }
     });
 
     const systemMessage = {
@@ -71,7 +70,7 @@ function useOpenAI(category='rivers') {
    }
 
     useEffect(() => {
-        handle(`list first 5 ${category} names sorting according to dictionary wise alphabetically  make sure that it is an array of strings do not give any extra text nor index for the list`)
+        handle(`list first 100 ${category} names sorting according to dictionary wise alphabetically make sure that it is an array of strings do not give any extra text nor index for the list also put the string in box brackets([])`)
     }, [])
    
    
