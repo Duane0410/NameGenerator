@@ -24,6 +24,7 @@ const createNewResourceType = async (req, res) => {
         console.log(name_categories[i])
         const duplicate_category = await ResourceType.findOne({ name_categories: name_categories[i] }).exec();
             if (duplicate_category) {
+                console.log("/ndup-cate",duplicate_category)
                 return res.status(409).json({ "message": 'Name category already taken!' });
             }
     }

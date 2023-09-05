@@ -3,8 +3,9 @@ import axios from 'axios'
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLocation, useNavigate } from 'react-router-dom'
+import CreatableSelect from 'react-select/creatable';
 
-const CATEGORY_REGEX = /^[A-Z][a-z]{3,10}([ ][A-Z][a-z]{0,10}){0,1}$/
+const CATEGORY_REGEX = /^[A-Z][a-z]{2,10}([ ][A-Z][a-z]{0,10}){0,1}$/
 const TYPE_REGEX = /^([A-Z][a-z0-9]{1,14}[ ]{0,1}){1,4}$/
 const URL_REGEX = /^(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?$/
 
@@ -35,6 +36,12 @@ const CreateUpdateType = () => {
     const [hasChanged, setHasChanged] = useState(false)
     const [isNew, setIsNew] = useState(true)
 
+    const options = [
+        { value: 'Flower', label: 'Flower' },
+        { value: 'Animal', label: 'Animal' },
+        { value: 'Colour', label: 'Colour' },
+      ]
+
     const navigate = useNavigate()
     const goBack = () => navigate(`/`);
     
@@ -63,7 +70,7 @@ const CreateUpdateType = () => {
         console.log('Results nameCategoryTwo - ', result2)
         console.log('nameCategoryTwo - ', nameCategoryTwo)
         console.log('Check 1 - ', validNameCategory)
-        setValidNameCategory(result1 && result2)
+        setValidNameCategory((nameCategoryOne!==nameCategoryTwo)&&(result1 && result2))
         console.log('Check 2 - ', validNameCategory)
         try {
             if (validNameCategory) {
@@ -118,6 +125,7 @@ const CreateUpdateType = () => {
             }
 
         } else {
+            console.log("namecat",nameCategory)
             try {
                 const response = await axios.post('http://localhost:3500/resource-types', {
                     "resource_type": resourceType, "name_categories": nameCategory , "image_url": imageURL
@@ -199,7 +207,51 @@ const CreateUpdateType = () => {
                                 <FontAwesomeIcon icon={faTimes} />
                             </span>
                         </label>
-                        <input 
+                        <CreatableSelect
+                             isClearable
+                             options={options}
+                             id='preference1'
+                             className='form-control mb-1'
+                             placeholder='First preference'
+                             autoComplete='off'
+                             onChange={(selectedOption) => {
+                             if (selectedOption) {
+                                     // Handle the selected option here
+                              setNameCategoryOne(selectedOption.value); // Assuming value is the desired data to capture
+                                } else {
+                                     // Handle clearing the selection (if needed)
+                              setNameCategoryOne(''); // Set to an empty string or null, depending on your use case
+                                 }
+                                }}
+                                required
+                              aria-invalid={validNameCategory ? 'false' : 'true'}
+                              aria-describedby='catidnote'
+                              onFocus={() => setNameCategoryFocus(true)}
+                              onBlur={() => setNameCategoryFocus(false)}
+                             />
+                             <CreatableSelect
+                             isClearable
+                             options={options}
+                             id='preference1'
+                             className='form-control mb-1'
+                             placeholder='First preference'
+                             autoComplete='off'
+                             onChange={(selectedOption) => {
+                             if (selectedOption) {
+                                     // Handle the selected option here
+                              setNameCategoryTwo(selectedOption.value); // Assuming value is the desired data to capture
+                                } else {
+                                     // Handle clearing the selection (if needed)
+                              setNameCategoryTwo(''); // Set to an empty string or null, depending on your use case
+                                 }
+                                }}
+                                required
+                              aria-invalid={validNameCategory ? 'false' : 'true'}
+                              aria-describedby='catidnote'
+                              onFocus={() => setNameCategoryFocus(true)}
+                              onBlur={() => setNameCategoryFocus(false)}
+                             />
+                        {/* <input 
                             type='text'
                             id='preference1'
                             className='form-control mb-1'
@@ -211,20 +263,9 @@ const CreateUpdateType = () => {
                             aria-describedby='catidnote'
                             onFocus={() => setNameCategoryFocus(true)}
                             onBlur={() => setNameCategoryFocus(false)}
-                        />
-                        <input 
-                            type='text'
-                            id='preference2'
-                            className='form-control mb-2'
-                            placeholder='Second preference'
-                            autoComplete='off'
-                            onChange={e => setNameCategoryTwo(e.target.value)}
-                            required
-                            aria-invalid={validNameCategory ? 'false' : 'true'}
-                            aria-describedby='catidnote'
-                            onFocus={() => setNameCategoryFocus(true)}
-                            onBlur={() => setNameCategoryFocus(false)}
-                        />
+                        /> */}
+                        
+                        
                         <p id='catidnote' style={{fontSize: '0.75rem'}} className={nameCategoryFocus && (nameCategoryOne || nameCategoryTwo) && !validNameCategory ? 'instructions text-danger' : 'd-none'}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Two preferences for name generation<br />
