@@ -57,7 +57,7 @@ const NameGenerate = ({resourceID, operationType}) => {
     }, [messages])
 
     const handleSwitch = () => {
-        setNames(null)
+        // setNames(null)
         setIndex(index + 1)
         // setMessages(categoryArray[index])
         handler()

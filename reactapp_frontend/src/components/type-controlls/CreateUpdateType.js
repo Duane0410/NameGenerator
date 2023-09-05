@@ -4,7 +4,6 @@ import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-const ID_REGEX = /^[1-9][0-9]{0,2}$/
 const CATEGORY_REGEX = /^[A-Z][a-z]{3,10}([ ][A-Z][a-z]{0,10}){0,1}$/
 const TYPE_REGEX = /^([A-Z][a-z0-9]{1,14}[ ]{0,1}){1,4}$/
 const URL_REGEX = /^(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?$/
@@ -17,10 +16,6 @@ const CreateUpdateType = () => {
 
     const inputRef = useRef()
     const errRef = useRef()
-
-    const [typeID, setTypeID] = useState()
-    const [validID, setValidID] = useState(false)
-    const [IDFocus, setIDFocus] = useState(false)
 
     const [resourceType, setResourceType] = useState('')
     const [validResourceType, setValidResourceType] = useState(false)
@@ -46,16 +41,11 @@ const CreateUpdateType = () => {
     useEffect(() => {
         if (operationType === 'update') {
             setIsNew(false)
+        } else {
+            inputRef.current.focus()
         }
-        inputRef.current.focus()
+        
     }, [])
-
-    useEffect(() => {
-        const result = ID_REGEX.test(typeID)
-        console.log('Results ID - ', result)
-        console.log('ID - ', typeID)
-        setValidID(result)
-    }, [typeID])
 
     useEffect(() => {
         const result = TYPE_REGEX.test(resourceType)
@@ -77,8 +67,6 @@ const CreateUpdateType = () => {
         console.log('Check 2 - ', validNameCategory)
         try {
             if (validNameCategory) {
-                // console.log()
-                
                 setNameCategory([nameCategoryOne, nameCategoryTwo])
             } else {
                 console.log('Check 3 - ', validNameCategory)
@@ -101,17 +89,16 @@ const CreateUpdateType = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        console.log("type_id: ", typeID, "\nresource_type: ", resourceType, "\nimage_url: ", imageURL)
+        console.log("\nresource_type: ", resourceType, "\nimage_url: ", imageURL)
 
         if (!isNew) {
             if (!imageURL) console.log('No image URL!!!')
-            if (typeID == null || typeID == undefined) setTypeID(typeData.type_id)
             if (resourceType === '') setResourceType(typeData.resource_type)
             if (imageURL === '') setImageURL(typeData.image_url)
 
             try {
                 const response = await axios.put('http://localhost:3500/resource-types', {
-                    "type_id": typeID, "resource_type": resourceType, "image_url": imageURL
+                    "_id": typeData._id, "resource_type": resourceType, "image_url": imageURL
                 }, {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -133,7 +120,7 @@ const CreateUpdateType = () => {
         } else {
             try {
                 const response = await axios.post('http://localhost:3500/resource-types', {
-                    "type_id": typeID, "resource_type": resourceType, "name_categories": nameCategory , "image_url": imageURL
+                    "resource_type": resourceType, "name_categories": nameCategory , "image_url": imageURL
                 }, {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -145,7 +132,7 @@ const CreateUpdateType = () => {
                 if (!error?.response) {
                     setErrMsg('No Server Response!')
                 } else if (error.response?.status === 409) {
-                    setErrMsg('Type ID Already Exists!')
+                    setErrMsg('Category Already Taken!')
                 } else {
                     setErrMsg('Registration Failed!')
                 }
@@ -168,35 +155,6 @@ const CreateUpdateType = () => {
                 </p>
                 <form onSubmit={handleSubmit}>
                     <h3 className="text-center">Create Type</h3>
-                    <div className="mb-2">
-                        <label htmlFor="typeID" >
-                            Type ID: 
-                            <span className={validID ? 'valid text-success' : 'd-none'}>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </span>
-                            <span className={validID || !typeID ? 'd-none' : 'invalid text-danger'}>
-                                <FontAwesomeIcon icon={faTimes} />
-                            </span>
-                        </label>
-                        <input 
-                            type="number"
-                            placeholder=" Enter team ID"
-                            className="form-control mb-2"
-                            id='typeID'
-                            ref={inputRef}
-                            autoComplete='off'
-                            onChange={e => setTypeID(e.target.value)}
-                            required
-                            aria-invalid={validID ? 'false' : 'true'}
-                            aria-describedby='tidnote'
-                            onFocus={() => setIDFocus(true)}
-                            onBlur={() => setIDFocus(false)}
-                        />
-                        <p id='tidnote' style={{fontSize: '0.75rem'}} className={IDFocus && typeID && !validID ? 'instructions text-danger' : 'd-none'}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            Type ID can be a number from 1-999.
-                        </p>
-                    </div>
 
                     <div className="mb-2">
                         <label htmlFor="resourceType" >
@@ -213,6 +171,7 @@ const CreateUpdateType = () => {
                             placeholder=" Enter resource type"
                             className="form-control mb-2"
                             id='resourceType'
+                            ref={inputRef}
                             autoComplete='off'
                             onChange={e => setResourceType(e.target.value)}
                             required
@@ -307,7 +266,7 @@ const CreateUpdateType = () => {
                     </div>
 
                     <div className="d-grid">
-                        <button disabled={!validID || !validResourceType || !validImageURL ? true : false} className="btn btn-primary">
+                        <button disabled={!validResourceType || !validImageURL ? true : false} className="btn btn-primary">
                             Create
                         </button>
                     </div>
@@ -320,19 +279,6 @@ const CreateUpdateType = () => {
                 </p>
                 <form  onSubmit={handleSubmit}>
                     <h3 className="text-center">Update Type</h3>
-                    <div className="mb-2">
-                        <label htmlFor="typeID" >
-                            Type ID: 
-                        </label>
-                        <input 
-                            type="number"
-                            className="form-control mb-2"
-                            id='typeID'
-                            value={typeData.type_id}
-                            onChange={e => setTypeID(e.target.value)}
-                            readOnly
-                        />
-                    </div>
 
                     <div className="mb-2">
                         <label htmlFor="resourceType" >
