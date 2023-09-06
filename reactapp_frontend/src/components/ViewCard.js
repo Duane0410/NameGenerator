@@ -63,7 +63,7 @@ const ViewCard = () => {
                 )
                 : <b>No members</b>
             }
-            <br /><br />
+            <br />
             <button className='btn btn-primary mt-5' onClick={goBack}>Go Back</button>
         </div>
     }

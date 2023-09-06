@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const API_KEY = "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";
+const API_KEY = "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";
 
 function useOpenAI(category='Stone') {
   const [messages, setMessages]= useState([
@@ -72,7 +72,7 @@ function useOpenAI(category='Stone') {
    }
 
     useEffect(() => {
-        handle(`list first 3 ${category} names sorting according to dictionary alphabetically make sure that it is an array of strings the strings should be in "", do not give any extra text nor index for the list also put the string in box brackets([])`)
+        handle(`list first 100 ${category} names sorting according to dictionary alphabetically make sure that it is an array of strings the strings should be in "", do not give any extra text nor index for the list also put the string in box brackets([]). Names should not refer to any human or real-world entiy/event to avoid any controveries (E.g. hitler) and should begin with a capital alphabet`)
     }, [category])
    
    

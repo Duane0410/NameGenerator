@@ -52,8 +52,11 @@ const NameGenerate = ({resourceID, operationType}) => {
         if (messages[position]?.message) {
             try {
                 console.log('Message here - ', messages)
-                const index = messages[position].message.indexOf('[') - 1
-                const namesString = messages[position].message.substring(index)
+                const indexOne = messages[position].message.indexOf('[') - 1
+                const indexTwo = messages[position].message.indexOf(']') + 1
+                var namesString = messages[position].message.substring(indexOne, indexTwo)
+                const indexThree = namesString.indexOf(']') - 1
+                if (namesString[indexThree] === ',') namesString = namesString.slice(0, indexThree) + namesString.slice(indexThree + 1);
                 console.log('String - ', namesString)
                 setNames(JSON.parse(namesString));
                 // setNames(namesString.split('\n'))
@@ -118,7 +121,7 @@ const NameGenerate = ({resourceID, operationType}) => {
 
     const handler = () => {
         if (names) {
-            console.log('Names Click - ', names)
+            // console.log('Names Click - ', names)
             const isSubset = names.every(name => data.includes(name))
             console.log("test sub2 -", isSubset )
             if (isSubset) {
@@ -234,7 +237,7 @@ const NameGenerate = ({resourceID, operationType}) => {
         <div className='heading'>
             <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "10px", right: "20px"}}>Go back</button>
         </div>
-        <h1 className='my-5'>Name Generator</h1>
+        <h1 className='my-5'><b>New Name</b></h1>
         <div className='row justify-content-center'>
             <button className='btn btn-success btn-block w-50 py-3 fs-4' onClick={handler}>
                 Generate Name

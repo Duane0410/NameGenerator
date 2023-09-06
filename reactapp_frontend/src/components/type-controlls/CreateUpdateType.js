@@ -7,7 +7,7 @@ import CreatableSelect from 'react-select/creatable';
 
 const CATEGORY_REGEX = /^[A-Z][a-z]{2,10}([ ][A-Z][a-z]{0,10}){0,1}$/
 const TYPE_REGEX = /^([A-Z][a-z0-9]{1,14}[ ]{0,1}){1,4}$/
-const URL_REGEX = /^(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?$/
+const URL_REGEX = /^(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg)(\?[^\s[",><]*)?$/
 
 const CreateUpdateType = () => {
     const location = useLocation()
@@ -163,7 +163,7 @@ const CreateUpdateType = () => {
                 if (!error?.response) {
                     setErrMsg('No Server Response!')
                 } else if (error.response?.status === 409) {
-                    setErrMsg('Category Already Taken!')
+                    setErrMsg(error.response.data.message)
                 } else {
                     setErrMsg('Registration Failed!')
                 }
@@ -185,7 +185,7 @@ const CreateUpdateType = () => {
                     {errMsg}
                 </p>
                 <form onSubmit={handleSubmit}>
-                    <h3 className="text-center">Create Type</h3>
+                    <h3 className="text-center">Create Resource Type</h3>
 
                     <div className="mb-2">
                         <label htmlFor="resourceType" >
@@ -252,10 +252,7 @@ const CreateUpdateType = () => {
                             Must begin with a capital letter.<br />
                             Do not use plural.<br />
                             Underscores, hyphens are not<br />
-                            allowed.<br/>
-                            Names should not refer to any <br/>
-                            human or real-world entiy/event to <br/>
-                            avoid any controveries (E.g. hitler)
+                            allowed.
                         </p>
                     </div>
 
@@ -301,7 +298,7 @@ const CreateUpdateType = () => {
                     {errMsg}
                 </p>
                 <form  onSubmit={handleSubmit}>
-                    <h3 className="text-center">Update Type</h3>
+                    <h3 className="text-center">Update Resource Type</h3>
 
                     <div className="mb-2">
                         <label htmlFor="resourceType" >
