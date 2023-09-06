@@ -99,7 +99,7 @@ function Resources () {
                         <th>Team-ID</th>
                         <th>Resource</th>
                         <th>Name</th>
-                        <th>Actions</th>
+                        <th className='px-5'>Actions</th>
                     </thead>
 
                     {
@@ -115,16 +115,16 @@ function Resources () {
                                                 <Link 
                                                     state={item?._id}
                                                     to={`/view?data=${encodeURIComponent('resources')}`}
-                                                    className='btn btn-info btn-block mx-4' 
+                                                    className='btn btn-info btn-block mx-4 my-1' 
                                                 >View</Link>
                                                 <Link 
                                                     state={item}
                                                     to={categories ? `/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
-                                                    className='btn btn-success btn-block mx-4' 
+                                                    className='btn btn-success btn-block mx-4 my-1' 
                                                 >Update</Link>
                                                 <button 
                                                     onClick={(e) => handleDelete(item._id)}
-                                                    className='btn btn-danger btn-block mx-4' 
+                                                    className='btn btn-danger btn-block mx-4 my-1' 
                                                 >Delete</button>
                                             </td>
                                         </tr>

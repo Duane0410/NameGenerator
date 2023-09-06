@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-const API_KEY = "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";
+const API_KEY = "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";
 
-function useOpenAI(category='River') {
+function useOpenAI(category='Stone') {
   const [messages, setMessages]= useState([
   {
     message:"Hello",
@@ -44,16 +44,16 @@ function useOpenAI(category='River') {
       ] 
     }
     
-    await fetch("https://api.openai.com/v1/chat/completions",{
+    await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers:{
         "Authorization": "Bearer " + API_KEY,
          "Content-Type" : "application/json" 
       },
       body: JSON.stringify(apireq)
-    }).then((data)=>{
+    }).then((data) => {
       return data.json();
-    }).then((data)=>{
+    }).then((data) => {
       console.log('Data - ', data);
       if (data?.choices[0]?.message?.content) {
         setMessages(
@@ -66,12 +66,14 @@ function useOpenAI(category='River') {
         console.log('Rate limit error');
       }
       console.log('OpenAI message - ',messages)
+    }).catch((error) => {
+      console.log(error)
     });
    }
 
     useEffect(() => {
-        handle(`list first 100 ${category} names sorting according to dictionary wise alphabetically make sure that it is an array of strings do not give any extra text nor index for the list also put the string in box brackets([])`)
-    }, [])
+        handle(`list first 3 ${category} names sorting according to dictionary alphabetically make sure that it is an array of strings the strings should be in "", do not give any extra text nor index for the list also put the string in box brackets([])`)
+    }, [category])
    
    
   return messages

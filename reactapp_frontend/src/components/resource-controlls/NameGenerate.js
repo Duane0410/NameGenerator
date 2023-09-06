@@ -22,25 +22,38 @@ const NameGenerate = ({resourceID, operationType}) => {
     const [errMsg, setErrMsg] = useState('')
     const [flag, setFlag] = useState(false)
     const [index, setIndex] = useState(0)
-    // const [messages, setMessages] = useState([])
-    const [tempArray, setTempArray] = useState(useOpenAI(categoryArray[index]))
-    const messages = useOpenAI(categoryArray[index])
+    const [position, setPosition] = useState(2)
+    const [messages, setMessages] = useState([])
+    const tempArray = useOpenAI(categoryArray[index])
+    // const messages = useOpenAI(categoryArray[index])
 
     useEffect(() => {
-        // setMessages(tempArray)
+        setMessages(tempArray)
+        console.log("Temp - ", tempArray)
+        console.log("Position - ", position)
         // setMessages([{message:"Hello", sender:"chatgpt"},{message:"Request", sender:"user"},{message:"[\"Aphrodite\", \"Apollo\", \"Ares\", \"Artemis\", \"Athena\"]", sender:"chatgpt"}])      // for trying!
         console.log('Initial - ', messages)
+        // if (names) {
+        //     handler()
+        // }
+    }, [index, tempArray])
+
+    useEffect(() => {
+        if (index !== 0) {
+            setPosition(position + 2)
+            console.log("New Position - ", position)
+        }
     }, [index])
     
     const [names, setNames] = useState()
     // const [namesArray, setNamesArray] = useState()
 
     useEffect(() => {
-        if (messages[2]?.message) {
+        if (messages[position]?.message) {
             try {
                 console.log('Message here - ', messages)
-                const index = messages[2].message.indexOf('[') - 1
-                const namesString = messages[2].message.substring(index)
+                const index = messages[position].message.indexOf('[') - 1
+                const namesString = messages[position].message.substring(index)
                 console.log('String - ', namesString)
                 setNames(JSON.parse(namesString));
                 // setNames(namesString.split('\n'))
@@ -60,7 +73,7 @@ const NameGenerate = ({resourceID, operationType}) => {
         // setNames(null)
         setIndex(index + 1)
         // setMessages(categoryArray[index])
-        handler()
+        // handler()
     }
 
     const handleSetName = async () => {
@@ -114,6 +127,8 @@ const NameGenerate = ({resourceID, operationType}) => {
 
                 return
             }
+
+            setErrMsg(null)
 
             const randomName = () => {
                 const randomIndex = Math.floor(Math.random() * names.length)

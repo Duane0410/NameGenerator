@@ -40,6 +40,8 @@ const CreateUpdateType = () => {
         { value: 'Flower', label: 'Flower' },
         { value: 'Animal', label: 'Animal' },
         { value: 'Colour', label: 'Colour' },
+        { value: 'Fictional Character', label: 'Fictional Character' },
+        { value: 'Dessert', label: 'Dessert' }
     ]
 
     const navigate = useNavigate()
