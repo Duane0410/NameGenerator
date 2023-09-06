@@ -22,9 +22,9 @@ const CreateUpdateType = () => {
     const [validResourceType, setValidResourceType] = useState(false)
     const [resourceTypeFocus, setResourceTypeFocus] = useState(false)
 
+    const [nameSelectCategory, setNameSelectCategory] = useState([])
     const [nameCategory, setNameCategory] = useState([])
-    const [nameCategoryOne, setNameCategoryOne] = useState('')
-    const [nameCategoryTwo, setNameCategoryTwo] = useState('')
+    const [initialCheck, setInitialCheck] = useState(false)
     const [validNameCategory, setValidNameCategory] = useState(false)
     const [nameCategoryFocus, setNameCategoryFocus] = useState(false)
 
@@ -40,7 +40,7 @@ const CreateUpdateType = () => {
         { value: 'Flower', label: 'Flower' },
         { value: 'Animal', label: 'Animal' },
         { value: 'Colour', label: 'Colour' },
-      ]
+    ]
 
     const navigate = useNavigate()
     const goBack = () => navigate(`/`);
@@ -63,27 +63,48 @@ const CreateUpdateType = () => {
     }, [resourceType])
 
     useEffect(() => {
-        const result1 = CATEGORY_REGEX.test(nameCategoryOne)
-        const result2 = CATEGORY_REGEX.test(nameCategoryTwo)
-        console.log('Results nameCategoryOne - ', result1)
-        console.log('nameCategoryOne - ', nameCategoryOne)
-        console.log('Results nameCategoryTwo - ', result2)
-        console.log('nameCategoryTwo - ', nameCategoryTwo)
-        console.log('Check 1 - ', validNameCategory)
-        setValidNameCategory((nameCategoryOne!==nameCategoryTwo)&&(result1 && result2))
-        console.log('Check 2 - ', validNameCategory)
-        try {
-            if (validNameCategory) {
-                setNameCategory([nameCategoryOne, nameCategoryTwo])
-            } else {
-                console.log('Check 3 - ', validNameCategory)
-            }
-        } catch {
-            console.log('The catch')
+        console.log('INIT nameSelectCategory - ', nameSelectCategory)
+
+        if (nameSelectCategory.length === 0) {
+            setInitialCheck(false)
+            setValidNameCategory(false)
+            console.log(`EMPTY Results nameCategory - `, validNameCategory)
+            setNameCategory([])
+            return
         }
+
+        let count = 0
+        setInitialCheck(true)
+        nameSelectCategory.map(category => {
+            const result = CATEGORY_REGEX.test(category.value)
+            if (!result) {
+                setValidNameCategory(result)
+                console.log(`Results ${category.value} - `, result)
+                count = count - 1
+            } else {
+                count = count + 1
+            }
+        })
+
+        if (count === nameSelectCategory.length) {
+            setValidNameCategory(true)
+            console.log(`IF Results nameCategory - `, validNameCategory)
+            console.log('IF nameSelectCategory - ', nameSelectCategory)
+        } else {
+            setValidNameCategory(false)
+            console.log(`ELSE Results nameCategory - `, validNameCategory)
+            console.log('ELSE nameSelectCategory - ', nameSelectCategory)
+        }
+
+        let tempCategory = []
+        nameSelectCategory.map(category => {
+            tempCategory.push(category.value)
+        })
+        setNameCategory(tempCategory)
+        console.log('nameCategory - ', nameCategory)
         
         setHasChanged(true)
-    }, [nameCategoryOne, nameCategoryTwo])
+    }, [nameSelectCategory])
 
     useEffect(() => {
         const result = URL_REGEX.test(imageURL)
@@ -125,7 +146,7 @@ const CreateUpdateType = () => {
             }
 
         } else {
-            console.log("namecat",nameCategory)
+            console.log("nameCategory - ",nameCategory)
             try {
                 const response = await axios.post('http://localhost:3500/resource-types', {
                     "resource_type": resourceType, "name_categories": nameCategory , "image_url": imageURL
@@ -203,70 +224,26 @@ const CreateUpdateType = () => {
                             <span className={validNameCategory ? 'valid text-success' : 'd-none'}>
                                 <FontAwesomeIcon icon={faCheck} />
                             </span>
-                            <span className={validNameCategory || (!nameCategoryOne && !nameCategoryTwo) ? 'd-none' : 'invalid text-danger'}>
+                            <span className={validNameCategory || !initialCheck ? 'd-none' : 'invalid text-danger'}>
                                 <FontAwesomeIcon icon={faTimes} />
                             </span>
                         </label>
                         <CreatableSelect
-                             isClearable
-                             options={options}
-                             id='preference1'
-                             className='form-control mb-1'
-                             placeholder='First preference'
-                             autoComplete='off'
-                             onChange={(selectedOption) => {
-                             if (selectedOption) {
-                                     // Handle the selected option here
-                              setNameCategoryOne(selectedOption.value); // Assuming value is the desired data to capture
-                                } else {
-                                     // Handle clearing the selection (if needed)
-                              setNameCategoryOne(''); // Set to an empty string or null, depending on your use case
-                                 }
-                                }}
-                                required
-                              aria-invalid={validNameCategory ? 'false' : 'true'}
-                              aria-describedby='catidnote'
-                              onFocus={() => setNameCategoryFocus(true)}
-                              onBlur={() => setNameCategoryFocus(false)}
-                             />
-                             <CreatableSelect
-                             isClearable
-                             options={options}
-                             id='preference1'
-                             className='form-control mb-1'
-                             placeholder='First preference'
-                             autoComplete='off'
-                             onChange={(selectedOption) => {
-                             if (selectedOption) {
-                                     // Handle the selected option here
-                              setNameCategoryTwo(selectedOption.value); // Assuming value is the desired data to capture
-                                } else {
-                                     // Handle clearing the selection (if needed)
-                              setNameCategoryTwo(''); // Set to an empty string or null, depending on your use case
-                                 }
-                                }}
-                                required
-                              aria-invalid={validNameCategory ? 'false' : 'true'}
-                              aria-describedby='catidnote'
-                              onFocus={() => setNameCategoryFocus(true)}
-                              onBlur={() => setNameCategoryFocus(false)}
-                             />
-                        {/* <input 
-                            type='text'
+                            isMulti
+                            isClearable
+                            options={options}
                             id='preference1'
                             className='form-control mb-1'
-                            placeholder='First preference'
+                            placeholder='Enter preferences'
                             autoComplete='off'
-                            onChange={e => setNameCategoryOne(e.target.value)}
+                            onChange={(newValue) => setNameSelectCategory(newValue)}
                             required
                             aria-invalid={validNameCategory ? 'false' : 'true'}
                             aria-describedby='catidnote'
                             onFocus={() => setNameCategoryFocus(true)}
                             onBlur={() => setNameCategoryFocus(false)}
-                        /> */}
-                        
-                        
-                        <p id='catidnote' style={{fontSize: '0.75rem'}} className={nameCategoryFocus && (nameCategoryOne || nameCategoryTwo) && !validNameCategory ? 'instructions text-danger' : 'd-none'}>
+                        />
+                        <p id='catidnote' style={{fontSize: '0.75rem'}} className={nameCategoryFocus && nameSelectCategory && !validNameCategory ? 'instructions text-danger' : 'd-none'}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Two preferences for name generation<br />
                             category must be given.<br />
@@ -307,7 +284,7 @@ const CreateUpdateType = () => {
                     </div>
 
                     <div className="d-grid">
-                        <button disabled={!validResourceType || !validImageURL ? true : false} className="btn btn-primary">
+                        <button disabled={!validResourceType || !validNameCategory || !validImageURL ? true : false} className="btn btn-primary">
                             Create
                         </button>
                     </div>

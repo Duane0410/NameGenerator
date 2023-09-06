@@ -10,7 +10,7 @@ const resourceTypeSchema = new Schema({
     name_categories: {
         type: [{ 
             type: String,
-            unique:true 
+            unique: true 
         }],
         required: true
     },
