@@ -252,7 +252,10 @@ const CreateUpdateType = () => {
                             Must begin with a capital letter.<br />
                             Do not use plural.<br />
                             Underscores, hyphens are not<br />
-                            allowed.
+                            allowed.<br/>
+                            Names should not refer to any <br/>
+                            human or real-world entiy/event to <br/>
+                            avoid any controveries (E.g. hitler)
                         </p>
                     </div>
 
