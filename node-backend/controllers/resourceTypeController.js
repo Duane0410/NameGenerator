@@ -1,4 +1,6 @@
+const Resource = require('../model/Resource');
 const ResourceType = require('../model/ResourceType')
+const Name=require('../model/Name')
 
 const getAllResourceTypes = async (req, res) => {
     const resourceTypes = await ResourceType.find();
@@ -78,6 +80,27 @@ const deleteResourceType = async (req, res) => {
 
     if (!foundResourceType) {
         return res.status(204).json({ "message": `No resource type matches ID ${req.params.id}.` });
+    }
+
+    let tempResource= []
+    const resources = await Resource.find();
+    resources.map(item => {
+        if (item.resource === foundResourceType.resource_type) {
+            tempResource.push(item)
+        }
+    })
+    
+    if(tempResource)
+    {
+        tempResource.map(async(delResource)=> {
+            const foundName = await Name.findOne({ name: delResource.name }).exec();
+            foundName.status = 'available';
+            const nameResult = await foundName.save();
+            const result = await delResource.deleteOne({ _id: delResource._id });
+        console.log("deleted",result)
+        })
+    
+        
     }
 
     const result = await foundResourceType.deleteOne({ _id: req.params.id });
