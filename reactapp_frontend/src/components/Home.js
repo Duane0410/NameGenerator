@@ -96,7 +96,7 @@ const Home = () => {
                                 className="btn btn-success btn-block mx-1"
                             >Update</Link>
                             <button 
-                                onClick={() => handleDelete(item.type_id)}
+                                onClick={() => handleDelete(item._id)}
                                 className='btn btn-danger btn-block mx-1' 
                             >Delete</button>
                         </div>

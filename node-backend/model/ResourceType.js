@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const resourceTypeSchema = new Schema({
-    type_id: {
-        type: Number,
-        unique: true,
-        required: true
-    },
     resource_type: {
         type: String,
         unique: true,
@@ -15,7 +10,7 @@ const resourceTypeSchema = new Schema({
     name_categories: {
         type: [{ 
             type: String,
-            unique:true 
+            unique: true 
         }],
         required: true
     },

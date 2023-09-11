@@ -3,11 +3,11 @@ import axios from 'axios'
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLocation, useNavigate } from 'react-router-dom'
+import CreatableSelect from 'react-select/creatable';
 
-const ID_REGEX = /^[1-9][0-9]{0,2}$/
-const CATEGORY_REGEX = /^[A-Z][a-z]{3,10}([ ][A-Z][a-z]{0,10}){0,1}$/
+const CATEGORY_REGEX = /^[A-Z][a-z]{2,10}([ ][A-Z][a-z]{0,10}){0,1}$/
 const TYPE_REGEX = /^([A-Z][a-z0-9]{1,14}[ ]{0,1}){1,4}$/
-const URL_REGEX = /^(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})?$/
+const URL_REGEX = /^(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg)(\?[^\s[",><]*)?$/
 
 const CreateUpdateType = () => {
     const location = useLocation()
@@ -18,17 +18,13 @@ const CreateUpdateType = () => {
     const inputRef = useRef()
     const errRef = useRef()
 
-    const [typeID, setTypeID] = useState()
-    const [validID, setValidID] = useState(false)
-    const [IDFocus, setIDFocus] = useState(false)
-
     const [resourceType, setResourceType] = useState('')
     const [validResourceType, setValidResourceType] = useState(false)
     const [resourceTypeFocus, setResourceTypeFocus] = useState(false)
 
+    const [nameSelectCategory, setNameSelectCategory] = useState([])
     const [nameCategory, setNameCategory] = useState([])
-    const [nameCategoryOne, setNameCategoryOne] = useState('')
-    const [nameCategoryTwo, setNameCategoryTwo] = useState('')
+    const [initialCheck, setInitialCheck] = useState(false)
     const [validNameCategory, setValidNameCategory] = useState(false)
     const [nameCategoryFocus, setNameCategoryFocus] = useState(false)
 
@@ -40,22 +36,25 @@ const CreateUpdateType = () => {
     const [hasChanged, setHasChanged] = useState(false)
     const [isNew, setIsNew] = useState(true)
 
+    const options = [
+        { value: 'Flower', label: 'Flower' },
+        { value: 'Animal', label: 'Animal' },
+        { value: 'Colour', label: 'Colour' },
+        { value: 'Fictional Character', label: 'Fictional Character' },
+        { value: 'Dessert', label: 'Dessert' }
+    ]
+
     const navigate = useNavigate()
     const goBack = () => navigate(`/`);
     
     useEffect(() => {
         if (operationType === 'update') {
             setIsNew(false)
+        } else {
+            inputRef.current.focus()
         }
-        inputRef.current.focus()
+        
     }, [])
-
-    useEffect(() => {
-        const result = ID_REGEX.test(typeID)
-        console.log('Results ID - ', result)
-        console.log('ID - ', typeID)
-        setValidID(result)
-    }, [typeID])
 
     useEffect(() => {
         const result = TYPE_REGEX.test(resourceType)
@@ -66,29 +65,48 @@ const CreateUpdateType = () => {
     }, [resourceType])
 
     useEffect(() => {
-        const result1 = CATEGORY_REGEX.test(nameCategoryOne)
-        const result2 = CATEGORY_REGEX.test(nameCategoryTwo)
-        console.log('Results nameCategoryOne - ', result1)
-        console.log('nameCategoryOne - ', nameCategoryOne)
-        console.log('Results nameCategoryTwo - ', result2)
-        console.log('nameCategoryTwo - ', nameCategoryTwo)
-        console.log('Check 1 - ', validNameCategory)
-        setValidNameCategory(result1 && result2)
-        console.log('Check 2 - ', validNameCategory)
-        try {
-            if (validNameCategory) {
-                // console.log()
-                
-                setNameCategory([nameCategoryOne, nameCategoryTwo])
-            } else {
-                console.log('Check 3 - ', validNameCategory)
-            }
-        } catch {
-            console.log('The catch')
+        console.log('INIT nameSelectCategory - ', nameSelectCategory)
+
+        if (nameSelectCategory.length === 0) {
+            setInitialCheck(false)
+            setValidNameCategory(false)
+            console.log(`EMPTY Results nameCategory - `, validNameCategory)
+            setNameCategory([])
+            return
         }
+
+        let count = 0
+        setInitialCheck(true)
+        nameSelectCategory.map(category => {
+            const result = CATEGORY_REGEX.test(category.value)
+            if (!result) {
+                setValidNameCategory(result)
+                console.log(`Results ${category.value} - `, result)
+                count = count - 1
+            } else {
+                count = count + 1
+            }
+        })
+
+        if (count === nameSelectCategory.length) {
+            setValidNameCategory(true)
+            console.log(`IF Results nameCategory - `, validNameCategory)
+            console.log('IF nameSelectCategory - ', nameSelectCategory)
+        } else {
+            setValidNameCategory(false)
+            console.log(`ELSE Results nameCategory - `, validNameCategory)
+            console.log('ELSE nameSelectCategory - ', nameSelectCategory)
+        }
+
+        let tempCategory = []
+        nameSelectCategory.map(category => {
+            tempCategory.push(category.value)
+        })
+        setNameCategory(tempCategory)
+        console.log('nameCategory - ', nameCategory)
         
         setHasChanged(true)
-    }, [nameCategoryOne, nameCategoryTwo])
+    }, [nameSelectCategory])
 
     useEffect(() => {
         const result = URL_REGEX.test(imageURL)
@@ -101,17 +119,16 @@ const CreateUpdateType = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        console.log("type_id: ", typeID, "\nresource_type: ", resourceType, "\nimage_url: ", imageURL)
+        console.log("\nresource_type: ", resourceType, "\nimage_url: ", imageURL)
 
         if (!isNew) {
             if (!imageURL) console.log('No image URL!!!')
-            if (typeID == null || typeID == undefined) setTypeID(typeData.type_id)
             if (resourceType === '') setResourceType(typeData.resource_type)
             if (imageURL === '') setImageURL(typeData.image_url)
 
             try {
                 const response = await axios.put('http://localhost:3500/resource-types', {
-                    "type_id": typeID, "resource_type": resourceType, "image_url": imageURL
+                    "_id": typeData._id, "resource_type": resourceType, "image_url": imageURL
                 }, {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -131,9 +148,10 @@ const CreateUpdateType = () => {
             }
 
         } else {
+            console.log("nameCategory - ",nameCategory)
             try {
                 const response = await axios.post('http://localhost:3500/resource-types', {
-                    "type_id": typeID, "resource_type": resourceType, "name_categories": nameCategory , "image_url": imageURL
+                    "resource_type": resourceType, "name_categories": nameCategory , "image_url": imageURL
                 }, {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -145,7 +163,7 @@ const CreateUpdateType = () => {
                 if (!error?.response) {
                     setErrMsg('No Server Response!')
                 } else if (error.response?.status === 409) {
-                    setErrMsg('Type ID Already Exists!')
+                    setErrMsg(error.response.data.message)
                 } else {
                     setErrMsg('Registration Failed!')
                 }
@@ -167,36 +185,7 @@ const CreateUpdateType = () => {
                     {errMsg}
                 </p>
                 <form onSubmit={handleSubmit}>
-                    <h3 className="text-center">Create Type</h3>
-                    <div className="mb-2">
-                        <label htmlFor="typeID" >
-                            Type ID: 
-                            <span className={validID ? 'valid text-success' : 'd-none'}>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </span>
-                            <span className={validID || !typeID ? 'd-none' : 'invalid text-danger'}>
-                                <FontAwesomeIcon icon={faTimes} />
-                            </span>
-                        </label>
-                        <input 
-                            type="number"
-                            placeholder=" Enter team ID"
-                            className="form-control mb-2"
-                            id='typeID'
-                            ref={inputRef}
-                            autoComplete='off'
-                            onChange={e => setTypeID(e.target.value)}
-                            required
-                            aria-invalid={validID ? 'false' : 'true'}
-                            aria-describedby='tidnote'
-                            onFocus={() => setIDFocus(true)}
-                            onBlur={() => setIDFocus(false)}
-                        />
-                        <p id='tidnote' style={{fontSize: '0.75rem'}} className={IDFocus && typeID && !validID ? 'instructions text-danger' : 'd-none'}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            Type ID can be a number from 1-999.
-                        </p>
-                    </div>
+                    <h3 className="text-center">Create Resource Type</h3>
 
                     <div className="mb-2">
                         <label htmlFor="resourceType" >
@@ -213,6 +202,7 @@ const CreateUpdateType = () => {
                             placeholder=" Enter resource type"
                             className="form-control mb-2"
                             id='resourceType'
+                            ref={inputRef}
                             autoComplete='off'
                             onChange={e => setResourceType(e.target.value)}
                             required
@@ -236,37 +226,26 @@ const CreateUpdateType = () => {
                             <span className={validNameCategory ? 'valid text-success' : 'd-none'}>
                                 <FontAwesomeIcon icon={faCheck} />
                             </span>
-                            <span className={validNameCategory || (!nameCategoryOne && !nameCategoryTwo) ? 'd-none' : 'invalid text-danger'}>
+                            <span className={validNameCategory || !initialCheck ? 'd-none' : 'invalid text-danger'}>
                                 <FontAwesomeIcon icon={faTimes} />
                             </span>
                         </label>
-                        <input 
-                            type='text'
+                        <CreatableSelect
+                            isMulti
+                            isClearable
+                            options={options}
                             id='preference1'
                             className='form-control mb-1'
-                            placeholder='First preference'
+                            placeholder='Enter preferences'
                             autoComplete='off'
-                            onChange={e => setNameCategoryOne(e.target.value)}
+                            onChange={(newValue) => setNameSelectCategory(newValue)}
                             required
                             aria-invalid={validNameCategory ? 'false' : 'true'}
                             aria-describedby='catidnote'
                             onFocus={() => setNameCategoryFocus(true)}
                             onBlur={() => setNameCategoryFocus(false)}
                         />
-                        <input 
-                            type='text'
-                            id='preference2'
-                            className='form-control mb-2'
-                            placeholder='Second preference'
-                            autoComplete='off'
-                            onChange={e => setNameCategoryTwo(e.target.value)}
-                            required
-                            aria-invalid={validNameCategory ? 'false' : 'true'}
-                            aria-describedby='catidnote'
-                            onFocus={() => setNameCategoryFocus(true)}
-                            onBlur={() => setNameCategoryFocus(false)}
-                        />
-                        <p id='catidnote' style={{fontSize: '0.75rem'}} className={nameCategoryFocus && (nameCategoryOne || nameCategoryTwo) && !validNameCategory ? 'instructions text-danger' : 'd-none'}>
+                        <p id='catidnote' style={{fontSize: '0.75rem'}} className={nameCategoryFocus && nameSelectCategory && !validNameCategory ? 'instructions text-danger' : 'd-none'}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Two preferences for name generation<br />
                             category must be given.<br />
@@ -307,7 +286,7 @@ const CreateUpdateType = () => {
                     </div>
 
                     <div className="d-grid">
-                        <button disabled={!validID || !validResourceType || !validImageURL ? true : false} className="btn btn-primary">
+                        <button disabled={!validResourceType || !validNameCategory || !validImageURL ? true : false} className="btn btn-primary">
                             Create
                         </button>
                     </div>
@@ -319,20 +298,7 @@ const CreateUpdateType = () => {
                     {errMsg}
                 </p>
                 <form  onSubmit={handleSubmit}>
-                    <h3 className="text-center">Update Type</h3>
-                    <div className="mb-2">
-                        <label htmlFor="typeID" >
-                            Type ID: 
-                        </label>
-                        <input 
-                            type="number"
-                            className="form-control mb-2"
-                            id='typeID'
-                            value={typeData.type_id}
-                            onChange={e => setTypeID(e.target.value)}
-                            readOnly
-                        />
-                    </div>
+                    <h3 className="text-center">Update Resource Type</h3>
 
                     <div className="mb-2">
                         <label htmlFor="resourceType" >

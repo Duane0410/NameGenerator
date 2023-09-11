@@ -18,7 +18,7 @@ const CreateResource = () => {
     <div className='w-100 vh-50 '>
       <div className='d-flex justify-content-center align-items-center'>
         <div className='w-50 bg-primary bg-white rounded p-3'>
-          <h3 className="text-center">Create New {resource}</h3>
+          <h3 className="text-center">{resource}</h3>
         </div>
       </div>
         <NameGenerate resourceID={objectID} operationType={'create'} />
