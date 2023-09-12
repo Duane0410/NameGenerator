@@ -63,6 +63,8 @@ function Resources () {
         if (!auth.roles.some(role => allowedRoles.includes(role))) {
             navigate('/unauthorized')
         } else {
+            if (window.confirm("This resource will be permanently deleted. \nClick OK to confirm "))
+            { 
             try {
                 const response = await axios.delete(`http://localhost:3500/resources/${ID}`)
                 console.log(response)
@@ -74,6 +76,7 @@ function Resources () {
                 console.log('Its the END')
             }
         }
+      }
     }
     
 

@@ -44,6 +44,8 @@ const Home = () => {
         }
     }, [])
 
+    
+
     const handleDelete = async (ID) => {
         const allowedRoles = [5001, 4001]
         // console.log(!auth.roles.some(role => allowedRoles.includes(role)))
@@ -51,6 +53,8 @@ const Home = () => {
         if (!auth.roles.some(role => allowedRoles.includes(role))) {
             navigate('/unauthorized')
         } else {
+            if (window.confirm("All resources created under this type will be deleted. \nClick OK to confirm"))
+           { 
             try {
                 const response = await axios.delete(`http://localhost:3500/resource-types/${ID}`)
                 console.log(response)
@@ -62,6 +66,7 @@ const Home = () => {
                 console.log('Its the END')
             }
         }
+      }
     }
 
   return (
