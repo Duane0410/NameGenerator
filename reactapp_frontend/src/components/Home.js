@@ -110,7 +110,7 @@ const Home = () => {
                 <div className="card card-container" style={{width: "18rem", margin: "0 10px 30px"}}>
                     <img src="https://cdn-icons-png.flaticon.com/512/3876/3876052.png" class="card-img-top p-2" style={{height: "270px", width: "285px"}} />
                     <div className="card-body">
-                        <h5 className="card-title">Add New Resource Type</h5>
+                        <h5 className="card-title"> Resource Type</h5>
                         <Link
                             to={`/type-controll?action=${encodeURIComponent('create')}`}
                             className="btn btn-primary btn-block w-100"
