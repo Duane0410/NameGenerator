@@ -29,7 +29,7 @@ const NewAddResource = () => {
                             type="date"
                             className="form-control mb-2"
                            id='date'
-                           defaultValue='today'
+                           defaultValue={today}
                            readOnly
                         />
                         
