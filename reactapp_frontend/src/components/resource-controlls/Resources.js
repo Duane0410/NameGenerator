@@ -90,7 +90,9 @@ function Resources () {
             <div className='w-100 bg-white rounded p-3 my-3' style={{width: '200%'}}>
                 <Link 
                     // state={typeData}
+                    // to={categories ? `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
                     to={categories ? `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
+
                     className='btn btn-success position-relative mb-1' 
                     style={{left: '80%', width: '20%'}}
                 >Add +</Link>
