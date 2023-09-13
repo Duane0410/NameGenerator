@@ -44,8 +44,9 @@ function Login() {
             const accessToken = response?.data?.accessToken
             const roles = response?.data?.roles
             const teamID = response?.data?.teamID
+            const email= response?.data?.email
 
-            setAuth({ user, pass, roles, teamID, accessToken })
+            setAuth({ user, pass, roles,email, teamID, accessToken })
             console.log('Auth - ', auth)
             
             setUser('')

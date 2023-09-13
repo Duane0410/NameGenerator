@@ -3,8 +3,8 @@ const Team = require('../model/IT_team')
 const bcrypt = require('bcrypt');
 
 const handleNewUser = async (req, res) => {
-    const { name, user, pass } = req.body;
-    if (!name || !user || !pass) {
+    const { name, user, pass, email } = req.body;
+    if (!name || !user || !pass || !email) {
         return res.status(400).json({ "message": 'Name, username and password are required!' });
     }
 
@@ -20,6 +20,7 @@ const handleNewUser = async (req, res) => {
         newUser.name = name;
         newUser.username = user;
         newUser.password = hashedpass;
+        newUser.email=email;
 
         const leader = await Team.findOne({ team_leader: name }).exec();
         if (leader) {
