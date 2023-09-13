@@ -16,8 +16,6 @@ import CreateResource from './components/resource-controlls/CreateResource';
 import Teams from './components/team-controlls/Teams';
 import CreateUpdateTeam from './components/team-controlls/CreateUpdateTeam';
 import CreateUpdateType from './components/type-controlls/CreateUpdateType';
-import Trial from './components/Trial';
-import NewAddResource from './components/resource-controlls/NewAddResource';
 
 const ROLES = {
   "Admin": 5001,
@@ -36,11 +34,6 @@ function App() {
         
         <Route path='/unauthorized' element={<Unauthorized />} />
 
-        {/* <Route path='/' element={<Home />} /> */}
-        {/* <Route path='/team-controll' element={<CreateUpdateTeam />} /> */}
-        <Route path='/trial' element={<Trial />} />
-        <Route path='/create-new-resource' element={<NewAddResource />} />
-
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
             <Route path='/' element={<Home />} />
@@ -53,11 +46,11 @@ function App() {
               <Route path='/type-controll' element={<CreateUpdateType />} />
             </Route>
           </Route>
-        </Route>
 
-        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-          <Route path='/teams' element={<Teams />} />
-          <Route path='/team-controll' element={<CreateUpdateTeam />} />
+          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+            <Route path='/teams' element={<Teams />} />
+            <Route path='/team-controll' element={<CreateUpdateTeam />} />
+          </Route>
         </Route>
 
       </Route>

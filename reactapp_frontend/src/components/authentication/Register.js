@@ -7,6 +7,7 @@ import axios from "../../api/axios"
 const NAME_REGEX = /^[A-Z][a-z]{3,7}([ ][A-Z][a-z]{0,10}){0,1}$/
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
 const PASS_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
+const EMAIL_REGEX =/^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/
 
 const REGISTER_URL = '/register'
 
@@ -27,6 +28,10 @@ function Register() {
     const [pass, setPass] = useState('')
     const [validPass, setValidPass] = useState(false)
     const [passFocus, setPassFocus] = useState(false)
+    
+    const [email, setEmail] = useState('')
+    const [validEmail, setValidEmail] = useState(false)
+    const [emailFocus, setEmailFocus] = useState(false)
 
     const [errMsg, setErrMsg] = useState('')
     const [success, setSuccess] = useState(false)
@@ -57,6 +62,13 @@ function Register() {
     }, [pass])
 
     useEffect(() => {
+        const result = EMAIL_REGEX.test(email)
+        console.log('Results email - ', result)
+        console.log('Email - ', email)
+        setValidEmail(result)
+    }, [email])
+
+    useEffect(() => {
         setErrMsg('')
     }, [name, user, pass])
 
@@ -66,7 +78,7 @@ function Register() {
 
         try {
             const response = await axios.post(REGISTER_URL, 
-                JSON.stringify({ "name": name, "user": user, "pass": pass }),
+                JSON.stringify({ "name": name, "user": user, "pass": pass, "email":email }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -136,7 +148,35 @@ function Register() {
                             allowed.
                         </p>
                     </div>
-
+                    <div className="mb-2">
+                        <label htmlFor="email" >
+                            E-mail: 
+                            <span className={validEmail ? 'valid text-success' : 'd-none'}>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </span>
+                            <span className={validEmail|| !email ? 'd-none' : 'invalid text-danger'}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </span>
+                        </label>
+                        <input 
+                            type="text"
+                            placeholder=" Enter email"
+                            className="form-control mb-2"
+                            id='email'
+                            autoComplete='off'
+                            onChange={e =>setEmail(e.target.value)}
+                            required
+                            aria-invalid={validEmail ? 'false' : 'true'}
+                            aria-describedby='Emailnote'
+                            onFocus={() => setEmailFocus(true)}
+                            onBlur={() => setEmailFocus(false)}
+                        />
+                        <p id='Emailnote' style={{fontSize: '0.75rem'}} className={emailFocus && email && !validEmail ? 'instructions text-danger' : 'd-none'}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            Enter valid email id.<br />
+                            
+                        </p>
+                    </div>
                     <div className="mb-2">
                         <label htmlFor="username" >
                             Username: 
@@ -168,6 +208,8 @@ function Register() {
                             allowed.
                         </p>
                     </div>
+
+                    
 
                     <div className="mb-2">
                         <label htmlFor="password" >
@@ -206,7 +248,7 @@ function Register() {
                     </div>
 
                     <div className="d-grid">
-                        <button disabled={!validName || !validUserName || !validPass ? true : false} className="btn btn-primary">
+                        <button disabled={!validName || !validUserName || !validPass || !validEmail? true : false} className="btn btn-primary">
                             Sign up
                         </button>
                     </div>

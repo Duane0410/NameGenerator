@@ -13,7 +13,9 @@ const handleLogin = async (req, res) => {
     if (!foundUser) {
         return res.sendStatus(401);
     }
+    
 
+    const email = foundUser.email
     const match = await bcrypt.compare(pass, foundUser.password);
     const foundNameLeader = await IT_team.findOne({ team_leader: foundUser.name }).exec()
     const foundNameMember = await IT_team.findOne({ team_members: foundUser.name }).exec()
@@ -49,7 +51,7 @@ const handleLogin = async (req, res) => {
         }
         
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.json({ accessToken, roles, teamID });
+        res.json({ accessToken, roles,email, teamID });
     } else {
         res.sendStatus(401);
     }
