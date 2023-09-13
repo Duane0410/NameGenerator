@@ -15,16 +15,21 @@ const CreateResource = () => {
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
     const categories = searchParams.get('categories')
-    console.log('ObjectID - ', objectID)
+    // console.log('ObjectID - ', objectID)
     const { auth } = useAuth() 
     const today = new Date().toISOString().split('T')[0];
-    
+
+    const locate = document.getElementById('location')
+
     const inputRef = useRef()
     const errRef = useRef()
 
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
     const [show, setShow] = useState(false)
+
+    const [located, setLocated] = useState('')
+    const [validLocated, setValidLocated] = useState(false)
 
     const [description, setDescription] = useState('')
     const [validDescription, setValidDescription] = useState(false)
@@ -35,6 +40,16 @@ const CreateResource = () => {
     useEffect(() => {
         inputRef.current.focus()
     }, [])
+
+    useEffect(() => {
+        if (located !== '--Select Location--') {
+            setLocated(document.getElementById('location').value)
+            setValidLocated(true)
+            console.log('Location - ', located)
+        } else {
+            setValidLocated(false)
+        }
+    }, [located])
 
     useEffect(() => {
         const result = DESC_REGEX.test(description)
@@ -56,7 +71,6 @@ const CreateResource = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const locate = document.getElementById('location').value
 
         console.log("team_id: ", auth.teamID)
         console.log("date_created: ", today)
@@ -64,7 +78,7 @@ const CreateResource = () => {
         console.log("resource: ", resource)
         console.log("name: ", name)
         console.log("description: ", description)
-        console.log("location: ", locate)
+        console.log("location: ", located)
         console.log("category: ", category)
 
         if (auth.teamID === 0) {
@@ -78,7 +92,7 @@ const CreateResource = () => {
                     "resource": resource, 
                     "name": name,
                     "description": description, 
-                    "location": locate,
+                    "location": located,
                     "category": category
                 }, {
                     headers: { 'Content-Type': 'application/json' },
@@ -87,7 +101,15 @@ const CreateResource = () => {
                 console.log(JSON.stringify(response?.data))
                 navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`)
             } catch (error) {
-                console.error(error)
+                console.log('Error response - ', error)
+                if (!error?.response) {
+                    setErrMsg('No Server Response!')
+                } else if (error.response?.status === 409) {
+                    setErrMsg('Name Already Exists!')
+                } else {
+                    setErrMsg('Create Failed!')
+                }
+                errRef.current.focus()
             }
         }
     }
@@ -145,8 +167,16 @@ const CreateResource = () => {
                 <div className="mb-2 my-3">
                     <label htmlFor="leader" >
                         Location:
+                        <span className={validLocated ? 'valid text-success' : 'd-none'}>
+                            <FontAwesomeIcon icon={faCheck} />
+                        </span>
                     </label>
-                    <select className='form-control' id='location'>
+                    <select 
+                        className='form-control' 
+                        id='location'
+                        onChange={() => setLocated(locate.value)}
+                    >
+                        <option value={null}>--Select Location--</option>
                         <option value='Panjim'>Panjim</option>
                         <option value='Verna'>Verna</option>
                         <option value='Margao'>Margao</option>

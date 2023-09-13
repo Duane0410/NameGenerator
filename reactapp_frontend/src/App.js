@@ -40,6 +40,8 @@ function App() {
         {/* <Route path='/team-controll' element={<CreateUpdateTeam />} /> */}
         <Route path='/trial' element={<Trial />} />
         <Route path='/create-new-resource' element={<NewAddResource />} />
+        {/* <Route path='/update' element={<UpdateResource />} /> */}
+        {/* <Route path='/create' element={<CreateResource />} /> */}
 
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
