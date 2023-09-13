@@ -7,6 +7,8 @@ import { Button } from 'react-bootstrap'
 import NameGenerate from './NameGenerate'
 import axios from 'axios'
 
+const DESC_REGEX = /^([A-Z][a-zA-Z0-9-_]{1,9}([ ][a-zA-Z0-9-_\n]{0,20}){0,100})$/
+
 const CreateResource = () => {
     const location = useLocation()
     const objectID = location.state
@@ -25,13 +27,22 @@ const CreateResource = () => {
     const [show, setShow] = useState(false)
 
     const [description, setDescription] = useState('')
+    const [validDescription, setValidDescription] = useState(false)
     const [descriptionFocus, setDescriptionFocus] = useState(false)
 
     const [errMsg, setErrMsg] = useState('')
 
     useEffect(() => {
         inputRef.current.focus()
+        setName('Name')
     }, [])
+
+    useEffect(() => {
+        const result = DESC_REGEX.test(description)
+        console.log('Results description - ', result)
+        console.log('Description - ', description)
+        setValidDescription(result)
+    }, [description])
   
     const handleClose = () => setShow(false)
     const handleShow = () => setShow(true)
@@ -46,6 +57,7 @@ const CreateResource = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        const locate = document.getElementById('location').value
 
         console.log("team_id: ", auth.teamID)
         console.log("date_created: ", today)
@@ -53,9 +65,8 @@ const CreateResource = () => {
         console.log("resource: ", resource)
         console.log("name: ", name)
         console.log("description: ", description)
+        console.log("location: ", locate)
         console.log("category: ", category)
-        // team_id, date_created, assigned_by, resource, name, description, location, category 
-        return
 
         if (auth.teamID === 0) {
             navigate('/unauthorized')
@@ -68,6 +79,7 @@ const CreateResource = () => {
                     "resource": resource, 
                     "name": name,
                     "description": description, 
+                    "location": locate,
                     "category": category
                 }, {
                     headers: { 'Content-Type': 'application/json' },
@@ -130,19 +142,27 @@ const CreateResource = () => {
                         <NameGenerate resourceID={objectID} operationType={'create'} show={show} handleClose={handleClose} getName={getName}/>
                     </div>
                 </div>
+
                 <div className="mb-2 my-3">
                     <label htmlFor="leader" >
                         Location:
                     </label>
-                    <select className='form-control'>
+                    <select className='form-control' id='location'>
                         <option value='Panjim'>Panjim</option>
                         <option value='Verna'>Verna</option>
                         <option value='Margao'>Margao</option>
                     </select>
                 </div>
+
                 <div className="mb-2 my-3">
                     <label htmlFor="members" >
-                        Description of Resource:
+                        Description of Resource: 
+                        <span className={validDescription ? 'valid text-success' : 'd-none'}>
+                            <FontAwesomeIcon icon={faCheck} />
+                        </span>
+                        <span className={validDescription || !description ? 'd-none' : 'invalid text-danger'}>
+                            <FontAwesomeIcon icon={faTimes} />
+                        </span>
                     </label>
                     <textarea
                         type="text"
@@ -160,9 +180,14 @@ const CreateResource = () => {
                         Its purpose of creation.<br />
                         And what will it be used for.
                     </p>
+                    <p id='descnote' style={{fontSize: '0.75rem'}} className={descriptionFocus && description && !validDescription ? 'instructions text-danger' : 'd-none'}>
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                        Must start with a capital alpabet.<br />
+                        Numbers and special characters are allowed.
+                    </p>
                 </div>
                 <div className="d-grid">
-                    <button className="btn btn-primary my-3" disabled={!name || !location || !description ? true : false}>
+                    <button className="btn btn-primary my-3" disabled={!name || !location || !validDescription ? true : false}>
                         Create
                     </button>
                 </div>
