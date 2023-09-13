@@ -10,9 +10,9 @@ const getAllResources = async (req, res) => {
 }
 
 const createNewResource = async (req, res) => {
-    const { team_id, resource, name, category } = req.body
-    if (!team_id || !resource || !name || !category) {
-        return res.status(400).json({ "message": 'IT team ID, resource, name and category are required!' });
+    const { team_id, date_created, assigned_by, resource, name, description, location, category } = req.body
+    if (!team_id || !date_created || !assigned_by || !resource || !name || !description || !location || !category) {
+        return res.status(400).json({ "message": 'IT team ID, date created, assigned by, resource, name, description, location and category are required!' });
     }
 
     const duplicate = await Resource.findOne({ name: name }).exec()
@@ -39,8 +39,12 @@ const createNewResource = async (req, res) => {
         }
         const result = await Resource.create({
             team_id: team_id,
+            date_created: date_created,
+            assigned_by: assigned_by,
             resource: resource,
-            name: name
+            name: name,
+            description: description,
+            location: location
         })
 
         res.status(201).json(result);
@@ -72,6 +76,19 @@ const updateResource = async (req, res) => {
     if (req.body?.resource) {
         foundResource.resource = req.body.resource;
     }
+
+    if (req.body?.date_updated) {
+        foundResource.date_updated = req.body.date_updated;
+    }
+
+    if (req.body?.description) {
+        foundResource.description = req.body.description;
+    }
+
+    if (req.body?.location) {
+        foundResource.location = req.body.location;
+    }
+    
     if (req.body?.name) {
         if (!req.body.name || !req.body.category) {
             return res.status(400).json({ "message": 'When updating name both name and category are required!' });

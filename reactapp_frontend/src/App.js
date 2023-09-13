@@ -10,7 +10,7 @@ import Home from './components/Home';
 import Unauthorized from './components/authentication/Unauthorized';
 import Layout from './components/Layout';
 import Resources from './components/resource-controlls/Resources';
-import UpdateName from './components/resource-controlls/UpdateName';
+import UpdateResource from './components/resource-controlls/UpdateResource';
 import ViewCard from './components/ViewCard';
 import CreateResource from './components/resource-controlls/CreateResource';
 import Teams from './components/team-controlls/Teams';
@@ -36,10 +36,10 @@ function App() {
         
         <Route path='/unauthorized' element={<Unauthorized />} />
 
-        {/* <Route path='/' element={<Home />} />
-        <Route path='/type-controll' element={<CreateUpdateType />} /> */}
+        {/* <Route path='/' element={<Home />} /> */}
+        {/* <Route path='/team-controll' element={<CreateUpdateTeam />} /> */}
         <Route path='/trial' element={<Trial />} />
-        <Route path='/newCreate' element={<NewAddResource />} />
+        <Route path='/create-new-resource' element={<NewAddResource />} />
 
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
@@ -49,7 +49,7 @@ function App() {
           
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
               <Route path='/create' element={<CreateResource />} />
-              <Route path='/update' element={<UpdateName />} />
+              <Route path='/update' element={<UpdateResource />} />
               <Route path='/type-controll' element={<CreateUpdateType />} />
             </Route>
           </Route>

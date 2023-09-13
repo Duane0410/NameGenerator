@@ -44,13 +44,20 @@ const ViewCard = () => {
                 <b>Resource:</b>
             </h1>
             <b>ID:</b> {data._id}<br />
+            <b>Date Created:</b> {data.date_created}<br />
+            { data?.date_updated 
+                ? <div><b>Date Updated:</b> {data.date_updated}<br /></div>
+                : null}
+            <b>Assigned By:</b> {data.assigned_by}<br />
             <b>Resource:</b> {data.resource}<br />
             <b>Name:</b> {data.name}<br />
+            <b>Description:</b> {data.description}<br />
+            <b>Location:</b> {data.location}<br />
             <br /><br />
             <button className='btn btn-primary mt-5' onClick={goBack}>Go Back</button>
         </div>
         : 
-        <div className="w-40 vh-25 p-5 rounded bg-white my-5">
+        <div className="w-40 vh-25 p-5 rounded bg-white mt-5 py-5">
             <h1 className='mb-3'>
                 <b>Team:</b>
             </h1>
@@ -62,9 +69,8 @@ const ViewCard = () => {
                     <div key={index}><b>Member {index+1}:</b> {member}</div>
                 )
                 : <b>No members</b>
-            }
-            <br />
-            <button className='btn btn-primary mt-5' onClick={goBack}>Go Back</button>
+            }<br />
+            <button className='btn btn-primary' onClick={goBack}>Go Back</button>
         </div>
     }
     </>

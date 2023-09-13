@@ -93,16 +93,16 @@ function Resources () {
             <div className='w-100 bg-white rounded p-3 my-3' style={{width: '200%'}}>
                 <Link 
                     // state={typeData}
-                    // to={categories ? `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
-                    to={categories ? `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
-
+                    to={`/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
+                    // to = {'/'}
                     className='btn btn-success position-relative mb-1' 
                     style={{left: '80%', width: '20%'}}
                 >Add +</Link>
                 <table className='table'>
                     <thead>
+                        <th>Date Created</th>
                         <th>Team-ID</th>
-                        <th>Resource</th>
+                        <th>Assigned By</th>
                         <th>Name</th>
                         <th className='px-5'>Actions</th>
                     </thead>
@@ -113,8 +113,9 @@ function Resources () {
                                 <tbody>
                                     {data.map((item, index) => 
                                         <tr key={index}>
+                                            <td>{item?.date_created}</td>
                                             <td>{item?.team_id}</td>
-                                            <td>{item?.resource}</td>
+                                            <td>{item?.assigned_by}</td>
                                             <td>{item?.name}</td>
                                             <td>
                                                 <Link 
@@ -124,7 +125,7 @@ function Resources () {
                                                 >View</Link>
                                                 <Link 
                                                     state={item}
-                                                    to={categories ? `/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
+                                                    to={`/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
                                                     className='btn btn-success btn-block mx-4 my-1' 
                                                 >Update</Link>
                                                 <button 

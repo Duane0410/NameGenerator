@@ -6,6 +6,17 @@ const resourceSchema = new Schema({
         type: Number,
         required: true
     },
+    date_created: {
+        type: String,
+        required: true
+    },
+    date_updated: {
+        type: String
+    },
+    assigned_by: {
+        type: String,
+        required: true
+    },
     resource: {
         type: String,
         required: true
@@ -13,6 +24,14 @@ const resourceSchema = new Schema({
     name: {
         type: String,
         unique: true,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    location: {
+        type: String,
         required: true
     }
 });

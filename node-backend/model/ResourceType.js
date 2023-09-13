@@ -8,10 +8,7 @@ const resourceTypeSchema = new Schema({
         required: true
     },
     name_categories: {
-        type: [{ 
-            type: String,
-            unique: true 
-        }],
+        type: [{type: String}],
         required: true
     },
     image_url: {

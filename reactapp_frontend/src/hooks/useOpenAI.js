@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const API_KEY = "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";
+const API_KEY = "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";
 
 function useOpenAI(category='Stone') {
   const [messages, setMessages]= useState([
