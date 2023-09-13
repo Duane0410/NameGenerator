@@ -44,8 +44,15 @@ const ViewCard = () => {
                 <b>Resource:</b>
             </h1>
             <b>ID:</b> {data._id}<br />
+            <b>Date Created:</b> {data.date_created}<br />
+            { data?.date_updated 
+                ? <div><b>Date Updated:</b> {data.date_updated}<br /></div>
+                : null}
+            <b>Assigned By:</b> {data.assigned_by}<br />
             <b>Resource:</b> {data.resource}<br />
             <b>Name:</b> {data.name}<br />
+            <b>Description:</b> {data.description}<br />
+            <b>Location:</b> {data.location}<br />
             <br /><br />
             <button className='btn btn-primary mt-5' onClick={goBack}>Go Back</button>
         </div>

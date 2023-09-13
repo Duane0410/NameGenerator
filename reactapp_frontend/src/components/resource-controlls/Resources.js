@@ -100,8 +100,9 @@ function Resources () {
                 >Add +</Link>
                 <table className='table'>
                     <thead>
+                        <th>Date Created</th>
                         <th>Team-ID</th>
-                        <th>Resource</th>
+                        <th>Assigned By</th>
                         <th>Name</th>
                         <th className='px-5'>Actions</th>
                     </thead>
@@ -112,8 +113,9 @@ function Resources () {
                                 <tbody>
                                     {data.map((item, index) => 
                                         <tr key={index}>
+                                            <td>{item?.date_created}</td>
                                             <td>{item?.team_id}</td>
-                                            <td>{item?.resource}</td>
+                                            <td>{item?.assigned_by}</td>
                                             <td>{item?.name}</td>
                                             <td>
                                                 <Link 

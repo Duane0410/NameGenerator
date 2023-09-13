@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap'
 import NameGenerate from './NameGenerate'
 import axios from 'axios'
 
-const DESC_REGEX = /^([A-Z][a-zA-Z0-9-_]{1,9}([ ][a-zA-Z0-9-_\n]{0,20}){0,100})$/
+const DESC_REGEX = /^([A-Z][a-zA-Z0-9-_]{1,20}([ ][a-zA-Z0-9-_\n]{0,20}){0,100})$/
 
 const CreateResource = () => {
     const location = useLocation()
@@ -34,7 +34,6 @@ const CreateResource = () => {
 
     useEffect(() => {
         inputRef.current.focus()
-        setName('Name')
     }, [])
 
     useEffect(() => {
