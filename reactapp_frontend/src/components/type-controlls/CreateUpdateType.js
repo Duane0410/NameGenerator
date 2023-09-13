@@ -185,7 +185,7 @@ const CreateUpdateType = () => {
                     {errMsg}
                 </p>
                 <form onSubmit={handleSubmit}>
-                    <h3 className="text-center">Create Resource Type</h3>
+                    <h3 className="text-center"> Resource Type</h3>
 
                     <div className="mb-2">
                         <label htmlFor="resourceType" >
