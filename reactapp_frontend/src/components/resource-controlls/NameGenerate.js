@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { Button, Modal } from 'react-bootstrap'
 import useAuth from '../../hooks/useAuth'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import useOpenAI from '../../hooks/useOpenAI'
 
-const NameGenerate = ({resourceID, operationType}) => {
+const NameGenerate = ({resourceID, operationType, show, handleClose, getName}) => {
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
@@ -80,43 +81,8 @@ const NameGenerate = ({resourceID, operationType}) => {
     }
 
     const handleSetName = async () => {
-
-        console.log("team_id: ", auth.teamID, "\nresource: ", resource, "\nname: ", name, "\ncategory: ", categoryArray[index])
-
-        if (auth.teamID === 0) {
-            navigate('/unauthorized')
-        } else {
-            if (operationType === 'update') {
-                try {
-                    const response = await axios.put('http://localhost:3500/resources', {
-                        "_id": resourceID, "team_id": auth.teamID, "resource": resource, "name": name, "category": categoryArray[index]
-                    }, {
-                        headers: { 'Content-Type': 'application/json' },
-                        withCredentials: true
-                    })
-                    console.log(JSON.stringify(response?.data))
-                    navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`)
-                } catch (error) {
-                    console.error(error)
-                }
-    
-            } else if (operationType === 'create') {
-                try {
-                    const response = await axios.post('http://localhost:3500/resources', {
-                        "team_id": auth.teamID, "resource": resource, "name": name, "category": categoryArray[index]
-                    }, {
-                        headers: { 'Content-Type': 'application/json' },
-                        withCredentials: true
-                    })
-                    console.log(JSON.stringify(response?.data))
-                    navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`)
-                } catch (error) {
-                    console.error(error)
-                }
-            } else {
-                console.log('Service not available!')
-            }
-        }
+        getName(name, categoryArray[index])
+        handleClose()
     }
 
     const handler = () => {
@@ -186,64 +152,15 @@ const NameGenerate = ({resourceID, operationType}) => {
         }
     }, [])
 
-    // useEffect(() => {
-    //     if (namesArray) {
-    //         setNames(namesArray)
-    //         setFlag(true)
-    //         console.log('trynamesArray - ',namesArray)
-    //         console.log("trynames - ",names)
-    //         // if (names) console.log('sss-',namesArray)
-    //     } else {
-    //         // setFlag(false)
-    //         console.log('else')
-    //     }
-    //     console.log('Flag - ', flag)
-    //     // console.log("try",names)
-    //     // // let num = []
-    //     // const isSubset = (array1, array2) => {array2.every((element) => array1.includes(element))};
-        
-    //     // try {
-    //     //     if (data && names) {
-    //     //         console.log("dataaa",data)
-    //     //         //const Da = JSON.stringify(data[0].name)
-    //     //         console.log("test Data - ",data)
-    //     //         console.log("test Names - ",names)
-    //     //         console.log("test sub -", names.every(name => data.includes(name)))
-    //     //         data.map((item, index) => console.log(`data ${index} - ${item}`))
-    //     //         names.map((item, index) => console.log(`name ${index} - ${item}`))
-    //     //         // data.map(item => {
-    //     //         //     namesArray.map(name => {
-    //     //         //         if (name === item) {
-    //     //         //             num.push(namesArray.indexOf(name))
-    //     //         //         }
-    //     //         //     })
-    //     //         //     console.log('num - ', num)
-    
-    //     //     // })
-    //     //     }
-    //     //     // if (namesArray) namesArray[num] = '';
-    //     // } catch (error) {
-    //     //     console.log(error)
-    //     // }
-        
-
-    //     // Array.form(names).map((name, index) => {
-    //     //     if ()
-    //     // })
-    // }, [data, namesArray])
-
   return (
     <div className='bg-white rounded p-3 my-3 generate'>
-        <div className='heading'>
-            <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "10px", right: "20px"}}>Go back</button>
-        </div>
-        <h1 className='my-5'><b>New Name</b></h1>
-        <div className='row justify-content-center'>
-            <button className='btn btn-success btn-block w-50 py-3 fs-4' onClick={handler}>
-                Generate Name
-            </button>
-
-            <div className='px-3 py-5'>
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    <h4 className='my-5'><b>Generate Name</b></h4>
+                </Modal.Title>
+            </Modal.Header>
+            <div className='px-3 py-5 text-center'>
                 {name || errMsg
                     ? 
                     <div>
@@ -255,13 +172,24 @@ const NameGenerate = ({resourceID, operationType}) => {
                     : <p className='display-6'>Loading...</p>
                 }
             </div>
-            <button className={(flag && errMsg) ? 'btn btn-success btn-block w-50 py-3 mb-3 fs-4' : 'd-none'} onClick={handleSwitch} disabled={flag ? false : true}>
-                Switch to {categoryArray[index+1]} names
-            </button><br />
-            <button className={(flag && name) ? 'btn btn-success btn-block w-50 py-3 mb-3 fs-4' : 'invisible'} onClick={handleSetName} disabled={flag ? false : true}>
-                Select
-            </button>
-        </div>
+            <Modal.Footer className={(flag && errMsg) ? 'd-flex flex-row justify-content-center' : 'd-flex flex-row'}>
+            {/* <Modal.Footer className='d-flex flex-row justify-content-center'> */}
+                <Button variant='success' className={(flag && errMsg) ? 'btn btn-block py-1 fs-5' : 'd-none'} onClick={handleSwitch} disabled={flag ? false : true}>
+                {/* <Button variant='success' className='btn btn-block py-1 fs-5 mr-auto p-2' onClick={handleSwitch} disabled={flag ? false : true}> */}
+                    Switch to {categoryArray[index+1]} names
+                </Button>
+                <Button variant='success' className={(flag && name) ? 'btn btn-block py-1 fs-5 mr-auto mx-5' : 'd-none'} onClick={handleSetName} disabled={flag ? false : true}>
+                {/* <Button variant='success' className='btn btn-block py-1 fs-5 mr-auto mx-5' onClick={handleSetName} disabled={flag ? false : true}> */}
+                    Select
+                </Button>
+                <Button variant="secondary" className='btn btn-block py-1 fs-5 p-2' onClick={handleClose}>
+                    Close
+                </Button>
+                <Button variant="primary"  className='btn btn-block py-1 fs-5 p-2' onClick={handler}>
+                    Generate Name
+                </Button>
+            </Modal.Footer>
+        </Modal>
     </div>
   )
 }

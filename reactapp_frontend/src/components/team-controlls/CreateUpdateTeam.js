@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 const ID_REGEX = /^[1-9][0-9]{0,2}$/
 const NAME_REGEX = /^[A-Z][a-z]{3,7}([ ][A-Z][a-z]{0,10}){0,1}$/
-const MEMBER_REGEX = /^[A-Z][a-z]{3,7}([ ][A-Z][a-z]{0,10}){0,1}([,]{0,1}[A-Z][a-z]{3,7}([ ][A-Z][a-z]{0,10}){0,1}){0,4}$/
 
 const CreateUpdateTeam = () => {
     const location = useLocation()
@@ -25,11 +24,10 @@ const CreateUpdateTeam = () => {
     const [validLeader, setValidLeader] = useState(false)
     const [leaderFocus, setLeaderFocus] = useState(false)
 
-    const [membersInput, setMembersInput] = useState('')    
-    const [validMembersInput, setValidMembersInput] = useState(false)
-    const [membersInputFocus, setMembersInputFocus] = useState(false)
-
-    const [members, setMembers] = useState([])
+    const [numberOfMenbers, setNumberOfMembers] = useState(1)
+    const [members, setMembers] = useState(Array(numberOfMenbers).fill(''))
+    const [validMembers, setValidMembers] = useState(Array(numberOfMenbers).fill(false))
+    const [membersFocus, setMembersFocus] = useState(false)
 
     const [errMsg, setErrMsg] = useState('')
     const [hasChanged, setHasChanged] = useState(false)
@@ -41,6 +39,11 @@ const CreateUpdateTeam = () => {
     useEffect(() => {
         if (operationType === 'update') {
             setIsNew(false)
+            if (!team) {
+                navigate('/')
+            }
+            setMembers(Array(team.team_members.length).fill(''))
+            setValidMembers(Array(team.team_members.length).fill(false))
         }
         inputRef.current.focus()
     }, [])
@@ -61,20 +64,56 @@ const CreateUpdateTeam = () => {
     }, [leader])
 
     useEffect(() => {
-        const result = MEMBER_REGEX.test(membersInput)
-        console.log('Result members - ', result)
-        console.log('members - ', membersInput)
-        setValidMembersInput(result)
-        setHasChanged(true)
-        if (validMembersInput) {
-            if (membersInput.indexOf(",")) {
-                console.log('inputMem - ', membersInput)
-                setMembers(membersInput.split(","))
+        const updatedValidMembers = [...validMembers]
+
+        members.map((name, index) => {
+            const result = NAME_REGEX.test(name)
+            console.log(`Result member ${index + 1} - `, result)
+            console.log(`member name ${index + 1} - `, name)
+            if (result) {
+                updatedValidMembers[index] = true
+                console.log(`IF update ${index + 1} - `, updatedValidMembers[index])
+                console.log(`IF ${index + 1} - `, validMembers[index])
             } else {
-                setMembers([membersInput])
+                updatedValidMembers[index] = false
+                console.log(`ELSE ${index + 1} - `, validMembers[index])
             }
+        })
+        setValidMembers(updatedValidMembers)
+
+        console.log('members - ', members)
+        console.log('valid - ', validMembers)
+        setHasChanged(true)
+    }, [members])
+
+    const hanldeMemberValid = () => {
+        if (isNew) {
+            let count = 0
+            validMembers.map((valid, index) => {
+                // console.log(`Valid ${index} - `, valid)
+                if (valid) {
+                    count = count + 1
+                } else {
+                    count = count - 1
+                }
+            })
+            
+            if (count === validMembers.length) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            let value = false
+            validMembers.forEach((valid, index) => {
+                console.log(`Valid ${index} - `, valid)
+                if (valid) {
+                    value = true
+                }
+            })
+            return value
         }
-    }, [membersInput])
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -82,10 +121,22 @@ const CreateUpdateTeam = () => {
         console.log("team_id: ", teamID, "\nteam_leader: ", leader, "\nteam_members: ", members)
 
         if (!isNew) {
-            if (!membersInput) console.log('No input members!!!')
+            if (!members) console.log('No input members!!!')
             if (teamID == null || teamID == undefined) setTeamID(team.team_id)
             if (leader === '') setLeader(team.team_leader)
             if (members == '' || members == [] || members == [''] || members === null) setMembers(team.team_members)
+            const updatedMemberNames = team.team_members
+            members.map((name, index) => {
+                console.log(`Member ${index}`, name)
+                if (name === '') {
+                    console.log('Null at ', index + 1)
+                    updatedMemberNames[index] = team.team_members[index]
+                } else {
+                    console.log('Value at ', index + 1)
+                    updatedMemberNames[index] = name
+                }
+            })
+            setMembers(updatedMemberNames)
 
             try {
                 const response = await axios.put('http://localhost:3500/teams', {
@@ -133,7 +184,7 @@ const CreateUpdateTeam = () => {
     }
 
   return (
-    <div className="d-flex justify-content-center align-items-center 100-w vh-100 bg-primary ">
+    <div className="d-flex-block justify-content-center align-items-center vh-100 bg-primary">
         <div className='heading'>
             <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "10px", right: "20px"}}>Go back</button>
         </div>
@@ -212,38 +263,89 @@ const CreateUpdateTeam = () => {
                     </div>
 
                     <div className="mb-2">
-                        <label htmlFor="members" >
-                            Member Names: 
-                            <span className={validMembersInput ? 'valid text-success' : 'd-none'}>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </span>
-                            <span className={validMembersInput || !membersInput ? 'd-none' : 'invalid text-danger'}>
-                                <FontAwesomeIcon icon={faTimes} />
-                            </span>
+                        <label htmlFor="numberOfMembers">
+                            Number of Team Members: 
                         </label>
-                        <textarea 
-                            type="text"
-                            placeholder=" Enter member names"
-                            className="form-control mb-2"
-                            id='members'
-                            autoComplete='off'
-                            onChange={e => setMembersInput(e.target.value)}
-                            required
-                            aria-invalid={validMembersInput ? 'false' : 'true'}
-                            aria-describedby='midnote'
-                            onFocus={() => setMembersInputFocus(true)}
-                            onBlur={() => setMembersInputFocus(false)}
+                        <input
+                            type='number'
+                            id="numberOfMembers"
+                            className='form-control'
+                            min={1}
+                            value={numberOfMenbers}
+                            onChange={(e) => {
+                                if (e.target.value > numberOfMenbers) {
+                                    const count = parseInt(e.target.value) - numberOfMenbers
+                                    setNumberOfMembers(parseInt(e.target.value))
+                                    const updatedMemberNames = [...members]
+                                    const updatedValidMembers = [...validMembers]
+                                    for (let index = 0; index < count; index++) {
+                                        updatedMemberNames.push('')
+                                        updatedValidMembers.push(false)
+                                    }
+                                    setMembers(updatedMemberNames)
+                                    setValidMembers(updatedValidMembers)
+                                } else {
+                                    const count = numberOfMenbers - parseInt(e.target.value)
+                                    setNumberOfMembers(parseInt(e.target.value))
+                                    const updatedMemberNames = [...members]
+                                    const updatedValidMembers = [...validMembers]
+                                    for (let index = 0; index < count; index++) {
+                                        updatedMemberNames.pop()
+                                        updatedValidMembers.pop()
+                                    }
+                                    setMembers(updatedMemberNames)
+                                    setValidMembers(updatedValidMembers)
+                                }
+                                
+                            }}
                         />
-                        <p id='midnote' style={{fontSize: '0.75rem'}} className={membersInputFocus && membersInput && !validMembersInput ? 'instructions text-danger' : 'd-none'}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            Follow all rules for names as for leader name.<br />
-                            Seperate all member names with a comma(,).<br />
-                            Each team can have 1 to 5 members.
-                        </p>
+                    </div>
+
+                    <div className="mb-2">
+                        {members.map((name, index) => (
+                            <div key={index}>
+                                <label htmlFor={`member${index + 1}`}>
+                                    {`Team Member ${index + 1}: `}
+                                    <span className={validMembers[index] ? 'valid text-success' : 'd-none'}>
+                                        <FontAwesomeIcon icon={faCheck} />
+                                    </span>
+                                    <span className={validMembers[index] || !members[index] ? 'd-none' : 'invalid text-danger'}>
+                                        <FontAwesomeIcon icon={faTimes} />
+                                    </span>
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder=" Enter member name"
+                                    className="form-control mb-2"
+                                    autoComplete='off'
+                                    id={`member${index + 1}`}
+                                    onChange={(e) => {
+                                        const updatedMemberNames = [...members]
+                                        updatedMemberNames[index] = e.target.value
+                                        setMembers(updatedMemberNames)
+                                    }}
+                                    required
+                                    aria-invalid={validMembers[index] ? 'false' : 'true'}
+                                    aria-describedby={`midnote${index + 1}`}
+                                    onFocus={() => setMembersFocus(true)}
+                                    onBlur={() => setMembersFocus(false)}
+                                />
+                                <p id={`midnote${index + 1}`} style={{fontSize: '0.75rem'}} className={membersFocus && members[index] && !validMembers[index] ? 'instructions text-danger' : 'd-none'}>
+                                    <FontAwesomeIcon icon={faInfoCircle} />
+                                    Name can be entered as given name<br />
+                                    and surname seperated by a blank space.<br />
+                                    Given name can be 4 to 8 characters.<br />
+                                    Surname can be 0 to 10 characters.<br />
+                                    Must begin with a capital letter.<br />
+                                    Numbers, underscores, hyphens are not<br />
+                                    allowed.
+                                </p>
+                            </div>
+                        ))}
                     </div>
 
                     <div className="d-grid">
-                        <button disabled={!validID || !validLeader || !validMembersInput ? true : false} className="btn btn-primary">
+                        <button disabled={!validID || !validLeader || !hanldeMemberValid() ? true : false} className="btn btn-primary">
                             Create
                         </button>
                     </div>
@@ -314,46 +416,59 @@ const CreateUpdateTeam = () => {
                     </div>
 
                     <div className="mb-2">
-                        <label htmlFor="members" >
-                            Member Names: 
-                            <span className={validMembersInput ? 'valid text-success' : 'd-none'}>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </span>
-                            <span className={validMembersInput || !membersInput ? 'd-none' : 'invalid text-danger'}>
-                                <FontAwesomeIcon icon={faTimes} />
-                            </span>
-                        </label>
-                        <textarea 
-                            type="text"
-                            className="form-control mb-2"
-                            id='members'
-                            value={team.team_members}
-                            onChange={e => setMembersInput(e.target.value)}
-                            disabled
-                        />
-                        <textarea 
-                            type="text"
-                            placeholder=" Change member names"
-                            className="form-control mb-2"
-                            id='members'
-                            autoComplete='off'
-                            onChange={e => setMembersInput(e.target.value)}
-                            aria-invalid={validMembersInput ? 'false' : 'true'}
-                            aria-describedby='midnote'
-                            onFocus={() => setMembersInputFocus(true)}
-                            onBlur={() => setMembersInputFocus(false)}
-                        />
-                        <p id='midnote' style={{fontSize: '0.75rem'}} className={membersInputFocus && membersInput && !validMembersInput ? 'instructions text-danger' : 'd-none'}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            Follow all rules for names as for leader name.<br />
-                            Seperate all member names with a comma(,).<br />
-                            All names have to be written.<br />
-                            Each team can have 1 to 5 members.
-                        </p>
+                        {team.team_members.map((name, index) => (
+                            <div key={index}>
+                                <label htmlFor={`member${index + 1}`}>
+                                    {`Team Member ${index + 1}: `}
+                                    <span className={validMembers[index] ? 'valid text-success' : 'd-none'}>
+                                        <FontAwesomeIcon icon={faCheck} />
+                                    </span>
+                                    <span className={validMembers[index] || !members[index] ? 'd-none' : 'invalid text-danger'}>
+                                        <FontAwesomeIcon icon={faTimes} />
+                                    </span>
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder=" Enter member name"
+                                    className="form-control mb-2"
+                                    autoComplete='off'
+                                    id={`member${index + 1}`}
+                                    value={name}
+                                    disabled
+                                />
+
+                                <input
+                                    type="text"
+                                    placeholder=" Enter member name"
+                                    className="form-control mb-2"
+                                    autoComplete='off'
+                                    id={`member${index + 1}`}
+                                    onChange={(e) => {
+                                        const updatedMemberNames = [...members]
+                                        updatedMemberNames[index] = e.target.value
+                                        setMembers(updatedMemberNames)
+                                    }}
+                                    aria-invalid={validMembers[index] ? 'false' : 'true'}
+                                    aria-describedby={`midnote${index + 1}`}
+                                    onFocus={() => setMembersFocus(true)}
+                                    onBlur={() => setMembersFocus(false)}
+                                />
+                                <p id={`midnote${index + 1}`} style={{fontSize: '0.75rem'}} className={membersFocus && members[index] && !validMembers[index] ? 'instructions text-danger' : 'd-none'}>
+                                    <FontAwesomeIcon icon={faInfoCircle} />
+                                    Name can be entered as given name<br />
+                                    and surname seperated by a blank space.<br />
+                                    Given name can be 4 to 8 characters.<br />
+                                    Surname can be 0 to 10 characters.<br />
+                                    Must begin with a capital letter.<br />
+                                    Numbers, underscores, hyphens are not<br />
+                                    allowed.
+                                </p>
+                            </div>
+                        ))}
                     </div>
 
                     <div className="d-grid">
-                        <button disabled={hasChanged && ((leader !== '' && validLeader) || (membersInput !== '' && validMembersInput)) ? false : true} className="btn btn-primary">
+                        <button disabled={hasChanged && ((leader !== '' && validLeader) || (hanldeMemberValid())) ? false : true} className="btn btn-primary">
                             Update
                         </button>
                     </div>

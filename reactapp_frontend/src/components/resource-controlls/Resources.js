@@ -93,9 +93,8 @@ function Resources () {
             <div className='w-100 bg-white rounded p-3 my-3' style={{width: '200%'}}>
                 <Link 
                     // state={typeData}
-                    // to={categories ? `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
-                    to={categories ? `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
-
+                    to={`/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
+                    // to = {'/'}
                     className='btn btn-success position-relative mb-1' 
                     style={{left: '80%', width: '20%'}}
                 >Add +</Link>
@@ -124,7 +123,7 @@ function Resources () {
                                                 >View</Link>
                                                 <Link 
                                                     state={item}
-                                                    to={categories ? `/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}` : `/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
+                                                    to={`/update?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
                                                     className='btn btn-success btn-block mx-4 my-1' 
                                                 >Update</Link>
                                                 <button 
