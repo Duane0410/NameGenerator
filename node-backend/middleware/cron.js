@@ -51,7 +51,7 @@ const sendMailToAllUser = async (emailObject) => {
 
 const sendMailAllUser = () => {
     try {
-        cron.schedule('*/10 * * * * *', async function () {
+        cron.schedule('0 9 1 * *', async function () {
             var usersData = await User.find()
             if (usersData.length > 0) {
                 // var emails = []

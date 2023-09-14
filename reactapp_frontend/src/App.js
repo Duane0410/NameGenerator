@@ -17,6 +17,7 @@ import CreateResource from './components/resource-controlls/CreateResource';
 import Teams from './components/team-controlls/Teams';
 import CreateUpdateTeam from './components/team-controlls/CreateUpdateTeam';
 import CreateUpdateType from './components/type-controlls/CreateUpdateType';
+import ConfigSettings from './components/authentication/ConfigSettings';
 
 
 const ROLES = {
@@ -33,25 +34,28 @@ function App() {
         
         <Route path='/login' element={<Login/>} />
         <Route path='/register' element={<Register/>} />
-        <Route path='/scheduleForm' element={<ScheduleForm/>} />
-        <Route path='/unauthorized' element={<Unauthorized />} />
 
-        <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-            <Route path='/' element={<Home />} />
-            <Route path='/resources' element={<Resources />} />
-            <Route path='/view' element={<ViewCard />} />
-          
-            <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
-              <Route path='/create' element={<CreateResource />} />
-              <Route path='/update' element={<UpdateResource />} />
-              <Route path='/type-controll' element={<CreateUpdateType />} />
+        <Route path='/' element={<ScheduleForm/>} >
+          <Route path='/unauthorized' element={<Unauthorized />} />
+
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
+              <Route path='/' element={<Home />} />
+              <Route path='/resources' element={<Resources />} />
+              <Route path='/view' element={<ViewCard />} />
+              <Route path='/settings' element={<ConfigSettings />} />
+            
+              <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
+                <Route path='/create' element={<CreateResource />} />
+                <Route path='/update' element={<UpdateResource />} />
+                <Route path='/type-controll' element={<CreateUpdateType />} />
+              </Route>
             </Route>
-          </Route>
 
-          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-            <Route path='/teams' element={<Teams />} />
-            <Route path='/team-controll' element={<CreateUpdateTeam />} />
+            <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+              <Route path='/teams' element={<Teams />} />
+              <Route path='/team-controll' element={<CreateUpdateTeam />} />
+            </Route>
           </Route>
         </Route>
 

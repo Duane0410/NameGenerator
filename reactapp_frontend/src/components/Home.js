@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import useLogout from '../hooks/useLogout';
 import { useNavigate, Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
@@ -8,17 +7,11 @@ import axios from 'axios';
 
 const Home = () => {
     const navigate = useNavigate();
-    const logout = useLogout()
 
     const { auth } = useAuth()
 
     const [data, setData] = useState()
     const axiosPrivate = useAxiosPrivate()
-
-    const signOut = async () => {
-        await logout()
-        navigate('/login')
-    }
 
     useEffect(() => {
         let isMounted = true
@@ -75,12 +68,6 @@ const Home = () => {
         <div className='heading'>
             <h1 className='text-light py-4 px-4'>Resources:</h1>
             <h4 className='position-absolute' style={{right: "20%"}}><em>Welcome {auth.user}!</em></h4>
-            <button onClick={signOut} className="btn btn-danger position-absolute" style={{top: "10px", right: "20px"}}>
-                Sign Out
-            </button>
-            <Link to='/teams' className="btn btn-outline-info position-absolute" style={{top: "80px", right: "20px"}}>
-                Teams
-            </Link>
         </div>
 
         {data?.length
