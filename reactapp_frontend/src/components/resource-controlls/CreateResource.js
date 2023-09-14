@@ -31,7 +31,8 @@ const CreateResource = () => {
 
     const [located, setLocated] = useState('')
     const [validLocated, setValidLocated] = useState(false)
-
+    const [organization, setOrganization]= useState('')
+    const [validOrganization, setValidOrganization]=useState(false)
     const [description, setDescription] = useState('')
     const [validDescription, setValidDescription] = useState(false)
     const [descriptionFocus, setDescriptionFocus] = useState(false)
@@ -58,6 +59,16 @@ const CreateResource = () => {
             setValidLocated(false)
         }
     }, [located])
+
+    useEffect(() => {
+        if (organization !== '--Select Location--') {
+            setLocated(document.getElementById('organization').value)
+            setOrganization(true)
+            console.log('organization - ', organization)
+        } else {
+            setValidOrganization(false)
+        }
+    }, [organization])
 
     useEffect(() => {
         const result = DESC_REGEX.test(description)
@@ -94,6 +105,8 @@ const CreateResource = () => {
             tempCategory.push(category.value)
         })
         console.log("temp: ", tempCategory)
+        console.log("organizaion", organization)
+
         
         if (auth.teamID === 0) {
             navigate('/unauthorized')
@@ -108,7 +121,8 @@ const CreateResource = () => {
                     "description": description, 
                     "tags": tempCategory,
                     "location": located,
-                    "category": category
+                    "category": category,
+                    "organization":organization
                 }, {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -195,6 +209,21 @@ const CreateResource = () => {
                         <option value='Panjim'>Panjim</option>
                         <option value='Verna'>Verna</option>
                         <option value='Margao'>Margao</option>
+                    </select>
+                </div>
+
+                <div className="mb-2 my-3">
+                    <label htmlFor="organization" >
+                        Organization:
+                    </label>
+                    <select 
+                        className='form-control' 
+                        id='organization'
+                    >
+                        <option value={null}>--Select Organization--</option>
+                        <option value='cl1'>Client 1</option>
+                        <option value='cl2'>Client 2</option>
+                        <option value='cl3'>Client 3</option>
                     </select>
                 </div>
 

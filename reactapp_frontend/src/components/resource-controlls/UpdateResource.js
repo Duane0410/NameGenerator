@@ -29,6 +29,7 @@ const UpdateResource = () => {
     const [description, setDescription] = useState('')
     const [validDescription, setValidDescription] = useState(false)
     const [descriptionFocus, setDescriptionFocus] = useState(false)
+    const [organization, setOrganization]= useState('')
 
     const [errMsg, setErrMsg] = useState('')
 
@@ -38,6 +39,7 @@ const UpdateResource = () => {
             navigate(`/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`)
         }
     }, [])
+
 
     useEffect(() => {
         const result = DESC_REGEX.test(description)
@@ -91,6 +93,8 @@ const UpdateResource = () => {
         console.log("description: ", description)
         console.log("location: ", locate)
         console.log("category: ", category)
+        console.log("organizaion", organization)
+
 
         // return
         try {
@@ -103,7 +107,9 @@ const UpdateResource = () => {
                 "name": name,
                 "description": description, 
                 "location": locate,
-                "category": category
+                "category": category,
+                "organization":organization
+
             }, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true

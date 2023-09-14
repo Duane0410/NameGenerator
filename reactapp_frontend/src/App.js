@@ -7,6 +7,7 @@ import Register from './components/authentication/Register';
 import Login from './components/authentication/Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './components/Home';
+import ScheduleForm from './components/ScheduleForm';
 import Unauthorized from './components/authentication/Unauthorized';
 import Layout from './components/Layout';
 import Resources from './components/resource-controlls/Resources';
@@ -16,6 +17,7 @@ import CreateResource from './components/resource-controlls/CreateResource';
 import Teams from './components/team-controlls/Teams';
 import CreateUpdateTeam from './components/team-controlls/CreateUpdateTeam';
 import CreateUpdateType from './components/type-controlls/CreateUpdateType';
+
 
 const ROLES = {
   "Admin": 5001,
@@ -31,7 +33,7 @@ function App() {
         
         <Route path='/login' element={<Login/>} />
         <Route path='/register' element={<Register/>} />
-        
+        <Route path='/scheduleForm' element={<ScheduleForm/>} />
         <Route path='/unauthorized' element={<Unauthorized />} />
 
         <Route element={<PersistLogin />}>
