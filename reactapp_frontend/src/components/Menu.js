@@ -3,7 +3,7 @@ import useLogout from '../hooks/useLogout';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import "../static/menu.css"
 
-const ScheduleForm = () => {
+const Menu = () => {
     const navigate = useNavigate();
     const location = useLocation()
     const logout = useLogout()
@@ -75,4 +75,4 @@ useEffect(() => {
   )
 }
 
-export default ScheduleForm
+export default Menu

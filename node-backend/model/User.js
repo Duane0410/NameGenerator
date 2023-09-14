@@ -28,6 +28,24 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    emailSchedule: {
+        weekly: {
+            type: Boolean,
+            default: true
+        },
+        monthly: {
+            type: Boolean,
+            default: true
+        },
+        quarterly:{
+            type: Boolean,
+            default: true
+        },
+        yearly: {
+            type: Boolean,
+            default: true
+        }
+    },
     refreshToken: String
 });
 
