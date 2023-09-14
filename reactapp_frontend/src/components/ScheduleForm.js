@@ -29,13 +29,13 @@ useEffect(() => {
 
     if (currentUrl) {
         const putColor = document.getElementById(currentUrl)
-        putColor.classList.add('active')
+        if (putColor?.classList) putColor.classList.add('active')
     }
 
 }, [])
 
   return (
-    <div className='App'>
+    <div className='App nav-space'>
 
         <div class="l-navbar" id="nav-bar">
             <nav class="nav">

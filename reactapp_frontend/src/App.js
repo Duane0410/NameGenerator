@@ -52,11 +52,13 @@ function App() {
               </Route>
             </Route>
 
-            <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-              <Route path='/teams' element={<Teams />} />
-              <Route path='/team-controll' element={<CreateUpdateTeam />} />
-            </Route>
+            
           </Route>
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+          <Route path='/teams' element={<Teams />} />
+          <Route path='/team-controll' element={<CreateUpdateTeam />} />
         </Route>
 
       </Route>
