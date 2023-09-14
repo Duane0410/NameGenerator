@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import NameGenerate from './NameGenerate'
 import axios from 'axios'
+import CreatableSelect from 'react-select/creatable';
 
 const DESC_REGEX = /^([A-Z][a-zA-Z0-9-_]{1,20}([ ][a-zA-Z0-9-_\n]{0,20}){0,100})$/
 
@@ -36,6 +37,13 @@ const CreateResource = () => {
     const [descriptionFocus, setDescriptionFocus] = useState(false)
 
     const [errMsg, setErrMsg] = useState('')
+
+    // const [validNameCategory, setValidNameCategory] = useState(false)
+    // const [initialCheck, setInitialCheck] = useState(false)
+    const [nameCategoryFocus, setNameCategoryFocus] = useState(false)
+    const [nameSelectCategory, setNameSelectCategory] = useState([])
+
+    
 
     useEffect(() => {
         inputRef.current.focus()
@@ -80,7 +88,13 @@ const CreateResource = () => {
         console.log("description: ", description)
         console.log("location: ", located)
         console.log("category: ", category)
-
+        console.log("nameselect: ", nameSelectCategory)
+        let tempCategory = []
+        nameSelectCategory.map(category => {
+            tempCategory.push(category.value)
+        })
+        console.log("temp: ", tempCategory)
+        
         if (auth.teamID === 0) {
             navigate('/unauthorized')
         } else {
@@ -92,6 +106,7 @@ const CreateResource = () => {
                     "resource": resource, 
                     "name": name,
                     "description": description, 
+                    "tags": tempCategory,
                     "location": located,
                     "category": category
                 }, {
@@ -215,6 +230,40 @@ const CreateResource = () => {
                         Numbers and special characters are allowed.
                     </p>
                 </div>
+                <div className='mb-2'>
+                        <label htmlFor='category'>
+                            Tags:
+                            {/* <span className={validNameCategory ? 'valid text-success' : 'd-none'}>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </span>
+                            <span className={validNameCategory || !initialCheck ? 'd-none' : 'invalid text-danger'}>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </span> */}
+                        </label>
+                        <CreatableSelect
+                            isMulti
+                            isClearable
+                            id='preference1'
+                            className='form-control mb-1'
+                            placeholder='Enter preferences'
+                            autoComplete='off'
+                            onChange={(newValue) => setNameSelectCategory(newValue)}
+                            required
+                            // aria-invalid={validNameCategory ? 'false' : 'true'}
+                            aria-describedby='catidnote'
+                            onFocus={() => setNameCategoryFocus(true)}
+                            onBlur={() => setNameCategoryFocus(false)}
+                        />
+                        <p id='catidnote' style={{fontSize: '0.75rem'}} className={nameCategoryFocus && nameSelectCategory ? 'instructions text-danger' : 'd-none'}>
+                            <FontAwesomeIcon icon={faInfoCircle} />
+                            Two preferences for name generation<br />
+                            category must be given.<br />
+                            Must begin with a capital letter.<br />
+                            Do not use plural.<br />
+                            Underscores, hyphens are not<br />
+                            allowed.
+                        </p>
+                    </div>
                 <div className="d-grid">
                     <button className="btn btn-primary my-3" disabled={!name || !location || !validDescription ? true : false}>
                         Create
