@@ -9,10 +9,13 @@ const credentials = require('./middleware/credentials');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
+const cron = require('./middleware/cron');
 
 const PORT = process.env.PORT || 3500;
 
 connectDB();
+
+cron.sendMailAllUser();
 
 app.use(credentials);
 app.use(cors(corsOptions));
@@ -48,4 +51,5 @@ app.all('*', (req, res) => {
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB');
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 });
