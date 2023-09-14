@@ -10,9 +10,9 @@ const getAllResources = async (req, res) => {
 }
 
 const createNewResource = async (req, res) => {
-    const { team_id, date_created, assigned_by, resource, name, description, location, category } = req.body
-    if (!team_id || !date_created || !assigned_by || !resource || !name || !description || !location || !category) {
-        return res.status(400).json({ "message": 'IT team ID, date created, assigned by, resource, name, description, location and category are required!' });
+    const { team_id, date_created, assigned_by, resource, name, description, tags, location, category } = req.body
+    if (!team_id || !date_created || !assigned_by || !resource || !name || !description|| !tags || !location || !category) {
+        return res.status(400).json({ "message": 'IT team ID, date created, assigned by, resource, name, description, tags, location and category are required!' });
     }
 
     const duplicate = await Resource.findOne({ name: name }).exec()
@@ -44,6 +44,7 @@ const createNewResource = async (req, res) => {
             resource: resource,
             name: name,
             description: description,
+            tags: tags,
             location: location
         })
 
@@ -85,6 +86,10 @@ const updateResource = async (req, res) => {
         foundResource.description = req.body.description;
     }
 
+    if (req.body?.tags) {
+        foundResource.tags = req.body.tags;
+    }
+    
     if (req.body?.location) {
         foundResource.location = req.body.location;
     }

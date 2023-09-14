@@ -52,6 +52,7 @@ const ViewCard = () => {
             <b>Resource:</b> {data.resource}<br />
             <b>Name:</b> {data.name}<br />
             <b>Description:</b> {data.description}<br />
+            <b>tags:</b> {data.tags}<br />
             <b>Location:</b> {data.location}<br />
             <br /><br />
             <button className='btn btn-primary mt-5' onClick={goBack}>Go Back</button>
