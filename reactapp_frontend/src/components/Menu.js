@@ -78,7 +78,7 @@ const Menu = () => {
             <nav class="nav">
                 <div> 
                     <div class="nav_logo"> 
-                        <i class='bx bx-layer nav_logo-icon' /> 
+                        <i class='bx bx-layer nav_logo-icon' />
                         <span class="nav_logo-name">
                             Menu
                         </span>
