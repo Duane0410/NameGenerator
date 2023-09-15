@@ -22,11 +22,11 @@ const updateScheduleOptions = async (req, res) => {
     }
     console.log('Found User - ', foundUser)
 
-    foundUser.weekly = weekly
-    foundUser.monthly = monthly
-    foundUser.quarterly = quarterly
-    foundUser.yearly = yearly
-    foundUser.updated_only = updated_only
+    foundUser.schedule_options.weekly = weekly
+    foundUser.schedule_options.monthly = monthly
+    foundUser.schedule_options.quarterly = quarterly
+    foundUser.schedule_options.yearly = yearly
+    foundUser.schedule_options.updated_only = updated_only
 
     const result = await foundUser.save();
     console.log('Result - ', result)
