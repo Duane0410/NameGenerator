@@ -151,7 +151,7 @@ const CreateResource = () => {
             <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
                 {errMsg}
             </p>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='mx-4'>
                 <h3 className="text-center">Create {resource}</h3>
         
                 <div className="mb-2">

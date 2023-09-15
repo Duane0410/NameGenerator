@@ -44,6 +44,10 @@ const userSchema = new Schema({
         yearly: {
             type: Boolean,
             default: true
+        },
+        updated_only: {
+            type: Boolean,
+            default: false
         }
     },
     refreshToken: String

@@ -15,7 +15,7 @@ const UpdateResource = () => {
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
     const categories = searchParams.get('categories')
-    console.log('ObjectID - ', objectID)
+    // console.log('ObjectID - ', objectID)
     const { auth } = useAuth() 
     const today = new Date().toISOString().split('T')[0];
     
@@ -30,6 +30,7 @@ const UpdateResource = () => {
     const [validDescription, setValidDescription] = useState(false)
     const [descriptionFocus, setDescriptionFocus] = useState(false)
     const [organization, setOrganization]= useState('')
+    const [hasChanged, setHasChanged] = useState(false)
 
     const [errMsg, setErrMsg] = useState('')
 
@@ -46,6 +47,7 @@ const UpdateResource = () => {
         console.log('Results description - ', result)
         console.log('Description - ', description)
         setValidDescription(result)
+        if (result) setHasChanged(true)
     }, [description])
   
     const handleClose = () => setShow(false)
@@ -54,6 +56,7 @@ const UpdateResource = () => {
     const getName = (generatedName, nameCategory) => {
         setName(generatedName)
         setCategory(nameCategory)
+        if (name !== objectID.name) setHasChanged(true)
     }
 
     const navigate = useNavigate()
@@ -137,7 +140,7 @@ const UpdateResource = () => {
             <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
                 {errMsg}
             </p>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='mx-4'>
                 <h3 className="text-center">Update {resource}</h3>
         
                 <div className="mb-2">
@@ -257,7 +260,7 @@ const UpdateResource = () => {
                         Numbers and special characters are allowed.
                     </p>
                 </div>
-                <div className="d-grid">
+                <div className="d-grid" disabled={hasChanged ? false : true}>
                     <button className="btn btn-primary my-3">
                         Update
                     </button>
