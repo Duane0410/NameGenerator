@@ -6,26 +6,20 @@ import useAuth from '../../hooks/useAuth'
 
 
 function Resources () {
-
     const { auth } = useAuth()
 
     const [data, setData] = useState()
     const axiosPrivate = useAxiosPrivate()
 
-    let resources = [];
-
     const navigate = useNavigate()
     const location = useLocation()
-    // const typeData = location.state
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
     const categories = searchParams.get('categories')
 
-
-    const goBack = () => navigate('/');
-
     useEffect(() => {
         let isMounted = true
+        let resources = []
         const controller = new AbortController()
 
         const getData = async () => {
@@ -42,7 +36,6 @@ function Resources () {
                     setData(resources);
                 }
                 console.log(response.data)
-                // isMounted && setData(response.data)
             } catch (error) {
                 console.error(error)
             }
@@ -57,9 +50,7 @@ function Resources () {
     }, [])
 
     const handleDelete = async (ID) => {
-        const allowedRoles = [5001, 4001]
-        // console.log(!auth.roles.some(role => allowedRoles.includes(role)))
-        // console.log('ResourceID - ', ID)
+        const allowedRoles = [5001, 4001, 2001]
         if (!auth.roles.some(role => allowedRoles.includes(role))) {
             navigate('/unauthorized')
         } else {
@@ -84,9 +75,6 @@ function Resources () {
         <div>
             <div className='heading'>
                 <h1>{resource}</h1>
-                <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "10px", right: "20px"}}>
-                    Go back
-                </button>
             </div>
             <div></div>
 

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Button, Modal } from 'react-bootstrap'
 import useAuth from '../../hooks/useAuth'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import useOpenAI from '../../hooks/useOpenAI'
 
-const NameGenerate = ({resourceID, operationType, show, handleClose, getName}) => {
+const NameGenerate = ({ show, handleClose, getName }) => {
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
@@ -14,10 +13,6 @@ const NameGenerate = ({resourceID, operationType, show, handleClose, getName}) =
     const categoryArray = categories.split(',')
     const axiosPrivate = useAxiosPrivate()
 
-    const navigate = useNavigate()
-    const goBack = () => navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`);
-
-    const { auth } = useAuth()
     const [name, setName] = useState('')
     const [data, setData] = useState()
     const [errMsg, setErrMsg] = useState('')

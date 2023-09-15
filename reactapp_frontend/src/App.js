@@ -7,7 +7,6 @@ import Register from './components/authentication/Register';
 import Login from './components/authentication/Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './components/Home';
-import Menu from './components/Menu';
 import Unauthorized from './components/authentication/Unauthorized';
 import Layout from './components/Layout';
 import Resources from './components/resource-controlls/Resources';
@@ -19,7 +18,6 @@ import CreateUpdateTeam from './components/team-controlls/CreateUpdateTeam';
 import CreateUpdateType from './components/type-controlls/CreateUpdateType';
 import ConfigSettings from './components/authentication/ConfigSettings';
 import Menu from './components/Menu';
-
 
 const ROLES = {
   "Admin": 5001,
@@ -36,7 +34,7 @@ function App() {
         <Route path='/login' element={<Login/>} />
         <Route path='/register' element={<Register/>} />
 
-        <Route path='/' element={<Menu/>} >
+        <Route path='/' element={<Menu />} >
           <Route path='/unauthorized' element={<Unauthorized />} />
 
           <Route element={<PersistLogin />}>
@@ -57,9 +55,11 @@ function App() {
           </Route>
         </Route>
 
-        <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-          <Route path='/teams' element={<Teams />} />
-          <Route path='/team-controll' element={<CreateUpdateTeam />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+            <Route path='/teams' element={<Teams />} />
+            <Route path='/team-controll' element={<CreateUpdateTeam />} />
+          </Route>
         </Route>
 
       </Route>

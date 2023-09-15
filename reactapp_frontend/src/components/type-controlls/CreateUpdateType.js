@@ -45,7 +45,6 @@ const CreateUpdateType = () => {
     ]
 
     const navigate = useNavigate()
-    const goBack = () => navigate(`/`);
     
     useEffect(() => {
         if (operationType === 'update') {
@@ -174,10 +173,6 @@ const CreateUpdateType = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center 100-w vh-100 bg-primary ">
-        <div className='heading'>
-            <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "10px", right: "20px"}}>Go back</button>
-        </div>
-
         {isNew
             ?
             <div className='bg-white rounded p-5'>

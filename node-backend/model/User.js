@@ -28,7 +28,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    emailSchedule: {
+    schedule_options: {
         weekly: {
             type: Boolean,
             default: true

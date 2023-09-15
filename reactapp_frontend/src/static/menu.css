@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
 :root{
-    --header-height: 3rem;
     --first-color: #4723D9;
     --first-color-light: #AFA5D9;
     --white-color: #F7F6FB;
@@ -11,12 +10,12 @@
 }*,
 
 ::before,::after{
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 .nav-space {
     --nav-width: 200px;
-
+    --header-height: 3rem;
 }
 
 body{
@@ -98,12 +97,13 @@ a {
     padding: .5rem 0 .5rem 1.5rem
 }
 
+
 .nav_logo {
     margin-bottom: 2rem
 }
     
-    .nav_logo-icon {
-        font-size: 1.25rem;
+.nav_logo-icon {
+    font-size: 1.25rem;
     color: var(--white-color)
 }
 
@@ -120,7 +120,8 @@ a {
 }
 
 .nav_link:hover {
-    color: var(--white-color)
+    color: var(--white-color);
+    cursor: pointer;
 }
     
 .nav_icon {

@@ -36,45 +36,45 @@ const ViewCard = () => {
     }, [ID])
 
   return (
-    <>
-    {viewR
-        ? 
-        <div className="w-40 vh-25 p-5 rounded bg-white my-5">
-            <h1 className='mb-3'>
-                <b>Resource:</b>
-            </h1>
-            <b>ID:</b> {data._id}<br />
-            <b>Date Created:</b> {data.date_created}<br />
-            { data?.date_updated 
-                ? <div><b>Date Updated:</b> {data.date_updated}<br /></div>
-                : null}
-            <b>Assigned By:</b> {data.assigned_by}<br />
-            <b>Resource:</b> {data.resource}<br />
-            <b>Name:</b> {data.name}<br />
-            <b>Description:</b> {data.description}<br />
-            <b>tags:</b> {data.tags}<br />
-            <b>Location:</b> {data.location}<br />
-            <br /><br />
-            <button className='btn btn-primary mt-5' onClick={goBack}>Go Back</button>
-        </div>
-        : 
-        <div className="w-40 vh-25 p-5 rounded bg-white mt-5 py-5">
-            <h1 className='mb-3'>
-                <b>Team:</b>
-            </h1>
-            <b>Team-ID:</b> {data.team_id}<br />
-            <b>Leader:</b> {data.team_leader}<br /><br />
-            <b>Members:</b>
-            {data.team_members
-                ? data.team_members.map((member, index) => 
-                    <div key={index}><b>Member {index+1}:</b> {member}</div>
-                )
-                : <b>No members</b>
-            }<br />
-            <button className='btn btn-primary' onClick={goBack}>Go Back</button>
-        </div>
-    }
-    </>
+    <div className='d-flex justify-content-center align-items-center 100-w vh-100 bg-primary'>
+        {viewR
+            ? 
+            <div className="w-40 vh-25 p-5 rounded bg-white my-5">
+                <h1 className='mb-3'>
+                    <b>Resource:</b>
+                </h1>
+                <b>ID:</b> {data._id}<br />
+                <b>Date Created:</b> {data.date_created}<br />
+                { data?.date_updated 
+                    ? <div><b>Date Updated:</b> {data.date_updated}<br /></div>
+                    : null}
+                <b>Assigned By:</b> {data.assigned_by}<br />
+                <b>Resource:</b> {data.resource}<br />
+                <b>Name:</b> {data.name}<br />
+                <b>Description:</b> {data.description}<br />
+                <b>tags:</b> {data.tags}<br />
+                <b>Location:</b> {data.location}<br />
+                <br /><br />
+                <button className='btn btn-primary mt-5' onClick={goBack}>Go Back</button>
+            </div>
+            : 
+            <div className="w-40 vh-25 p-5 rounded bg-white mt-5 py-5">
+                <h1 className='mb-3'>
+                    <b>Team:</b>
+                </h1>
+                <b>Team-ID:</b> {data.team_id}<br />
+                <b>Leader:</b> {data.team_leader}<br /><br />
+                <b>Members:</b>
+                {data.team_members
+                    ? data.team_members.map((member, index) => 
+                        <div key={index}><b>Member {index+1}:</b> {member}</div>
+                    )
+                    : <b>No members</b>
+                }<br />
+                <button className='btn btn-primary' onClick={goBack}>Go Back</button>
+            </div>
+        }
+    </div>
   )
 }
 

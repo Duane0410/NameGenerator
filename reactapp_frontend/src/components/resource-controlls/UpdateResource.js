@@ -130,8 +130,8 @@ const UpdateResource = () => {
     }
 
    return (
-    <div className="d-flex-block justify-content-center align-items-center vh-100 bg-primary">
-        <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "10px", right: "20px"}}>Go back</button>
+    <div className="d-flex-block justify-content-center align-items-center vh-100 bg-primary w-75" style={{"marginLeft": "20%"}}>
+        <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "4%", right: "8%"}}>Go back</button>
 
         <div className='bg-white rounded p-5'>
             <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
@@ -196,7 +196,7 @@ const UpdateResource = () => {
                         Get a name
                     </Button>
                     <div className='d-none'>
-                        <NameGenerate resourceID={objectID} operationType={'update'} show={show} handleClose={handleClose} getName={getName}/>
+                        <NameGenerate show={show} handleClose={handleClose} getName={getName}/>
                     </div>
                 </div>
 
