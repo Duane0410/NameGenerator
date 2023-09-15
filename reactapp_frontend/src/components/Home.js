@@ -67,7 +67,7 @@ const Home = () => {
 
         <div className='heading'>
             <h1 className='text-light py-4 px-4'>Resources:</h1>
-            <h4 className='position-absolute' style={{right: "20%"}}><em>Welcome {auth.user}!</em></h4>
+            <h4 className='position-absolute' style={{right: "20%"}}>Welcome {auth.user}!</h4>
         </div>
 
         {data?.length
