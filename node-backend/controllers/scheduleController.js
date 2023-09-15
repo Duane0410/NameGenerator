@@ -1,6 +1,15 @@
 const User = require('../model/User');
 
-const handleSchedule = async (req, res) => {
+const getScheduleOptions = async (req, res) => {
+    const { user } = req.body
+    const users = await User.findOne({ username: user }).exec();
+    if (!users) {
+        return res.status(204).json({ "message": 'No resources found!' });
+    }
+    res.json(users.schedule_options);
+}
+
+const updateScheduleOptions = async (req, res) => {
     const {user, weekly, monthly, quarterly, yearly, updated_only} = req.body
     
     if (!user) {
@@ -24,4 +33,7 @@ const handleSchedule = async (req, res) => {
     res.status(201).json({ 'success': `User ${user} schedule updated!` });
 }
 
-module.exports = { handleSchedule };
+module.exports = { 
+    updateScheduleOptions,
+    getScheduleOptions 
+};

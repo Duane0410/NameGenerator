@@ -18,6 +18,7 @@ import CreateUpdateTeam from './components/team-controlls/CreateUpdateTeam';
 import CreateUpdateType from './components/type-controlls/CreateUpdateType';
 import ConfigSettings from './components/authentication/ConfigSettings';
 import Menu from './components/Menu';
+import NoPage from './components/NoPage';
 
 const ROLES = {
   "Admin": 5001,
@@ -62,6 +63,7 @@ function App() {
           </Route>
         </Route>
 
+        <Route path='*' element={<NoPage />} />
       </Route>
     </Routes>
   );

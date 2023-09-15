@@ -36,7 +36,7 @@ const ViewCard = () => {
     }, [ID])
 
   return (
-    <div className='d-flex justify-content-center align-items-center 100-w vh-100 bg-primary'>
+    <div className='d-flex justify-content-center align-items-center vh-100'>
         {viewR
             ? 
             <div className="w-40 vh-25 p-5 rounded bg-white my-5">
@@ -52,7 +52,7 @@ const ViewCard = () => {
                 <b>Resource:</b> {data.resource}<br />
                 <b>Name:</b> {data.name}<br />
                 <b>Description:</b> {data.description}<br />
-                <b>tags:</b> {data.tags}<br />
+                <b>Tags:</b> {data.tags}<br />
                 <b>Location:</b> {data.location}<br />
                 <br /><br />
                 <button className='btn btn-primary mt-5' onClick={goBack}>Go Back</button>

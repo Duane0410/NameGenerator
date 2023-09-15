@@ -162,28 +162,24 @@ const sendUpdatedResourcesToUsers = async (emailObject, timeInterval) => {
                     } else {
                         previousYear = currentYear
                     }
-                    // Calculate the 1st day of January of the current year
                     const firstDayOfCurrentYear = new Date(previousYear, 0, 1)
-                  
-                    // Calculate the 1st day of January of the previous year
                     const firstDayOfPreviousYear = new Date(previousYear - 1, 0, 1)
                   
-                    // Check if the previous date is within the range
                     return givenDate >= firstDayOfPreviousYear && givenDate < firstDayOfCurrentYear
                 }
 
                 const givenDateCreated = new Date(item.date_created)
-                console.log('TrueCreate - ',  givenDateCreated)
+                // console.log('TrueCreate - ',  givenDateCreated)
                 const givenDateUpdated = new Date(item.date_updated)
-                console.log('TrueUpdate - ',  givenDateUpdated)
-                console.log('Current - ',  currentDate.getFullYear())
-                console.log('PrevTrue - ',  new Date((currentDate.getFullYear())-1, 0, 1))
-                console.log('CurrTrue - ',  new Date((currentDate.getFullYear()), 0, 1))
-                console.log('TrueCreate - ',  isInYear(givenDateCreated))
+                // console.log('TrueUpdate - ',  givenDateUpdated)
+                // console.log('Current - ',  currentDate.getFullYear())
+                // console.log('PrevTrue - ',  new Date((currentDate.getFullYear())-1, 0, 1))
+                // console.log('CurrTrue - ',  new Date((currentDate.getFullYear()), 0, 1))
+                // console.log('TrueCreate - ',  isInYear(givenDateCreated))
 
                 if(isInYear(givenDateCreated) || (item.date_updated && isInYear(givenDateUpdated))) {
                     console.log('True')
-                    // resourcesUpdated.push(item)
+                    resourcesUpdated.push(item)
                 }
             })
             break;

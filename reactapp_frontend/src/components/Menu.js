@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import useLogout from '../hooks/useLogout';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import "../static/menu.css"
 
 const Menu = () => {
@@ -116,7 +118,7 @@ const Menu = () => {
                     </div>
                 </div>
                 <a class="nav_link btn btn-info text-light mx-4" onClick={signOut}>
-                    Sign Out
+                    <span><FontAwesomeIcon icon={faRightFromBracket} /> Sign Out</span>
                 </a>
             </nav>
         </div>
