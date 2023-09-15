@@ -1,17 +1,42 @@
 import React from 'react'
 import { useState, useEffect } from "react";
+import axios from 'axios'
+import useAuth from '../../hooks/useAuth';
 
 const ConfigSettings = () => {
-
-  const initialCheckboxes = [
-    { id: 'Weekly', label: 'Weekly', state: false },
-    { id: 'Monthly', label: 'Monthly', state: false },
-    { id: 'Quarterly', label: 'Quarterly', state: false },
-    { id: 'Yearly', label: 'Yearly', state: false },
-    { id: 'updated_only', label: 'Updated resources only', state: false },
-  ];
-
+  const [emailOptions, setEmailOptions] = useState({})
+  const { auth } = useAuth()
+  const [initialCheckboxes, setInitialCheckboxes] = useState([])
   const [checkboxes, setCheckboxes] = useState(initialCheckboxes);
+  useEffect (async () => {
+  try 
+  {
+    const resp = await axios.get(`http://localhost:3500/schedule/${auth.user}`)
+    console.log('resp-',resp.data)
+    setEmailOptions(resp.data)
+  }
+  catch(error)
+  {
+   console.log(error)
+  }
+    
+  },[])
+
+  useEffect ( () => {
+    if(emailOptions){
+      setInitialCheckboxes([
+        { id: 'Weekly', label: 'Weekly', state: emailOptions.weekly },
+        { id: 'Monthly', label: 'Monthly', state: emailOptions.monthly  },
+        { id: 'Quarterly', label: 'Quarterly', state: emailOptions.quarterly  },
+        { id: 'Yearly', label: 'Yearly', state: emailOptions.yearly },
+        { id: 'updated_only', label: 'Updated resources only', state: emailOptions.updated_only },
+      ])
+    }
+  },[emailOptions])
+
+  useEffect ( () => {
+    setCheckboxes(initialCheckboxes)
+  },[initialCheckboxes])
 
   const handleCheckboxChange = (id) => {
     setCheckboxes((prevCheckboxes) =>
@@ -21,8 +46,23 @@ const ConfigSettings = () => {
     );
   };
 
-  const handleSubmit = () => {
-    // Handle form submission here if needed
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log(checkboxes)
+    console.log('week',checkboxes[0].state)
+
+    const response = await axios.put(`http://localhost:3500/schedule`, {
+      "user": auth.user,
+      "weekly": checkboxes[0].state, 
+      "monthly": checkboxes[1].state, 
+      "quarterly": checkboxes[2].state, 
+      "yearly": checkboxes[3].state, 
+      "updated_only": checkboxes[4].state
+  }, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true
+  })
+  console.log(response)
   };
 
   return (

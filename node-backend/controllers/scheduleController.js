@@ -1,7 +1,7 @@
 const User = require('../model/User');
 
 const getScheduleOptions = async (req, res) => {
-    const { user } = req.body
+    const  user  = req.params.id
     const users = await User.findOne({ username: user }).exec();
     if (!users) {
         return res.status(204).json({ "message": 'No resources found!' });
