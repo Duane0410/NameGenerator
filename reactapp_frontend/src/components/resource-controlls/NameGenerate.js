@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
-import useAuth from '../../hooks/useAuth'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import useOpenAI from '../../hooks/useOpenAI'
+import '../../static/name-gen.css'
 
 const NameGenerate = ({ show, handleClose, getName }) => {
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
-    const resource = searchParams.get('resource')
     const categories = searchParams.get('categories')
     const categoryArray = categories.split(',')
     const axiosPrivate = useAxiosPrivate()
@@ -21,17 +20,12 @@ const NameGenerate = ({ show, handleClose, getName }) => {
     const [position, setPosition] = useState(2)
     const [messages, setMessages] = useState([])
     const tempArray = useOpenAI(categoryArray[index])
-    // const messages = useOpenAI(categoryArray[index])
 
     useEffect(() => {
         setMessages(tempArray)
         console.log("Temp - ", tempArray)
         console.log("Position - ", position)
-        // setMessages([{message:"Hello", sender:"chatgpt"},{message:"Request", sender:"user"},{message:"[\"Aphrodite\", \"Apollo\", \"Ares\", \"Artemis\", \"Athena\"]", sender:"chatgpt"}])      // for trying!
         console.log('Initial - ', messages)
-        // if (names) {
-        //     handler()
-        // }
     }, [index, tempArray])
 
     useEffect(() => {
@@ -42,7 +36,6 @@ const NameGenerate = ({ show, handleClose, getName }) => {
     }, [index])
     
     const [names, setNames] = useState()
-    // const [namesArray, setNamesArray] = useState()
 
     useEffect(() => {
         if (messages[position]?.message) {
@@ -55,8 +48,6 @@ const NameGenerate = ({ show, handleClose, getName }) => {
                 if (namesString[indexThree] === ',') namesString = namesString.slice(0, indexThree) + namesString.slice(indexThree + 1);
                 console.log('String - ', namesString)
                 setNames(JSON.parse(namesString));
-                // setNames(namesString.split('\n'))
-                // setNames(['Aurea','Apollo','Zeus'])  // for trying!
                 console.log('Names - ', names);
                 setFlag(true)
                 
@@ -69,10 +60,7 @@ const NameGenerate = ({ show, handleClose, getName }) => {
     }, [messages])
 
     const handleSwitch = () => {
-        // setNames(null)
         setIndex(index + 1)
-        // setMessages(categoryArray[index])
-        // handler()
     }
 
     const handleSetName = async () => {
@@ -82,13 +70,10 @@ const NameGenerate = ({ show, handleClose, getName }) => {
 
     const handler = () => {
         if (names) {
-            // console.log('Names Click - ', names)
             const isSubset = names.every(name => data.includes(name))
             console.log("test sub2 -", isSubset )
             if (isSubset) {
                 setErrMsg(`Exhausted ${categoryArray[index]} names!!!`)
-                // setName(`Would you like to move to category ${categoryArray[index+1]}`)
-
                 return
             }
 
@@ -116,7 +101,7 @@ const NameGenerate = ({ show, handleClose, getName }) => {
         let isMounted = true
         let temp = []
         setIndex(0)
-        // setMessages(tempArray)
+
         const controller = new AbortController()
 
         const getData = async () => {
@@ -133,7 +118,6 @@ const NameGenerate = ({ show, handleClose, getName }) => {
                     setData([...temp]);
                 }
                 console.log(response.data)
-                // isMounted && setData(response.data)
             } catch (error) {
                 console.error(error)
             }
@@ -148,8 +132,8 @@ const NameGenerate = ({ show, handleClose, getName }) => {
     }, [])
 
   return (
-    <div className='bg-white rounded p-3 my-3 generate'>
-        <Modal show={show} onHide={handleClose}>
+    <div className='generate'>
+        <Modal show={show} onHide={handleClose} className='modal-container'>
             <Modal.Header closeButton>
                 <Modal.Title>
                     <h4 className='my-5'><b>Generate Name</b></h4>
@@ -168,13 +152,10 @@ const NameGenerate = ({ show, handleClose, getName }) => {
                 }
             </div>
             <Modal.Footer className={(flag && errMsg) ? 'd-flex flex-row justify-content-center' : 'd-flex flex-row'}>
-            {/* <Modal.Footer className='d-flex flex-row justify-content-center'> */}
                 <Button variant='success' className={(flag && errMsg) ? 'btn btn-block py-1 fs-5' : 'd-none'} onClick={handleSwitch} disabled={flag ? false : true}>
-                {/* <Button variant='success' className='btn btn-block py-1 fs-5 mr-auto p-2' onClick={handleSwitch} disabled={flag ? false : true}> */}
                     Switch to {categoryArray[index+1]} names
                 </Button>
                 <Button variant='success' className={(flag && name) ? 'btn btn-block py-1 fs-5 mr-auto mx-5' : 'd-none'} onClick={handleSetName} disabled={flag ? false : true}>
-                {/* <Button variant='success' className='btn btn-block py-1 fs-5 mr-auto mx-5' onClick={handleSetName} disabled={flag ? false : true}> */}
                     Select
                 </Button>
                 <Button variant="secondary" className='btn btn-block py-1 fs-5 p-2' onClick={handleClose}>

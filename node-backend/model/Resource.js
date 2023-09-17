@@ -31,8 +31,7 @@ const resourceSchema = new Schema({
         required: true
     },
     tags: {
-        type: [{type: String}],
-        required: true
+        type: [{type: String}]
     },
     location: {
         type: String,

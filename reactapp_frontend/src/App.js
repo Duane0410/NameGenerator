@@ -15,10 +15,11 @@ import ViewCard from './components/ViewCard';
 import CreateResource from './components/resource-controlls/CreateResource';
 import Teams from './components/team-controlls/Teams';
 import CreateUpdateTeam from './components/team-controlls/CreateUpdateTeam';
-import CreateUpdateType from './components/type-controlls/CreateUpdateType';
 import ConfigSettings from './components/authentication/ConfigSettings';
 import Menu from './components/Menu';
 import NoPage from './components/NoPage';
+import CreateType from './components/type-controlls/CreateType';
+import UpdateType from './components/type-controlls/UpdateType';
 
 const ROLES = {
   "Admin": 5001,
@@ -48,10 +49,10 @@ function App() {
               <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
                 <Route path='/create' element={<CreateResource />} />
                 <Route path='/update' element={<UpdateResource />} />
-                <Route path='/type-controll' element={<CreateUpdateType />} />
+                <Route path='/create-type' element={<CreateType />} />
+                <Route path='/update-type' element={<UpdateType />} />
               </Route>
             </Route>
-
             
           </Route>
         </Route>

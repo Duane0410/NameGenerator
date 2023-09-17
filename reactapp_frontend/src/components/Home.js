@@ -4,7 +4,6 @@ import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import axios from 'axios';
 
-
 const Home = () => {
     const navigate = useNavigate();
 
@@ -41,8 +40,6 @@ const Home = () => {
 
     const handleDelete = async (ID) => {
         const allowedRoles = [5001, 4001]
-        // console.log(!auth.roles.some(role => allowedRoles.includes(role)))
-        // console.log('ResourceID - ', ID)
         if (!auth.roles.some(role => allowedRoles.includes(role))) {
             navigate('/unauthorized')
         } else {
@@ -67,14 +64,14 @@ const Home = () => {
 
         <div className='heading'>
             <h1 className='text-light py-4 px-4'>Resources:</h1>
-            <h4 className='position-absolute' style={{right: "20%"}}>Welcome {auth.user}!</h4>
+            <h4 className='position-absolute' style={{right: "5%"}}>Welcome {auth.user}!</h4>
         </div>
 
         {data?.length
             ? 
-            <div className="d-flex flex-wrap">
+            <div className="d-flex flex-wrap" style={{'width': '118%'}}>
                 {data.map((item, index) => 
-                    <div className="card card-container" style={{width: "18rem", margin: "0 10px 30px"}}>
+                    <div key={index} className="card card-container" style={{width: "18rem", margin: "0 10px 30px"}}>
                         <img src={item.image_url} class="card-img-top p-2" style={{height: "270px", width: "285px"}} />
                         <div className="card-body">
                             <h5 className="card-title">{item.resource_type}</h5>
@@ -84,7 +81,7 @@ const Home = () => {
                             >View</Link>
                             <Link
                                 state={item}
-                                to={`/type-controll?action=${encodeURIComponent('update')}`}
+                                to={`/update-type`}
                                 className="btn btn-success btn-block mx-1"
                             >Update</Link>
                             <button 
@@ -99,7 +96,7 @@ const Home = () => {
                     <div className="card-body">
                         <h5 className="card-title"> Resource Type</h5>
                         <Link
-                            to={`/type-controll?action=${encodeURIComponent('create')}`}
+                            to={`/create-type`}
                             className="btn btn-primary btn-block w-100"
                         >Add +</Link>
                     </div>

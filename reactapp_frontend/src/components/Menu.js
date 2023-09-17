@@ -16,7 +16,12 @@ const Menu = () => {
     const [subTitle, setSubTitle] = useState('')
 
     const handleClick = (address) => {
-        if (address.includes('http')) {
+        if (address === 'resources') {
+            const searchParams = new URLSearchParams(location.search)
+            const resource = searchParams.get('resource')
+            const categories = searchParams.get('categories')
+            navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`)
+        } else if (address.includes('http')) {
             const urlObject = new URL(address)
             const destination = urlObject.pathname + urlObject.search
             navigate(`${destination}`)
@@ -53,10 +58,12 @@ const Menu = () => {
             } else {
                 setHasSubtitle(true)
                 setFullUrl(window.location.href)
-                if (currentUrl === '/type-controll') {
-                    const searchParams = new URLSearchParams(location.search)
-                    const operationType = searchParams.get('action')
-                    setSubTitle(operationType.charAt(0).toUpperCase() + operationType.slice(1))
+                if (currentUrl.includes('-')) {
+                    const words = currentUrl.split(/[-/]/)
+                    const sub = words.map(word => {
+                        return word.charAt(0).toUpperCase() + word.slice(1);
+                    }).join(' ')
+                    setSubTitle(sub)
                 } else {
                     const sub = currentUrl.replace(/^\//, '')
                     setSubTitle(sub.charAt(0).toUpperCase() + sub.slice(1))
@@ -74,7 +81,7 @@ const Menu = () => {
   return (
     <div className='App nav-space'>
 
-        <div class="l-navbar" id="nav-bar">
+        <div class="l-navbar menu" id="nav-bar">
             <nav class="nav">
                 <div> 
                     <div class="nav_logo"> 
@@ -85,21 +92,38 @@ const Menu = () => {
                     </div>
 
                     <div class="nav_list"> 
-                        <a onClick={() => handleClick('/')} id='/' class="nav_link">
+                        <a href='/' id='/' class="nav_link">
                             <i class='bx bx-grid-alt nav_icon' />
                             <span class="nav_name">
                                 Home
                             </span>
                         </a>
                         {hasSubtitle && (
-                            subTitle === 'Update'
+                            (subTitle === 'Update' || subTitle === 'Create' || subTitle === ' Update Type')
                                 ? 
-                                <a href={fullUrl} id='subtitle' class="nav_link">
-                                    <i className='bx bx-grid-alt nav_icon' />
-                                    <span className="nav_name">
-                                        {subTitle}
-                                    </span>
-                                </a>
+                                (subTitle === ' Update Type')
+                                    ?
+                                    <a href={fullUrl} id='subtitle' class="nav_link">
+                                        <i className='bx bx-grid-alt nav_icon' />
+                                        <span className="nav_name">
+                                            {subTitle}
+                                        </span>
+                                    </a>
+                                    :
+                                    <>
+                                        <a onClick={() => handleClick('resources')} class="nav_link">
+                                            <i className='bx bx-grid-alt nav_icon' />
+                                            <span className="nav_name">
+                                                Resources
+                                            </span>
+                                        </a>
+                                        <a href={fullUrl} id='subtitle' class="nav_link">
+                                            <i className='bx bx-grid-alt nav_icon' />
+                                            <span className="nav_name">
+                                                {subTitle}
+                                            </span>
+                                        </a>
+                                    </>
                                 : 
                                 <a onClick={() => handleClick(fullUrl)} id='subtitle' class="nav_link">
                                     <i className='bx bx-grid-alt nav_icon' />
@@ -107,7 +131,6 @@ const Menu = () => {
                                         {subTitle}
                                     </span>
                                 </a>
-                            
                         )}
                         <a onClick={() => handleClick('/settings')} id='/settings' class="nav_link">
                             <i class='bx bx-user nav_icon' />

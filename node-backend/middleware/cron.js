@@ -233,15 +233,15 @@ const sendMailAllUser = () => {
         cron.schedule('*/10 * * * * *', async function () {
             var usersData = await User.find()
             if (usersData.length > 0) {
-                var emails = ['duanerodrigues0410@gmail.com']
-                var updateOnlyEmails = ['duanerodrigues0410@gmail.com']
+                var emails = []
+                var updateOnlyEmails = []
                 // var emails = ['duanerodrigues0410@gmail.com', 'gauravikamat77@gmail.com', 'shreyasawant@pccegoa.onmicrosoft.com', 'atharvkindalkar2002@gmail.com']
                 usersData.map((user) => {
-                    // emails.push(user.email);
+                    emails.push(user.email);
                     updateOnlyEmails.push(user.email);
                 })
 
-                // if (emails) sendAllResourcesToUsers(emails, 'Trial')
+                if (emails) sendAllResourcesToUsers(emails, 'Trial')
                 if (updateOnlyEmails) sendUpdatedResourcesToUsers(emails, 'Yearly')
             }
         })

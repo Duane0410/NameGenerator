@@ -1,11 +1,15 @@
 import { Outlet } from "react-router-dom";
+import React from 'react';
+import '../static/layout.css'; // Import your layout.css file
 
 const Layout = () => {
-    return (
-        <main className="d-flex justify-content-center vh-100 bg-primary App">
+  return (
+    <div>
+        <div className="container">
             <Outlet />
-        </main>
-    )
+        </div>
+    </div>
+  );
 }
 
-export default Layout
+export default Layout;

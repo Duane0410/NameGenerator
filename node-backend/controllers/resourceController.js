@@ -69,10 +69,10 @@ const updateResource = async (req, res) => {
         return res.status(204).json({ "message": `No name matches ID ${id}.` });
     }
 
-    const duplicate = await Resource.findOne({ name: req.body.name }).exec()
-    if (duplicate) {
-        return res.status(409).json({ "message": 'Name already exists!' });
-    }
+    // const duplicate = await Resource.findOne({ name: req.body.name }).exec()
+    // if (duplicate) {
+    //     return res.status(409).json({ "message": 'Name already exists!' });
+    // }
 
     if (req.body?.resource) {
         foundResource.resource = req.body.resource;

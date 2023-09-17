@@ -97,7 +97,7 @@ const ConfigSettings = () => {
     }
 
   return (
-    <div className='bg-white w-75 rounded p-5 m-3 position-relative' style={{"left": "15%"}}>
+    <div className='bg-white w-75 rounded p-5 m-3 position-relative' style={{"left": "14%"}}>
         <div>
             <h1 className='p-4 mx-3'>Configure Email Settings:</h1>
         </div>
@@ -109,7 +109,6 @@ const ConfigSettings = () => {
                             type='checkbox'
                             id={checkbox.id}
                             className='form-check-input mt-0'
-                            // value={checkbox.id}
                             checked={checkbox.state}
                             onChange={() => {
                                 setCheckBoxes((prevCheckBoxes) =>

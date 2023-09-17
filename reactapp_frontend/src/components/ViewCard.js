@@ -45,14 +45,16 @@ const ViewCard = () => {
                 </h1>
                 <b>ID:</b> {data._id}<br />
                 <b>Date Created:</b> {data.date_created}<br />
-                { data?.date_updated 
+                {data?.date_updated 
                     ? <div><b>Date Updated:</b> {data.date_updated}<br /></div>
                     : null}
                 <b>Assigned By:</b> {data.assigned_by}<br />
                 <b>Resource:</b> {data.resource}<br />
                 <b>Name:</b> {data.name}<br />
                 <b>Description:</b> {data.description}<br />
-                <b>Tags:</b> {data.tags}<br />
+                {data.tags?.length
+                    ?<div><b>Tags:</b> {data.tags.join(', ')}<br /></div>
+                    : null}
                 <b>Location:</b> {data.location}<br />
                 <br /><br />
                 <button className='btn btn-primary mt-5' onClick={goBack}>Go Back</button>

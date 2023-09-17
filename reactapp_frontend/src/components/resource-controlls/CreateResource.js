@@ -12,15 +12,14 @@ const DESC_REGEX = /^([A-Z][a-zA-Z0-9-_]{1,20}([ ][a-zA-Z0-9-_\n]{0,20}){0,100})
 
 const CreateResource = () => {
     const location = useLocation()
-    const objectID = location.state
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
     const categories = searchParams.get('categories')
-    // console.log('ObjectID - ', objectID)
     const { auth } = useAuth() 
     const today = new Date().toISOString().split('T')[0];
 
     const locate = document.getElementById('location')
+    const organize = document.getElementById('organization')
 
     const inputRef = useRef()
     const errRef = useRef()
@@ -31,22 +30,21 @@ const CreateResource = () => {
 
     const [located, setLocated] = useState('')
     const [validLocated, setValidLocated] = useState(false)
+
     const [organization, setOrganization]= useState('')
-    const [validOrganization, setValidOrganization]=useState(false)
+    const [validOrganization, setValidOrganization] = useState(false)
+    
     const [description, setDescription] = useState('')
     const [validDescription, setValidDescription] = useState(false)
     const [descriptionFocus, setDescriptionFocus] = useState(false)
 
+    const [tagsFocus, setTagsFocus] = useState(false)
+    const [tags, setTags] = useState([])
+
     const [errMsg, setErrMsg] = useState('')
 
-    // const [validNameCategory, setValidNameCategory] = useState(false)
-    // const [initialCheck, setInitialCheck] = useState(false)
-    const [nameCategoryFocus, setNameCategoryFocus] = useState(false)
-    const [nameSelectCategory, setNameSelectCategory] = useState([])
-
-    
-
     useEffect(() => {
+        if (!searchParams || !resource || !categories) navigate('/')
         inputRef.current.focus()
     }, [])
 
@@ -61,10 +59,10 @@ const CreateResource = () => {
     }, [located])
 
     useEffect(() => {
-        if (organization !== '--Select Location--') {
-            setLocated(document.getElementById('organization').value)
-            setOrganization(true)
-            console.log('organization - ', organization)
+        if (organization !== '--Select Organization--') {
+            setOrganization(document.getElementById('organization').value)
+            setValidOrganization(true)
+            console.log('Organization - ', organization)
         } else {
             setValidOrganization(false)
         }
@@ -86,7 +84,6 @@ const CreateResource = () => {
     }
 
     const navigate = useNavigate()
-    const goBack = () => navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -99,15 +96,14 @@ const CreateResource = () => {
         console.log("description: ", description)
         console.log("location: ", located)
         console.log("category: ", category)
-        console.log("nameselect: ", nameSelectCategory)
-        let tempCategory = []
-        nameSelectCategory.map(category => {
-            tempCategory.push(category.value)
+        console.log("tags: ", tags)
+        let tempTags = []
+        tags.map(tag => {
+            tempTags.push(tag.value)
         })
-        console.log("temp: ", tempCategory)
+        console.log("temp: ", tempTags)
         console.log("organizaion", organization)
 
-        
         if (auth.teamID === 0) {
             navigate('/unauthorized')
         } else {
@@ -119,10 +115,10 @@ const CreateResource = () => {
                     "resource": resource, 
                     "name": name,
                     "description": description, 
-                    "tags": tempCategory,
+                    "tags": tempTags,
                     "location": located,
                     "category": category,
-                    "organization":organization
+                    "organization": organization
                 }, {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -144,9 +140,7 @@ const CreateResource = () => {
     }
 
    return (
-    <div className="d-flex-block justify-content-center align-items-center vh-100 bg-primary w-75" style={{"marginLeft": "20%"}}>
-        <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "4%", right: "8%"}}>Go back</button>
-
+    <div className="d-flex-block justify-content-center align-items-center vh-100 bg-primary w-75" style={{"marginLeft": "15%"}}>
         <div className='bg-white rounded p-5'>
             <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
                 {errMsg}
@@ -176,6 +170,7 @@ const CreateResource = () => {
                     <input
                         type='text'
                         className='form-control mb-2'
+                        placeholder=' Click the button below to choose a name'
                         id='name'
                         value={name}
                         readOnly
@@ -215,10 +210,14 @@ const CreateResource = () => {
                 <div className="mb-2 my-3">
                     <label htmlFor="organization" >
                         Organization:
+                        <span className={validOrganization ? 'valid text-success' : 'd-none'}>
+                            <FontAwesomeIcon icon={faCheck} />
+                        </span>
                     </label>
                     <select 
                         className='form-control' 
                         id='organization'
+                        onChange={() => setOrganization(organize.value)}
                     >
                         <option value={null}>--Select Organization--</option>
                         <option value='cl1'>Client 1</option>
@@ -240,69 +239,56 @@ const CreateResource = () => {
                     <textarea
                         type="text"
                         className="form-control mb-2"
-                        id='members'
+                        placeholder=' Enter description'
+                        id='description'
                         onChange={(e) => setDescription(e.target.value)}
                         required
                         aria-describedby='descnote'
                         onFocus={() => setDescriptionFocus(true)}
                         onBlur={() => setDescriptionFocus(false)}
                     />
-                    <p id='descnote' style={{fontSize: '0.75rem'}} className={description || descriptionFocus ? 'instructions text-success' : 'd-none'}>
+                    <p id='descnote' style={{fontSize: '0.75rem'}} className={descriptionFocus ? 'instructions text-success' : 'd-none'}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        State the function of the resource.<br />
-                        Its purpose of creation.<br />
+                        State the function of the resource. 
+                        Its purpose of creation. 
                         And what will it be used for.
                     </p>
                     <p id='descnote' style={{fontSize: '0.75rem'}} className={descriptionFocus && description && !validDescription ? 'instructions text-danger' : 'd-none'}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        Must start with a capital alpabet.<br />
+                        Must start with a capital alpabet. 
                         Numbers and special characters are allowed.
                     </p>
                 </div>
-                <div className='mb-2'>
-                        <label htmlFor='category'>
-                            Tags:
-                            {/* <span className={validNameCategory ? 'valid text-success' : 'd-none'}>
-                                <FontAwesomeIcon icon={faCheck} />
-                            </span>
-                            <span className={validNameCategory || !initialCheck ? 'd-none' : 'invalid text-danger'}>
-                                <FontAwesomeIcon icon={faTimes} />
-                            </span> */}
-                        </label>
-                        <CreatableSelect
-                            isMulti
-                            isClearable
-                            id='preference1'
-                            className='form-control mb-1'
-                            placeholder='Enter preferences'
-                            autoComplete='off'
-                            onChange={(newValue) => setNameSelectCategory(newValue)}
-                            required
-                            // aria-invalid={validNameCategory ? 'false' : 'true'}
-                            aria-describedby='catidnote'
-                            onFocus={() => setNameCategoryFocus(true)}
-                            onBlur={() => setNameCategoryFocus(false)}
-                        />
-                        <p id='catidnote' style={{fontSize: '0.75rem'}} className={nameCategoryFocus && nameSelectCategory ? 'instructions text-danger' : 'd-none'}>
-                            <FontAwesomeIcon icon={faInfoCircle} />
-                            Two preferences for name generation<br />
-                            category must be given.<br />
-                            Must begin with a capital letter.<br />
-                            Do not use plural.<br />
-                            Underscores, hyphens are not<br />
-                            allowed.
-                        </p>
-                    </div>
+
+                <div className='mb-2 my-3'>
+                    <label htmlFor='tags'>
+                        Tags:
+                    </label>
+                    <CreatableSelect
+                        isMulti
+                        isClearable
+                        id='tag'
+                        className='form-control mb-1'
+                        placeholder='Enter tags'
+                        autoComplete='off'
+                        onChange={(newValue) => setTags(newValue)}
+                        aria-describedby='tagidnote'
+                        onFocus={() => setTagsFocus(true)}
+                        onBlur={() => setTagsFocus(false)}
+                    />
+                    <p id='tagidnote' style={{fontSize: '0.75rem'}} className={tagsFocus && tags ? 'instructions text-success' : 'd-none'}>
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                        Please enter tags for your new resource. 
+                        Tags help categorize and describe your item.
+                    </p>
+                </div>
+
                 <div className="d-grid">
-                    <button className="btn btn-primary my-3" disabled={!name || !location || !validDescription ? true : false}>
+                    <button className="btn btn-primary my-3" disabled={!name || !validLocated || !validOrganization || !validDescription ? true : false}>
                         Create
                     </button>
                 </div>
             </form>
-            {/* <div className='w-100 vh-50 '>
-            <div className='d-flex justify-content-center align-items-center'>
-            <div className='w-50 bg-primary bg-white rounded p-3'> */}
-            {/* <NameGenerate resourceID={objectID} operationType={'create'} /> */}
         </div>
     </div>
   )
