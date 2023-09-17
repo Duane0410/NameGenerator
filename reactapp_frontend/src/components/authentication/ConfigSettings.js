@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
 
 const ConfigSettings = () => {
     const { auth } = useAuth()
     const [emailOptions, setEmailOptions] = useState({})
-
-    const navigate = useNavigate()
 
     const initialCheckBoxes = [
         { id: 'weekly', label: 'weekly', state: true },
@@ -19,15 +16,19 @@ const ConfigSettings = () => {
 
     const [checkBoxes, setCheckBoxes] = useState(initialCheckBoxes);
 
-    useEffect (async () => {
-        try {
-            const response = await axios.get(`http://localhost:3500/schedule/${auth.user}`)
-            console.log('response - ', response.data)
-            setEmailOptions(response.data)
+    useEffect (() => {
+        const getSchedule = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3500/schedule/${auth.user}`)
+                console.log('response - ', response.data)
+                setEmailOptions(response.data)
+            }
+            catch (error) {
+                console.log(error)
+            }
         }
-        catch (error) {
-            console.log(error)
-        }
+
+        getSchedule()
     }, [])
 
     useEffect ( () => {
@@ -60,7 +61,6 @@ const ConfigSettings = () => {
             setCheckBoxes(initialCheckBoxes)
             console.log(response)
             alert('Reset Condiguration!')
-            navigate(`/settings`)
         } catch (error) {
             console.log(error)
         }
@@ -90,7 +90,6 @@ const ConfigSettings = () => {
             })
             console.log(response)
             alert('Saved Condiguration!')
-            navigate(`/settings`)
         } catch (error) {
             console.log(error)
         }

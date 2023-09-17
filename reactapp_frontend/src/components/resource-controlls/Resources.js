@@ -88,11 +88,13 @@ function Resources () {
                 >Add +</Link>
                 <table className='table'>
                     <thead>
-                        <th>Date Created</th>
-                        <th>Team-ID</th>
-                        <th>Assigned By</th>
-                        <th>Name</th>
-                        <th className='px-5'>Actions</th>
+                        <tr>
+                            <th className='bg-light'>Date Created</th>
+                            <th className='bg-light'>Team-ID</th>
+                            <th className='bg-light'>Assigned By</th>
+                            <th className='bg-light'>Name</th>
+                            <th className='px-5 bg-light'>Actions</th>
+                        </tr>
                     </thead>
 
                     {
@@ -124,7 +126,11 @@ function Resources () {
                                         </tr>
                                     )}
                                 </tbody>
-                            ) : <p>No Data</p>
+                            ) : <tbody>
+                                    <tr>
+                                        <td>No Data</td>
+                                    </tr>
+                                </tbody>
                     }
                 </table>
             </div>

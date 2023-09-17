@@ -72,7 +72,7 @@ const Home = () => {
             <div className="d-flex flex-wrap" style={{'width': '118%'}}>
                 {data.map((item, index) => 
                     <div key={index} className="card card-container" style={{width: "18rem", margin: "0 10px 30px"}}>
-                        <img src={item.image_url} class="card-img-top p-2" style={{height: "270px", width: "285px"}} />
+                        <img src={item.image_url} className="card-img-top p-2" style={{height: "270px", width: "285px"}} />
                         <div className="card-body">
                             <h5 className="card-title">{item.resource_type}</h5>
                             <Link
@@ -92,7 +92,7 @@ const Home = () => {
                     </div>
                 )}
                 <div className="card card-container" style={{width: "18rem", margin: "0 10px 30px"}}>
-                    <img src="https://cdn-icons-png.flaticon.com/512/3876/3876052.png" class="card-img-top p-2" style={{height: "270px", width: "285px"}} />
+                    <img src="https://cdn-icons-png.flaticon.com/512/3876/3876052.png" className="card-img-top p-2" style={{height: "270px", width: "285px"}} />
                     <div className="card-body">
                         <h5 className="card-title"> Resource Type</h5>
                         <Link
@@ -105,7 +105,7 @@ const Home = () => {
             :
             <div className="d-flex">
                 <div className="card card-container" style={{width: "18rem", margin: "0 10px 30px"}}>
-                    <img src="https://cdn-icons-png.flaticon.com/512/3876/3876052.png" class="card-img-top p-2" style={{height: "270px", width: "285px"}} />
+                    <img src="https://cdn-icons-png.flaticon.com/512/3876/3876052.png" className="card-img-top p-2" style={{height: "270px", width: "285px"}} />
                     <div className="card-body">
                         <h5 className="card-title">No Resources Added</h5>
                         <Link

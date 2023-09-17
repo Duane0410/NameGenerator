@@ -81,20 +81,20 @@ const Menu = () => {
   return (
     <div className='App nav-space'>
 
-        <div class="l-navbar menu" id="nav-bar">
-            <nav class="nav">
+        <div className="l-navbar menu" id="nav-bar">
+            <nav className="nav">
                 <div> 
-                    <div class="nav_logo"> 
-                        <i class='bx bx-layer nav_logo-icon' />
-                        <span class="nav_logo-name">
+                    <div className="nav_logo"> 
+                        <i className='bx bx-layer nav_logo-icon' />
+                        <span className="nav_logo-name">
                             Menu
                         </span>
                     </div>
 
-                    <div class="nav_list"> 
-                        <a href='/' id='/' class="nav_link">
-                            <i class='bx bx-grid-alt nav_icon' />
-                            <span class="nav_name">
+                    <div className="nav_list"> 
+                        <a onClick={() => handleClick('/')} id='/' className="nav_link">
+                            <i className='bx bx-grid-alt nav_icon' />
+                            <span className="nav_name">
                                 Home
                             </span>
                         </a>
@@ -103,7 +103,7 @@ const Menu = () => {
                                 ? 
                                 (subTitle === ' Update Type')
                                     ?
-                                    <a href={fullUrl} id='subtitle' class="nav_link">
+                                    <a href={fullUrl} id='subtitle' className="nav_link">
                                         <i className='bx bx-grid-alt nav_icon' />
                                         <span className="nav_name">
                                             {subTitle}
@@ -111,13 +111,13 @@ const Menu = () => {
                                     </a>
                                     :
                                     <>
-                                        <a onClick={() => handleClick('resources')} class="nav_link">
+                                        <a onClick={() => handleClick('resources')} className="nav_link">
                                             <i className='bx bx-grid-alt nav_icon' />
                                             <span className="nav_name">
                                                 Resources
                                             </span>
                                         </a>
-                                        <a href={fullUrl} id='subtitle' class="nav_link">
+                                        <a href={fullUrl} id='subtitle' className="nav_link">
                                             <i className='bx bx-grid-alt nav_icon' />
                                             <span className="nav_name">
                                                 {subTitle}
@@ -125,22 +125,22 @@ const Menu = () => {
                                         </a>
                                     </>
                                 : 
-                                <a onClick={() => handleClick(fullUrl)} id='subtitle' class="nav_link">
+                                <a onClick={() => handleClick(fullUrl)} id='subtitle' className="nav_link">
                                     <i className='bx bx-grid-alt nav_icon' />
                                     <span className="nav_name">
                                         {subTitle}
                                     </span>
                                 </a>
                         )}
-                        <a onClick={() => handleClick('/settings')} id='/settings' class="nav_link">
-                            <i class='bx bx-user nav_icon' />
-                            <span class="nav_name">
+                        <a onClick={() => handleClick('/settings')} id='/settings' className="nav_link">
+                            <i className='bx bx-user nav_icon' />
+                            <span className="nav_name">
                                 Settings
                             </span>
                         </a>
                     </div>
                 </div>
-                <a class="nav_link btn btn-info text-light mx-4" onClick={signOut}>
+                <a className="nav_link btn btn-info text-light mx-4" onClick={signOut}>
                     <span><FontAwesomeIcon icon={faRightFromBracket} /> Sign Out</span>
                 </a>
             </nav>
