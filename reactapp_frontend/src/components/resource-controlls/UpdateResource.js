@@ -310,22 +310,13 @@ const UpdateResource = () => {
                     <p id='tagidnote' style={{fontSize: '0.75rem'}} className={tagsFocus && tags ? 'instructions text-success' : 'd-none'}>
                         <FontAwesomeIcon icon={faInfoCircle} />
                         Please enter tags for your new resource. 
-                        Tags help categorize and describe your item.
+                        Tags help categorize and describe your resource.
                     </p>
                 </div>
 
                 <div className="d-grid">
                     <button 
-                        className="btn btn-primary my-3" 
-                        disabled={
-                            hasChanged && (
-                                (name !== '' && name !== null) || 
-                                (description !== '' && description !== null) || 
-                                (category !== '' && category !== null) || 
-                                (document.getElementById('location').value && document.getElementById('location').value !== '--Select Location--') ||
-                                (hasTag && tags.length)) 
-                                    ? false : true}
-                        >
+                        className="btn btn-primary my-3">
                         Update
                     </button>
                 </div>

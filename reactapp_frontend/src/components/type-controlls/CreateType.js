@@ -216,7 +216,7 @@ const CreateType = () => {
                     />
                     <p id='imgidnote' style={{fontSize: '0.75rem'}} className={imageURLFocus && imageURL && !validImageURL ? 'instructions text-danger' : 'd-none'}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        Must be a valid URL.
+                        Must be a valid image URL.
                     </p>
                 </div>
 

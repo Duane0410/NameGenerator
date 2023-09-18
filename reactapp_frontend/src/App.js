@@ -22,10 +22,10 @@ import CreateType from './components/type-controlls/CreateType';
 import UpdateType from './components/type-controlls/UpdateType';
 
 const ROLES = {
-  "Admin": 5001,
-  "Leader": 4001,
-  "Member": 2001,
-  "User": 1001
+    "Admin": 5001,
+    "Leader": 4001,
+    "Member": 2001,
+    "User": 1001
 }
 
 function App() {
@@ -37,31 +37,31 @@ function App() {
         <Route path='/register' element={<Register/>} />
 
         <Route path='/' element={<Menu />} >
-          <Route path='/unauthorized' element={<Unauthorized />} />
+            <Route path='/unauthorized' element={<Unauthorized />} />
 
-          <Route element={<PersistLogin />}>
-            <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-              <Route path='/' element={<Home />} />
-              <Route path='/resources' element={<Resources />} />
-              <Route path='/view' element={<ViewCard />} />
-              <Route path='/settings' element={<ConfigSettings />} />
+            <Route element={<PersistLogin />}>
+                <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
+                    <Route path='/' element={<Home />} />
+                    <Route path='/resources' element={<Resources />} />
+                    <Route path='/view' element={<ViewCard />} />
+                    <Route path='/settings' element={<ConfigSettings />} />
+                    
+                    <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
+                        <Route path='/create' element={<CreateResource />} />
+                        <Route path='/update' element={<UpdateResource />} />
+                        <Route path='/create-type' element={<CreateType />} />
+                        <Route path='/update-type' element={<UpdateType />} />
+                    </Route>
+                </Route>
             
-              <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
-                <Route path='/create' element={<CreateResource />} />
-                <Route path='/update' element={<UpdateResource />} />
-                <Route path='/create-type' element={<CreateType />} />
-                <Route path='/update-type' element={<UpdateType />} />
-              </Route>
             </Route>
-            
-          </Route>
-        </Route>
 
-        <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-            <Route path='/teams' element={<Teams />} />
-            <Route path='/team-controll' element={<CreateUpdateTeam />} />
-          </Route>
+            <Route element={<PersistLogin />}>
+                <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+                    <Route path='/teams' element={<Teams />} />
+                    <Route path='/team-controll' element={<CreateUpdateTeam />} />
+                </Route>
+            </Route>
         </Route>
 
         <Route path='*' element={<NoPage />} />

@@ -279,7 +279,7 @@ const CreateResource = () => {
                     <p id='tagidnote' style={{fontSize: '0.75rem'}} className={tagsFocus && tags ? 'instructions text-success' : 'd-none'}>
                         <FontAwesomeIcon icon={faInfoCircle} />
                         Please enter tags for your new resource. 
-                        Tags help categorize and describe your item.
+                        Tags help categorize and describe your resource.
                     </p>
                 </div>
 

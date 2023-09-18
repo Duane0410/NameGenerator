@@ -265,8 +265,8 @@ const sendWeeklyMail = () => {
                     }
                 })
 
-                if (emails) sendAllResourcesToUsers(emails, 'Weekly')
-                if (updateOnlyEmails) sendUpdatedResourcesToUsers(emails, 'Weekly')
+                if (emails.length) sendAllResourcesToUsers(emails, 'Weekly')
+                if (updateOnlyEmails.length) sendUpdatedResourcesToUsers(updateOnlyEmails, 'Weekly')
             }
         })
     } catch (error) {
@@ -289,8 +289,8 @@ const sendMonthlyMail = () => {
                     }
                 })
 
-                if (emails) sendAllResourcesToUsers(emails, 'Monthly')
-                if (updateOnlyEmails) sendUpdatedResourcesToUsers(emails, 'Monthly')
+                if (emails.length) sendAllResourcesToUsers(emails, 'Monthly')
+                if (updateOnlyEmails.length) sendUpdatedResourcesToUsers(updateOnlyEmails, 'Monthly')
             }
         })
     } catch (error) {
@@ -313,8 +313,8 @@ const sendQuarterlyMail = () => {
                     }
                 })
 
-                if (emails) sendAllResourcesToUsers(emails, 'Quaterly')
-                if (updateOnlyEmails) sendUpdatedResourcesToUsers(emails, 'Quaterly')
+                if (emails.length) sendAllResourcesToUsers(emails, 'Quaterly')
+                if (updateOnlyEmails.length) sendUpdatedResourcesToUsers(updateOnlyEmails, 'Quaterly')
             }
         })
     } catch (error) {
@@ -337,8 +337,8 @@ const sendYearlyMail = () => {
                     }
                 })
 
-                if (emails) sendAllResourcesToUsers(emails, 'Yearly')
-                if (updateOnlyEmails) sendUpdatedResourcesToUsers(emails, 'Yearly')
+                if (emails.length) sendAllResourcesToUsers(emails, 'Yearly')
+                if (updateOnlyEmails.length) sendUpdatedResourcesToUsers(updateOnlyEmails, 'Yearly')
             }
         })
     } catch (error) {

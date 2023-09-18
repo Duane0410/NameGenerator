@@ -158,10 +158,7 @@ const UpdateType = () => {
                     />
                     <p id='imgidnote' style={{fontSize: '0.75rem'}} className={imageURLFocus && imageURL && !validImageURL ? 'instructions text-danger' : 'd-none'}>
                         <FontAwesomeIcon icon={faInfoCircle} />
-                        Must be a valid URL<br />
-                        Seperate all member names with a comma(,).<br />
-                        All names have to be written.<br />
-                        Each team can have 1 to 5 imageURL.
+                        Must be a valid image URL.
                     </p>
                 </div>
 
