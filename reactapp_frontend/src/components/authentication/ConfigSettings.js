@@ -10,8 +10,7 @@ const ConfigSettings = () => {
         { id: 'weekly', label: 'weekly', state: true },
         { id: 'wonthly', label: 'monthly', state: true },
         { id: 'quarterly', label: 'quarterly', state: true },
-        { id: 'yearly', label: 'yearly', state: true },
-        // { id: 'updated_only', label: 'updated only', state: false }
+        { id: 'yearly', label: 'yearly', state: true }
     ]
 
     const [checkBoxes, setCheckBoxes] = useState(initialCheckBoxes);
@@ -37,8 +36,7 @@ const ConfigSettings = () => {
                 { id: 'weekly', label: 'weekly', state: emailOptions.weekly },
                 { id: 'monthly', label: 'monthly', state: emailOptions.monthly  },
                 { id: 'quarterly', label: 'quarterly', state: emailOptions.quarterly  },
-                { id: 'yearly', label: 'yearly', state: emailOptions.yearly },
-                // { id: 'updated_only', label: 'updated only', state: emailOptions.updated_only }
+                { id: 'yearly', label: 'yearly', state: emailOptions.yearly }
             ])
         }
     }, [emailOptions])
@@ -52,8 +50,7 @@ const ConfigSettings = () => {
                 "weekly": initialCheckBoxes[0].state, 
                 "monthly": initialCheckBoxes[1].state, 
                 "quarterly": initialCheckBoxes[2].state, 
-                "yearly": initialCheckBoxes[3].state, 
-                // "updated_only": initialCheckBoxes[4].state
+                "yearly": initialCheckBoxes[3].state
             }, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -74,7 +71,6 @@ const ConfigSettings = () => {
         console.log('monthly - ', checkBoxes[1].state)
         console.log('quarterly - ', checkBoxes[2].state)
         console.log('yearly - ', checkBoxes[3].state)
-        console.log('updated_only - ', checkBoxes[4].state)
 
         try {
             const response = await axios.put(`http://localhost:3500/schedule`, {
@@ -82,8 +78,7 @@ const ConfigSettings = () => {
                 "weekly": checkBoxes[0].state, 
                 "monthly": checkBoxes[1].state, 
                 "quarterly": checkBoxes[2].state, 
-                "yearly": checkBoxes[3].state, 
-                // "updated_only": checkBoxes[4].state
+                "yearly": checkBoxes[3].state
             }, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -108,7 +103,7 @@ const ConfigSettings = () => {
                             type='checkbox'
                             id={checkbox.id}
                             className='form-check-input mt-0'
-                            checked={checkbox.state}
+                            checked={checkbox.state ? true : false}
                             onChange={() => {
                                 setCheckBoxes((prevCheckBoxes) =>
                                     prevCheckBoxes.map((check) =>
@@ -119,10 +114,10 @@ const ConfigSettings = () => {
                         />
                     </div>
                     <div className='form-control'>
-                            {checkbox.state
-                                ? <span> Receive email <strong>{checkbox.label}</strong></span>
-                                : <span> Not receive email <strong>{checkbox.label}</strong></span>
-                            }
+                        {checkbox.state
+                            ? <span> Receive email <strong>{checkbox.label}</strong>.</span>
+                            : <span> Do not receive email <strong>{checkbox.label}</strong>.</span>
+                        }
                     </div>
                 </div>
             ))}

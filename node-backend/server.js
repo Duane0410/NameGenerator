@@ -15,11 +15,7 @@ const PORT = process.env.PORT || 3500;
 
 connectDB();
 
-// cron.sendMailAllUser();
-cron.sendWeeklyMail();
-cron.sendMonthlyMail();
-cron.sendQuarterlyMail();
-cron.sendYearlyMail();
+cron.scheduleTasks();
 
 app.use(credentials);
 app.use(cors(corsOptions));

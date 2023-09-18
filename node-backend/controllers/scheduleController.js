@@ -10,7 +10,7 @@ const getScheduleOptions = async (req, res) => {
 }
 
 const updateScheduleOptions = async (req, res) => {
-    const {user, weekly, monthly, quarterly, yearly, updated_only} = req.body
+    const {user, weekly, monthly, quarterly, yearly} = req.body
     
     if (!user) {
         return res.status(400).json({ "message": 'Username is required!' });
@@ -26,7 +26,6 @@ const updateScheduleOptions = async (req, res) => {
     foundUser.schedule_options.monthly = monthly
     foundUser.schedule_options.quarterly = quarterly
     foundUser.schedule_options.yearly = yearly
-    foundUser.schedule_options.updated_only = updated_only
 
     const result = await foundUser.save();
     console.log('Result - ', result)
