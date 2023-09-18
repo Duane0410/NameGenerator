@@ -11,7 +11,7 @@ const ConfigSettings = () => {
         { id: 'wonthly', label: 'monthly', state: true },
         { id: 'quarterly', label: 'quarterly', state: true },
         { id: 'yearly', label: 'yearly', state: true },
-        { id: 'updated_only', label: 'updated only', state: false }
+        // { id: 'updated_only', label: 'updated only', state: false }
     ]
 
     const [checkBoxes, setCheckBoxes] = useState(initialCheckBoxes);
@@ -38,7 +38,7 @@ const ConfigSettings = () => {
                 { id: 'monthly', label: 'monthly', state: emailOptions.monthly  },
                 { id: 'quarterly', label: 'quarterly', state: emailOptions.quarterly  },
                 { id: 'yearly', label: 'yearly', state: emailOptions.yearly },
-                { id: 'updated_only', label: 'updated only', state: emailOptions.updated_only }
+                // { id: 'updated_only', label: 'updated only', state: emailOptions.updated_only }
             ])
         }
     }, [emailOptions])
@@ -53,7 +53,7 @@ const ConfigSettings = () => {
                 "monthly": initialCheckBoxes[1].state, 
                 "quarterly": initialCheckBoxes[2].state, 
                 "yearly": initialCheckBoxes[3].state, 
-                "updated_only": initialCheckBoxes[4].state
+                // "updated_only": initialCheckBoxes[4].state
             }, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -83,7 +83,7 @@ const ConfigSettings = () => {
                 "monthly": checkBoxes[1].state, 
                 "quarterly": checkBoxes[2].state, 
                 "yearly": checkBoxes[3].state, 
-                "updated_only": checkBoxes[4].state
+                // "updated_only": checkBoxes[4].state
             }, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -98,7 +98,7 @@ const ConfigSettings = () => {
   return (
     <div className='bg-white w-75 rounded p-5 m-3 position-relative' style={{"left": "14%"}}>
         <div>
-            <h1 className='p-4 mx-3'>Configure Email Settings:</h1>
+            <h1 className='p-4 mx-3'>Configure Email Schedule</h1>
         </div>
         <form className='px-5'>
             {checkBoxes.map((checkbox) => (
@@ -119,16 +119,10 @@ const ConfigSettings = () => {
                         />
                     </div>
                     <div className='form-control'>
-                        {checkbox.id === 'updated_only'
-                            ? checkbox.state
-                                ? <span> You will receive an email about <strong>only the newly added or updated resources</strong> at the intervals checked above.</span>
-                                : <span> You will receive an email about <strong>all resources</strong> at the intervals checked above.</span>
-                            : checkbox.state
-                                ? checkBoxes[4].state
-                                    ? <span> You will receive a <strong>{checkbox.label}</strong> email about only newly added or updated resources in the database.</span>
-                                    : <span> You will receive a <strong>{checkbox.label}</strong> email about all resources in the database.</span>
-                                : <span> You will not receive any <strong>{checkbox.label}</strong> emails.</span>
-                        }
+                            {checkbox.state
+                                ? <span> Receive email <strong>{checkbox.label}</strong></span>
+                                : <span> Not receive email <strong>{checkbox.label}</strong></span>
+                            }
                     </div>
                 </div>
             ))}

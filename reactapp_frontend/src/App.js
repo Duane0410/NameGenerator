@@ -44,7 +44,7 @@ function App() {
                     <Route path='/' element={<Home />} />
                     <Route path='/resources' element={<Resources />} />
                     <Route path='/view' element={<ViewCard />} />
-                    <Route path='/settings' element={<ConfigSettings />} />
+                    <Route path='/set-schedule' element={<ConfigSettings />} />
                     
                     <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
                         <Route path='/create' element={<CreateResource />} />

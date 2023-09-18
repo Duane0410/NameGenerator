@@ -148,18 +148,7 @@ const CreateResource = () => {
             <form onSubmit={handleSubmit} className='mx-4'>
                 <h3 className="text-center">Create {resource}</h3>
         
-                <div className="mb-2">
-                    <label htmlFor="teamID" >
-                        Date of Creation:
-                    </label>
-                    <input
-                        type="date"
-                        className="form-control mb-2"
-                        id='date'
-                        value={today}
-                        readOnly
-                    />
-                </div>
+               
                 <div className='d-grid'>
                     <label htmlFor='name'>
                         Name:
@@ -181,7 +170,7 @@ const CreateResource = () => {
                         onClick={handleShow}
                         ref={inputRef}
                     >
-                        Get a name
+                        Get Name
                     </Button>
                     <div className='d-none'>
                         <NameGenerate show={show} handleClose={handleClose} getName={getName}/>
@@ -228,7 +217,7 @@ const CreateResource = () => {
 
                 <div className="mb-2 my-3">
                     <label htmlFor="members" >
-                        Description of Resource: 
+                        Description: 
                         <span className={validDescription ? 'valid text-success' : 'd-none'}>
                             <FontAwesomeIcon icon={faCheck} />
                         </span>
@@ -282,7 +271,18 @@ const CreateResource = () => {
                         Tags help categorize and describe your resource.
                     </p>
                 </div>
-
+                <div className="mb-2">
+                    <label htmlFor="teamID" >
+                        Date of Creation:
+                    </label>
+                    <input
+                        type="date"
+                        className="form-control mb-2"
+                        id='date'
+                        value={today}
+                        readOnly
+                    />
+                </div>
                 <div className="d-grid">
                     <button className="btn btn-primary my-3" disabled={!name || !validLocated || !validOrganization || !validDescription ? true : false}>
                         Create

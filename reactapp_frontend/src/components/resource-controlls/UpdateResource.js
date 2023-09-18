@@ -161,32 +161,6 @@ const UpdateResource = () => {
             </p>
             <form onSubmit={handleSubmit} className='mx-4'>
                 <h3 className="text-center">Update {resource}</h3>
-        
-                <div className="mb-2">
-                    <label htmlFor="teamID" >
-                        Date of Creation:
-                    </label>
-                    <input
-                        type="date"
-                        className="form-control mb-2"
-                        id='date'
-                        value={objectID.date_created}
-                        readOnly
-                    />
-                </div>
-
-                <div className="mb-2">
-                    <label htmlFor="teamID" >
-                        Date of Updation:
-                    </label>
-                    <input
-                        type="date"
-                        className="form-control mb-2"
-                        id='date'
-                        value={today}
-                        readOnly
-                    />
-                </div>
 
                 <div className='d-grid'>
                     <label htmlFor='name'>
@@ -216,7 +190,7 @@ const UpdateResource = () => {
                         onClick={handleShow}
                         ref={inputRef}
                     >
-                        Get a name
+                        Get Name
                     </Button>
                     <div className='d-none'>
                         <NameGenerate show={show} handleClose={handleClose} getName={getName}/>
@@ -244,7 +218,7 @@ const UpdateResource = () => {
 
                 <div className="mb-2 my-3">
                     <label htmlFor="members" >
-                        Description of Resource: 
+                        Description: 
                         <span className={validDescription ? 'valid text-success' : 'd-none'}>
                             <FontAwesomeIcon icon={faCheck} />
                         </span>
@@ -314,6 +288,32 @@ const UpdateResource = () => {
                     </p>
                 </div>
 
+                <div className="mb-2">
+                    <label htmlFor="teamID" >
+                        Date of Creation:
+                    </label>
+                    <input
+                        type="date"
+                        className="form-control mb-2"
+                        id='date'
+                        value={objectID.date_created}
+                        readOnly
+                    />
+                </div>
+
+                <div className="mb-2">
+                    <label htmlFor="teamID" >
+                        Date of Updation:
+                    </label>
+                    <input
+                        type="date"
+                        className="form-control mb-2"
+                        id='date'
+                        value={today}
+                        readOnly
+                    />
+                </div>
+                
                 <div className="d-grid">
                     <button 
                         className="btn btn-primary my-3">

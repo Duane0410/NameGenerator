@@ -89,11 +89,11 @@ function Resources () {
                 <table className='table'>
                     <thead>
                         <tr>
-                            <th className='bg-light'>Date Created</th>
-                            <th className='bg-light'>Team-ID</th>
-                            <th className='bg-light'>Assigned By</th>
-                            <th className='bg-light'>Name</th>
-                            <th className='px-5 bg-light'>Actions</th>
+                            <th className='px-3 bg-light'>Date Created</th>
+                            {/* <th className='bg-light'>Team-ID</th> */}
+                            <th className='px-3 bg-light'>Assigned By</th>
+                            <th className='px-4 bg-light'>Name</th>
+                            <th className='px-5 bg-light' >Actions</th>
                         </tr>
                     </thead>
 
@@ -104,7 +104,7 @@ function Resources () {
                                     {data.map((item, index) => 
                                         <tr key={index}>
                                             <td>{item?.date_created}</td>
-                                            <td>{item?.team_id}</td>
+                                            {/* <td>{item?.team_id}</td> */}
                                             <td>{item?.assigned_by}</td>
                                             <td>{item?.name}</td>
                                             <td>

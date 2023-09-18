@@ -53,7 +53,7 @@ const Menu = () => {
             const putColor = document.getElementById(currentUrl)
             if (putColor?.classList) putColor.classList.add('active')
 
-            if (currentUrl === '/' || currentUrl === '/settings') {
+            if (currentUrl === '/' || currentUrl === '/set-schedule') {
                 setHasSubtitle(false)
             } else {
                 setHasSubtitle(true)
@@ -87,7 +87,7 @@ const Menu = () => {
                     <div className="nav_logo"> 
                         <i className='bx bx-layer nav_logo-icon' />
                         <span className="nav_logo-name">
-                            Menu
+                        InfraNameGen
                         </span>
                     </div>
 
@@ -132,10 +132,10 @@ const Menu = () => {
                                     </span>
                                 </a>
                         )}
-                        <a onClick={() => handleClick('/settings')} id='/settings' className="nav_link">
+                        <a onClick={() => handleClick('/set-schedule')} id='/set-schedule' className="nav_link">
                             <i className='bx bx-user nav_icon' />
                             <span className="nav_name">
-                                Settings
+                             Email Schedule 
                             </span>
                         </a>
                     </div>
