@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import NameGenerate from './NameGenerate'
-import axios from 'axios'
 import CreatableSelect from 'react-select/creatable';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 const DESC_REGEX = /^([A-Z][a-zA-Z0-9-_]{1,20}([ ][a-zA-Z0-9-_\n]{0,20}){0,100})$/
 
@@ -15,6 +15,7 @@ const CreateResource = () => {
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
     const categories = searchParams.get('categories')
+    const axiosPrivate = useAxiosPrivate()
     const { auth } = useAuth() 
     const today = new Date().toISOString().split('T')[0];
 
@@ -108,7 +109,7 @@ const CreateResource = () => {
             navigate('/unauthorized')
         } else {
             try {
-                const response = await axios.post('http://localhost:3500/resources', {
+                const response = await axiosPrivate.post('/resources', {
                     "team_id": auth.teamID, 
                     "date_created": today, 
                     "assigned_by": auth.user, 
@@ -119,9 +120,6 @@ const CreateResource = () => {
                     "location": located,
                     "category": category,
                     "organization": organization
-                }, {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
                 })
                 console.log(JSON.stringify(response?.data))
                 navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`)
@@ -148,7 +146,6 @@ const CreateResource = () => {
             <form onSubmit={handleSubmit} className='mx-4'>
                 <h3 className="text-center">Create {resource}</h3>
         
-               
                 <div className='d-grid'>
                     <label htmlFor='name'>
                         Name:
@@ -178,7 +175,7 @@ const CreateResource = () => {
                 </div>
 
                 <div className="mb-2 my-3">
-                    <label htmlFor="leader" >
+                    <label htmlFor="location" >
                         Location:
                         <span className={validLocated ? 'valid text-success' : 'd-none'}>
                             <FontAwesomeIcon icon={faCheck} />
@@ -216,7 +213,7 @@ const CreateResource = () => {
                 </div>
 
                 <div className="mb-2 my-3">
-                    <label htmlFor="members" >
+                    <label htmlFor="description" >
                         Description: 
                         <span className={validDescription ? 'valid text-success' : 'd-none'}>
                             <FontAwesomeIcon icon={faCheck} />
@@ -256,7 +253,7 @@ const CreateResource = () => {
                     <CreatableSelect
                         isMulti
                         isClearable
-                        id='tag'
+                        id='tags'
                         className='form-control mb-1'
                         placeholder='Enter tags'
                         autoComplete='off'
@@ -271,18 +268,20 @@ const CreateResource = () => {
                         Tags help categorize and describe your resource.
                     </p>
                 </div>
+
                 <div className="mb-2">
-                    <label htmlFor="teamID" >
+                    <label htmlFor='date-created' >
                         Date of Creation:
                     </label>
                     <input
                         type="date"
                         className="form-control mb-2"
-                        id='date'
+                        id='date-created'
                         value={today}
                         readOnly
                     />
                 </div>
+
                 <div className="d-grid">
                     <button className="btn btn-primary my-3" disabled={!name || !validLocated || !validOrganization || !validDescription ? true : false}>
                         Create

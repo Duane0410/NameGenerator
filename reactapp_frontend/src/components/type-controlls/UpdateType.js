@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLocation, useNavigate } from 'react-router-dom'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 const TYPE_REGEX = /^([A-Z][a-z0-9]{1,14}[ ]{0,1}){1,4}$/
 const URL_REGEX = /^(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg)(\?[^\s[",><]*)?$/
 
 const UpdateType = () => {
+    const axiosPrivate = useAxiosPrivate()
     const navigate = useNavigate()
     const location = useLocation()
     const typeData = location.state
@@ -56,11 +57,8 @@ const UpdateType = () => {
         if (imageURL === '') setImageURL(typeData.image_url)
 
         try {
-            const response = await axios.put('http://localhost:3500/resource-types', {
+            const response = await axiosPrivate.put('/resource-types', {
                 "_id": typeData._id, "resource_type": resourceType, "image_url": imageURL
-            }, {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
             })
             console.log(JSON.stringify(response?.data))
             navigate(`/`)

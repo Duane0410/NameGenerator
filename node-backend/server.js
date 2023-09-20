@@ -31,7 +31,7 @@ app.use('/login', require('./routes/login'));
 app.use('/refresh', require('./routes/refresh'));
 app.use('/logout', require('./routes/logout'));
 
-// app.use(verifyJWT);
+app.use(verifyJWT);
 app.use('/schedule', require('./routes/schedule'))
 app.use('/names', require('./routes/api/names'));
 app.use('/teams', require('./routes/api/teams'));

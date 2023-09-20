@@ -7,14 +7,12 @@ function useOpenAI(category='Stone') {
     {
         message:"Hello",
         sender: "Chatgpt"
-    }
-    ])
+    }])
     
-    const handle= async (message) => {
+    const handle = async (message) => {
         const newMessage = {
             message : message,
             sender:"user"
-            //   direction: "outgoing"
         }
         const newMessages = [...messages, newMessage];
         setMessages(newMessages);
@@ -24,7 +22,7 @@ function useOpenAI(category='Stone') {
     async function process(chat) {
         let apim = chat.map((mesobj) => {
             let role = "";
-            if (mesobj.sender === "chatgpt"){
+            if (mesobj.sender === "chatgpt") {
                 role = "assistant"
             } else {
                 role = "user"
@@ -33,8 +31,8 @@ function useOpenAI(category='Stone') {
         });
 
         const systemMessage = {
-        role: "system",
-        content: "keep it as simple as possible"
+            role: "system",
+            content: "keep it as simple as possible"
         }
 
         const apireq = {
@@ -61,8 +59,7 @@ function useOpenAI(category='Stone') {
                 [...chat, {
                     message: data.choices[0].message.content,
                     sender: "chatgpt"
-                }]
-                )
+                }])
             } else {
                 console.log('Rate limit error');
             }
@@ -73,9 +70,9 @@ function useOpenAI(category='Stone') {
    }
 
     useEffect(() => {
-        handle(`list first 100 ${category} names sorting according to dictionary alphabetically make sure that it is an array of strings the strings should be in "", do not give any extra text nor index for the list also put the string in box brackets([]). Names should not refer to any human or real-world entiy/event to avoid any controveries (E.g. hitler) and should begin with a capital alphabet`)
+        const prompt = `List 100 ${category} names sorting according to dictionary alphabetically make sure that it is an array of strings the strings should be in "", do not give any extra text nor index for the list also put the string in box brackets([]). Names should not refer to any human or real-world entiy/event to avoid any controveries (E.g. hitler) and should begin with a capital alphabet`
+        handle(prompt)
     }, [category])
-   
    
     return messages
 }

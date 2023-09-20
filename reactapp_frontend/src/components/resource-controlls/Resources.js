@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import useAxiosPrivate from '../../hooks/useAxiosPrivate'
-import axios from 'axios'
-import useAuth from '../../hooks/useAuth'
-
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import useAuth from '../../hooks/useAuth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function Resources () {
     const { auth } = useAuth()
@@ -57,7 +57,7 @@ function Resources () {
             if (window.confirm("This resource will be permanently deleted. \nClick OK to confirm "))
             { 
             try {
-                const response = await axios.delete(`http://localhost:3500/resources/${ID}`)
+                const response = await axiosPrivate.delete(`/resources/${ID}`)
                 console.log(response)
                 window.location.reload()
                 console.log('Trial')
@@ -84,8 +84,8 @@ function Resources () {
                     to={`/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
                     // to = {'/'}
                     className='btn btn-success position-relative mb-1' 
-                    style={{left: '80%', width: '20%'}}
-                >Add +</Link>
+                    style={{left: '85%', width: '15%'}}
+                >Add <FontAwesomeIcon icon={faPlus} /></Link>
                 <table className='table'>
                     <thead>
                         <tr>

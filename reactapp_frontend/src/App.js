@@ -31,41 +31,39 @@ const ROLES = {
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<Layout />}>
-        
-        <Route path='/login' element={<Login/>} />
-        <Route path='/register' element={<Register/>} />
+        <Route path='/' element={<Layout />}>
+            <Route path='/login' element={<Login/>} />
+            <Route path='/register' element={<Register/>} />
 
-        <Route path='/' element={<Menu />} >
-            <Route path='/unauthorized' element={<Unauthorized />} />
+            <Route path='/' element={<Menu />} >
+                <Route path='/unauthorized' element={<Unauthorized />} />
 
-            <Route element={<PersistLogin />}>
-                <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/resources' element={<Resources />} />
-                    <Route path='/view' element={<ViewCard />} />
-                    <Route path='/set-schedule' element={<ConfigSettings />} />
-                    
-                    <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
-                        <Route path='/create' element={<CreateResource />} />
-                        <Route path='/update' element={<UpdateResource />} />
-                        <Route path='/create-type' element={<CreateType />} />
-                        <Route path='/update-type' element={<UpdateType />} />
+                <Route element={<PersistLogin />}>
+                    <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/resources' element={<Resources />} />
+                        <Route path='/view' element={<ViewCard />} />
+                        <Route path='/set-schedule' element={<ConfigSettings />} />
+                        
+                        <Route element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.Leader, ROLES.Member]} />}>
+                            <Route path='/create' element={<CreateResource />} />
+                            <Route path='/update' element={<UpdateResource />} />
+                            <Route path='/create-type' element={<CreateType />} />
+                            <Route path='/update-type' element={<UpdateType />} />
+                        </Route>
                     </Route>
                 </Route>
-            
-            </Route>
 
-            <Route element={<PersistLogin />}>
-                <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-                    <Route path='/teams' element={<Teams />} />
-                    <Route path='/team-controll' element={<CreateUpdateTeam />} />
+                <Route element={<PersistLogin />}>
+                    <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+                        <Route path='/teams' element={<Teams />} />
+                        <Route path='/team-controll' element={<CreateUpdateTeam />} />
+                    </Route>
                 </Route>
             </Route>
-        </Route>
 
-        <Route path='*' element={<NoPage />} />
-      </Route>
+            <Route path='*' element={<NoPage />} />
+        </Route>
     </Routes>
   );
 }

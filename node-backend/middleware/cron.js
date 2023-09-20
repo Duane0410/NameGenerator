@@ -49,11 +49,11 @@ const sendEmails = async (emailObject, timeInterval) => {
     }
 };
 
-const sendEmailsToUsers = async (interval, shouldSend) => {
+const sendEmailsToUsers = async (interval) => {
     try {
         const usersData = await User.find();
 
-        if (usersData.length > 0 && shouldSend) {
+        if (usersData.length > 0) {
             const emails = [];
             
             usersData.forEach(user => {
@@ -80,7 +80,7 @@ const schedules = [
 const scheduleTasks = () => {
     schedules.forEach(schedule => {
         cron.schedule(schedule.cronPattern, () => {
-            sendEmailsToUsers(schedule.interval, true);
+            sendEmailsToUsers(schedule.interval);
         });
     });
 };

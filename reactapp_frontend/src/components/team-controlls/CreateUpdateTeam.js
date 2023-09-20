@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLocation, useNavigate } from 'react-router-dom'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 const ID_REGEX = /^[1-9][0-9]{0,2}$/
 const NAME_REGEX = /^[A-Z][a-z]{3,7}([ ][A-Z][a-z]{0,10}){0,1}$/
@@ -12,6 +12,7 @@ const CreateUpdateTeam = () => {
     const team = location.state
     const searchParams = new URLSearchParams(location.search)
     const operationType = searchParams.get('action')
+    const axiosPrivate = useAxiosPrivate()
 
     const inputRef = useRef()
     const errRef = useRef()
@@ -89,8 +90,7 @@ const CreateUpdateTeam = () => {
     const hanldeMemberValid = () => {
         if (isNew) {
             let count = 0
-            validMembers.map((valid, index) => {
-                // console.log(`Valid ${index} - `, valid)
+            validMembers.map((valid) => {
                 if (valid) {
                     count = count + 1
                 } else {
@@ -139,11 +139,8 @@ const CreateUpdateTeam = () => {
             setMembers(updatedMemberNames)
 
             try {
-                const response = await axios.put('http://localhost:3500/teams', {
+                const response = await axiosPrivate.put('/teams', {
                     "team_id": teamID, "team_leader": leader, "team_members": members
-                }, {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
                 })
                 console.log(JSON.stringify(response?.data))
                 navigate(`/teams`)
@@ -161,11 +158,8 @@ const CreateUpdateTeam = () => {
 
         } else {
             try {
-                const response = await axios.post('http://localhost:3500/teams', {
+                const response = await axiosPrivate.post('/teams', {
                     "team_id": teamID, "team_leader": leader, "team_members": members
-                }, {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
                 })
                 console.log(JSON.stringify(response?.data))
                 navigate(`/teams`)

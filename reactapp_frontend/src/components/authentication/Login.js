@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import axios from "../../api/axios"
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const LOGIN_URL = '/login'
 
 function Login() {
     const { auth, setAuth } = useAuth()
+
+    const axiosPrivate = useAxiosPrivate()
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -32,12 +34,8 @@ function Login() {
         e.preventDefault()
 
         try {
-            const response = await axios.post(LOGIN_URL, 
-                JSON.stringify({ "user": user, "pass": pass }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
+            const response = await axiosPrivate.post(LOGIN_URL, 
+                JSON.stringify({ "user": user, "pass": pass })
             )
             console.log(JSON.stringify(response?.data))
 
@@ -76,12 +74,14 @@ function Login() {
                 </p>
                 <form onSubmit={handleSubmit}>
                     <h3 className="text-center">Login</h3>
+                    
                     <div className="mb-2">
                         <label htmlFor="username" >Username: </label>
                         <input 
                             type="text"
                             placeholder=" Enter username"
                             className="form-control"
+                            id="username"
                             ref={userRef}
                             autoComplete="off"
                             onChange={e => setUser(e.target.value)}
@@ -95,6 +95,7 @@ function Login() {
                             type="password" 
                             placeholder=" Enter password" 
                             className="form-control"
+                            id="password"
                             onChange={e => setPass(e.target.value)}
                             required
                         /> 

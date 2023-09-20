@@ -1,15 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useNavigate } from 'react-router-dom'
 import CreatableSelect from 'react-select/creatable';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 const CATEGORY_REGEX = /^[A-Z][a-z]{2,10}([ ][A-Z][a-z]{0,10}){0,1}$/
 const TYPE_REGEX = /^([A-Z][a-z0-9]{1,14}[ ]{0,1}){1,4}$/
 const URL_REGEX = /^(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg)(\?[^\s[",><]*)?$/
 
 const CreateType = () => {
+
+    const axiosPrivate = useAxiosPrivate()
+
     const inputRef = useRef()
     const errRef = useRef()
 
@@ -91,11 +94,8 @@ const CreateType = () => {
         e.preventDefault()
         
         try {
-            const response = await axios.post('http://localhost:3500/resource-types', {
+            const response = await axiosPrivate.post('/resource-types', {
                 "resource_type": resourceType, "name_categories": nameCategory , "image_url": imageURL
-            }, {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
             })
             console.log(JSON.stringify(response?.data))
             navigate(`/`)

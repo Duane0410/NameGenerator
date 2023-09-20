@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import NameGenerate from './NameGenerate'
-import axios from 'axios'
 import CreatableSelect from 'react-select/creatable';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 const DESC_REGEX = /^([A-Z][a-zA-Z0-9-_]{1,20}([ ][a-zA-Z0-9-_\n]{0,20}){0,100})$/
 
@@ -15,6 +15,7 @@ const UpdateResource = () => {
     const searchParams = new URLSearchParams(location.search)
     const resource = searchParams.get('resource')
     const categories = searchParams.get('categories')
+    const axiosPrivate = useAxiosPrivate()
     const today = new Date().toISOString().split('T')[0];
     
     const inputRef = useRef()
@@ -76,7 +77,7 @@ const UpdateResource = () => {
 
     const getCategory = async () => {
         try {
-            const response = await axios.get(`http://localhost:3500/names`)
+            const response = await axiosPrivate.get(`/names`)
             console.log(response.data)
             response.data.map(item => {
                 if (item.name === name) {
@@ -122,7 +123,7 @@ const UpdateResource = () => {
         console.log("organizaion", organization)
 
         try {
-            const response = await axios.put('http://localhost:3500/resources', {
+            const response = await axiosPrivate.put('/resources', {
                 "_id": objectID._id,
                 "team_id": objectID.team_id, 
                 "date_updated": today, 
@@ -134,9 +135,6 @@ const UpdateResource = () => {
                 "location": locate,
                 "category": category,
                 "organization":organization
-            }, {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
             })
             console.log(JSON.stringify(response?.data))
             navigate(`/resources?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`)
@@ -198,7 +196,7 @@ const UpdateResource = () => {
                 </div>
 
                 <div className="mb-2 my-3">
-                    <label htmlFor="leader" >
+                    <label htmlFor="location" >
                         Location:
                     </label>
                     <input
@@ -217,7 +215,7 @@ const UpdateResource = () => {
                 </div>
 
                 <div className="mb-2 my-3">
-                    <label htmlFor="members" >
+                    <label htmlFor="description" >
                         Description: 
                         <span className={validDescription ? 'valid text-success' : 'd-none'}>
                             <FontAwesomeIcon icon={faCheck} />
@@ -229,7 +227,7 @@ const UpdateResource = () => {
                     <textarea
                         type="text"
                         className="form-control mb-2"
-                        id='members'
+                        id='description'
                         value={objectID.description}
                         disabled
                     />
@@ -272,7 +270,7 @@ const UpdateResource = () => {
                     <CreatableSelect
                         isMulti
                         isClearable
-                        id='tag'
+                        id='tags'
                         className='form-control mb-1'
                         placeholder='Enter tags'
                         autoComplete='off'
@@ -289,26 +287,26 @@ const UpdateResource = () => {
                 </div>
 
                 <div className="mb-2">
-                    <label htmlFor="teamID" >
+                    <label htmlFor="date-created" >
                         Date of Creation:
                     </label>
                     <input
                         type="date"
                         className="form-control mb-2"
-                        id='date'
+                        id='date-created'
                         value={objectID.date_created}
                         readOnly
                     />
                 </div>
 
                 <div className="mb-2">
-                    <label htmlFor="teamID" >
+                    <label htmlFor="date-updated" >
                         Date of Updation:
                     </label>
                     <input
                         type="date"
                         className="form-control mb-2"
-                        id='date'
+                        id='date-updated'
                         value={today}
                         readOnly
                     />

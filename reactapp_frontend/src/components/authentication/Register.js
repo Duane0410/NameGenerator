@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link, useNavigate } from "react-router-dom";
-import axios from "../../api/axios"
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const NAME_REGEX = /^[A-Z][a-z]{3,7}([ ][A-Z][a-z]{0,10}){0,1}$/
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
@@ -12,7 +12,7 @@ const EMAIL_REGEX =/^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/
 const REGISTER_URL = '/register'
 
 function Register() {
-
+    const axiosPrivate = useAxiosPrivate()
     const navigate = useNavigate()
     const nameRef = useRef()
     const errRef = useRef()
@@ -77,12 +77,8 @@ function Register() {
 
 
         try {
-            const response = await axios.post(REGISTER_URL, 
-                JSON.stringify({ "name": name, "user": user, "pass": pass, "email":email }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
+            const response = await axiosPrivate.post(REGISTER_URL, 
+                JSON.stringify({ "name": name, "user": user, "pass": pass, "email":email })
             )
             console.log(response.data)
             console.log(response.accessToken)
@@ -113,6 +109,7 @@ function Register() {
                 </p>
                 <form onSubmit={handleSubmit}>
                     <h3 className="text-center">Register</h3>
+                    
                     <div className="mb-2">
                         <label htmlFor="name" >
                             Name: 

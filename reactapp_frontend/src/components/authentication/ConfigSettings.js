@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 const ConfigSettings = () => {
     const { auth } = useAuth()
+    const axiosPrivate = useAxiosPrivate()
     const [emailOptions, setEmailOptions] = useState({})
 
     const initialCheckBoxes = [
@@ -18,7 +19,7 @@ const ConfigSettings = () => {
     useEffect (() => {
         const getSchedule = async () => {
             try {
-                const response = await axios.get(`http://localhost:3500/schedule/${auth.user}`)
+                const response = await axiosPrivate.get(`/schedule/${auth.user}`)
                 console.log('response - ', response.data)
                 setEmailOptions(response.data)
             }
@@ -45,15 +46,12 @@ const ConfigSettings = () => {
         e.preventDefault()
 
         try {
-            const response = await axios.put(`http://localhost:3500/schedule`, {
+            const response = await axiosPrivate.put(`/schedule`, {
                 "user": auth.user,
                 "weekly": initialCheckBoxes[0].state, 
                 "monthly": initialCheckBoxes[1].state, 
                 "quarterly": initialCheckBoxes[2].state, 
                 "yearly": initialCheckBoxes[3].state
-            }, {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
             })
             setCheckBoxes(initialCheckBoxes)
             console.log(response)
@@ -73,15 +71,12 @@ const ConfigSettings = () => {
         console.log('yearly - ', checkBoxes[3].state)
 
         try {
-            const response = await axios.put(`http://localhost:3500/schedule`, {
+            const response = await axiosPrivate.put(`/schedule`, {
                 "user": auth.user,
                 "weekly": checkBoxes[0].state, 
                 "monthly": checkBoxes[1].state, 
                 "quarterly": checkBoxes[2].state, 
                 "yearly": checkBoxes[3].state
-            }, {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true
             })
             console.log(response)
             alert('Saved Condiguration!')

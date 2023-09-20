@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import useAxiosPrivate from '../hooks/useAxiosPrivate'
 
 const ViewCard = () => {
 
+    const axiosPrivate = useAxiosPrivate()
     const navigate = useNavigate()
     const location = useLocation()
     const ID = location.state
@@ -25,14 +26,17 @@ const ViewCard = () => {
     }, [])
 
     useEffect(() => {
-        axios.get(`http://localhost:3500/${dataToView}/` + ID)
-            .then(response => {
+        const getData = async () => {
+            try {
+                const response = await axiosPrivate.get(`${dataToView}/${ID}`)
                 setData(response.data)
                 console.log(response.data)
-            })
-            .catch(error => {
+            } catch (error) {
                 console.log(error)
-            })
+            }
+        }
+
+        getData()
     }, [ID])
 
   return (

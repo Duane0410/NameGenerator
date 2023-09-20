@@ -1,97 +1,131 @@
 # Infrastructure Resource Name Generator
 
-## Target Users:
-IT Team
+## Target Users
 
-## Synopsis:
-The IT team when tasked with creating a new infrastructure resource, such as, a VM, S3 bucket, database server instance, etc, needs to provide a unique name for that resource in the client account where the resource is being created. Traditionally, the resouce names are picked from a pre-decided list of names such as:
-1. Names of planets and other celestial bodies (E.g. titan)
-2. Names of Greek/Roman gods
-3. Rivers or other geographical locations (E.g. talpona)
+- IT Team
 
-Eventually, we will run out of names since each infra resource created has to be named uniquely across environments. Also, with CCI employees being from different parts of the country/world, pronounciation of local geographical names may not be something that they are familiar with.
+## Synopsis
 
-## Solution:
-This needs to be application. Not a command line tool. It needs to remember the past resource names, hence DB also will be required.
+When the IT team is tasked with creating new infrastructure resources, such as VMs, S3 buckets, database 
+server instances, etc., they often need to provide unique names for these resources within the client's 
+account. Traditionally, resource names are chosen from predefined lists, such as the names of planets, 
+Greek/Roman gods, rivers, or other geographical locations. However, this approach has limitations as it 
+can lead to name exhaustion and may not always be culturally appropriate.
 
-## Optional Features:
-1. Names should not refer to any human or real-world entiy/event to avoid any controveries (E.g. hitler)
-2. Store the names in a central repository (database) to enable the tool to check if the name had already been generated.
-3. Allow to flag a generated name as "inappropriate" so that it does not get generated again.
-4. Use 3rd party language analysis tools to check and validate the name to ensure it is not inappropriate.
-5. Provide a user interface to perform CRUD operations on the name repository.
+To address this challenge, the Infrastructure Resource Name Generator provides a solution that allows for 
+the dynamic generation of unique and culturally-neutral resource names. It eliminates the need for predefined 
+lists and incorporates features to ensure that generated names are both unique and suitable for use in 
+diverse environments.
 
-## Implementation:
-The solution could be implemented in a variety of ways. Some suggestions:
-1. Simple method: Hard-code common syllables in the name generation script and randomly generate names.
-2. Advanced method: Build a machine learning model that consumes the words from the English dictionary and generates the names based on common patterns in the English language
+## Solution
 
+The Infrastructure Resource Name Generator is an application, not a command-line tool, designed to remember past resource names by leveraging a database. Its main features include:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. **Dynamic Name Generation**: The application generates resource names on-the-fly, eliminating the need for predefined lists.
 
-## Available Scripts
+2. **Uniqueness Check**: The tool checks the central repository (database) to ensure that the generated name has not been used before, preventing naming conflicts.
 
-In the project directory, you can run:
+3. **Language Analysis**: The application uses third-party language analysis tools to validate generated names, ensuring they are not inappropriate or offensive.
 
-### `npm start`
+4. **Email Scheduling**: The Infrastructure Resource Name Generator also offers a powerful email scheduling feature. Users can schedule automated emails on a weekly, monthly, quarterly, or yearly basis, depending on their preferences. These emails provide important updates and summaries of resources stored in the database, enhancing communication within the IT team.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+5. **JWT Authentication**: To enhance security and restrict access to authorized users, the application incorporates JWT (JSON Web Token) authentication. This ensures that only authenticated users can access and interact with the application's features, safeguarding sensitive data and resources.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+6. **User Interface**: It provides a user-friendly interface for performing CRUD (Create, Read, Update, Delete) operations on the name repository, making it easy to manage generated names, email schedules, and user access through JWT authentication.
 
-### `npm test`
+## Implementation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The Infrastructure Resource Name Generator can be implemented in various ways. Some suggestions include:
 
-### `npm run build`
+1. **Simple Method**: Implement a script that uses common syllables to randomly generate names.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Advanced Method**: Develop a machine learning model that generates names based on patterns in the English language, using an English dictionary as input.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Technologies Used
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Frontend: React
+- Backend: Node.js with Express
+- Database: MongoDB
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### To run the application locally, follow these steps:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the repository to your local machine.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Navigate to the project directory using the terminal.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Set up the backend and frontend development environment for the application.
 
-## Learn More
+### To set up the backend development environment, follow these steps:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Open a terminal window and navigate to the project directory then run the command:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   cd node-backend
+   ```
 
-### Code Splitting
+2. Install the required dependencies for the backend by running:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   ```bash
+   npm install
+   ```
+      
+3. Make sure to set up the necessary environment variables in a .env file for the backend. The required environment variables are:
 
-### Analyzing the Bundle Size
+- `ACCESS_TOKEN_SECRET` (used for the access token)
+- `REFRESH_TOKEN_SECRET` (used for the refresh token)
+- `DATABASE_URL` (used to connect to the MongoDB server)
+- `EMAIL_USER` (email address for sending scheduled emails)
+- `EMAIL_PASSWORD` (app password for the email account to allow access)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+4. Start the backend server in development mode with:
 
-### Making a Progressive Web App
+   ```bash
+   npm run dev
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### To set up the frontend development environment, follow these steps:
 
-### Advanced Configuration
+1. Open a new terminal window and navigate to the project directory then run the command:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+   ```bash
+   cd reactapp_frontend
+   ```
+
+2. Install the required dependencies for the frontend by running:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the frontend application in development mode:
+
+   ```bash
+   npm start
+   ```
+
+4. Open `http://localhost:3000` in your web browser to access the application.
+
+### Available Scripts
+
+In the project directory, you can use the following npm scripts:
+
+- `npm start`: Runs the frontend application in development mode.
+- `npm test`: Launches the test runner in interactive watch mode for the frontend.
+- `npm run build`: Builds the frontend application for production to the build folder.
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+To deploy the frontend application, refer to the [Create React App documentation](https://facebook.github.io/create-react-app/docs/deployment) for detailed instructions.
 
-### `npm run build` fails to minify
+### Learn More
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For more information on React and its features, check out the [React documentation](https://reactjs.org/docs).
+
+For advanced configurations, code splitting, bundle size analysis, and other topics, refer to the appropriate sections in the [Create React App documentation](https://facebook.github.io/create-react-app/docs).
+
+### Troubleshooting
+
+If you encounter issues with building the frontend application, refer to the troubleshooting section in the 
+[Create React App documentation](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify).

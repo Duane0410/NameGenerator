@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useLogout from '../hooks/useLogout';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import '../static/menu.css';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
@@ -11,31 +11,28 @@ const Menu = () => {
     const location = useLocation();
     const logout = useLogout();
     const currentUrl = location.pathname;
-    const fullUrl = window.location.href
-    const axiosPrivate = useAxiosPrivate()
+    const fullUrl = window.location.href;
+    const axiosPrivate = useAxiosPrivate();
 
-    const [isHomeDropdownOpen, setIsHomeDropdownOpen] = useState(false);
+    const [isHomeDropdownOpen, setIsHomeDropdownOpen] = useState(false)
     const [data, setData] = useState()
-
     const [homeDropdownItems, setHomeDropdownItems] = useState([
         { label: 'Option 1', path: '/teams' },
-        { label: 'Option 2', path: '/team-controll' },
+        { label: 'Option 2', path: '/team-controll' }
     ])
 
-    const handleClick = (address) => {
-        navigate(`${address}`);
-        if (address === '/' || address === '/set-schedule') {
-            setIsHomeDropdownOpen(false)
-            return
-        }
-        window.location.reload();
+    const needsReload = '/resources'
 
+    const handleClick = (address) => {
+        setIsHomeDropdownOpen(false);
+        navigate(`${address}`);
+        if (currentUrl === needsReload && address.includes(needsReload)) window.location.reload()
     };
 
     const getQueryParameter = (url, parameterName) => {
         const queryParams = new URLSearchParams(new URL(url).search);
         return queryParams.get(parameterName);
-    }
+    };
 
     const signOut = async () => {
         await logout();
@@ -43,48 +40,44 @@ const Menu = () => {
     };
 
     useEffect(() => {
-
-        let isMounted = true
-        const controller = new AbortController()
+        let isMounted = true;
+        const controller = new AbortController();
 
         const getData = async () => {
             try {
                 const response = await axiosPrivate.get(`/resource-types`, {
-                    signal: controller.signal
-                })
-                console.log(response.data)
-                isMounted && setData(response.data)
+                    signal: controller.signal,
+                });
+                console.log(response.data);
+                isMounted && setData(response.data);
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
-        }
+        };
 
-        getData()
-
+        getData();
 
         return () => {
-            isMounted = false
-            controller.abort()
-        }
-    }, [])
+            isMounted = false;
+            controller.abort();
+        };
+    }, []);
 
     useEffect(() => {
-        const arrayDrop = []
+        const arrayDrop = [];
         if (data) {
-            data.map(item => {
-                arrayDrop.push({ label: `${item.resource_type}`, path: `/resources?resource=${encodeURIComponent(item.resource_type)}&categories=${encodeURIComponent(item.name_categories)}`})
-                if (getQueryParameter(fullUrl, 'resource') === item.resource_type) setIsHomeDropdownOpen(true)
-            })
+            data.forEach((item) => {
+                arrayDrop.push({ label: `${item.resource_type}`, path: `/resources?resource=${encodeURIComponent(item.resource_type)}&categories=${encodeURIComponent(item.name_categories)}` });
+                if (getQueryParameter(fullUrl, 'resource') === item.resource_type) setIsHomeDropdownOpen(true);
+            });
+            setHomeDropdownItems(arrayDrop);
         }
-        setHomeDropdownItems(arrayDrop)
-
-        
-    }, [data])
+    }, [data]);
 
     useEffect(() => {
         const linkColor = document.querySelectorAll('.nav_link');
-        console.log('Current - ', currentUrl)
-        console.log('Full Current - ', fullUrl)
+        console.log('Current - ', currentUrl);
+        console.log('Full Current - ', fullUrl);
 
         const removeColor = () => {
             if (linkColor) {
@@ -120,7 +113,7 @@ const Menu = () => {
                             <div className="nav_link" onClick={toggleHomeDropdown}>
                                 <i className={`bx bx-grid-alt nav_icon ${isHomeDropdownOpen ? 'rotate-icon' : ''}`} />
                                 <span className={`nav_name ${(isHomeDropdownOpen) ? 'font-weight-bold' : ''}`}>
-                                    Resources <FontAwesomeIcon icon={faAngleDown} />
+                                    Resources {!isHomeDropdownOpen ? <FontAwesomeIcon icon={faChevronDown} />: <FontAwesomeIcon icon={faChevronUp} />}
                                 </span>
                             </div>
 
@@ -148,7 +141,7 @@ const Menu = () => {
                             </span>
                         </a>
                     </div>
-                    <a className="nav_link btn btn-info text-light mx-4" onClick={signOut}>
+                    <a className="nav_link btn btn-info text-light mx-4 w-75" onClick={signOut}>
                         <span><FontAwesomeIcon icon={faRightFromBracket} /> Sign Out</span>
                     </a>
                 </nav>

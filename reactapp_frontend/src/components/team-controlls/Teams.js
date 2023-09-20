@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
-import axios from 'axios'
-import useAuth from '../../hooks/useAuth'
-
 
 function Teams () {
-
-    const { auth } = useAuth()
 
     const [data, setData] = useState()
     const axiosPrivate = useAxiosPrivate()
@@ -41,7 +36,7 @@ function Teams () {
 
     const handleDelete = async (ID) => {
         try {
-            const response = await axios.delete(`http://localhost:3500/teams/${ID}`)
+            const response = await axiosPrivate.delete(`/teams/${ID}`)
             console.log(response)
             alert(`Deleted team with team ID ${ID}`)
             window.location.reload()
@@ -72,10 +67,12 @@ function Teams () {
                 >Add +</Link>
                 <table className='table'>
                     <thead>
-                        <th>Team-ID</th>
-                        <th className='px-4'>Leader</th>
-                        <th>Members</th>
-                        <th className='px-4'>Actions</th>
+                        <tr>
+                            <th className='px-3 bg-light'>Team-ID</th>
+                            <th className='px-4 bg-light'>Leader</th>
+                            <th className='px-3 bg-light'>Members</th>
+                            <th className='px-4 bg-light'>Actions</th>
+                        </tr>
                     </thead>
 
                     {
@@ -108,7 +105,11 @@ function Teams () {
                                         </tr>
                                     )}
                                 </tbody>
-                            ) : <p>No Data</p>
+                            ) : <tbody>
+                                    <tr>
+                                        <td>No Data</td>
+                                    </tr>
+                                </tbody>
                     }
                 </table>
             </div>

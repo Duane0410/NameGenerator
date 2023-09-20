@@ -61,10 +61,10 @@ table {
     border-collapse: collapse;
     margin-bottom: 20px;
     /* Add other styles as needed */
-  }
+}
   
-  /* Style table headers (th) */
-  th {
+/* Style table headers (th) */
+th {
     background-color: #f2f2f2;
     font-weight: bold;
     text-align: left;
@@ -72,50 +72,48 @@ table {
     border: 1px solid #ddd;
     text-align: center;
     /* Add other styles as needed */
-  }
+}
   
-  /* Style table data cells (td) */
-  td {
+/* Style table data cells (td) */
+td {
     padding: 8px;
     border: 1px solid #ddd;
     /* Add other styles as needed */
-  }
+}
   
-  .tbl{
+.tbl{
     display: flex;
     margin-top: 20px;
-  }
+}
   
-  /* Highlight rows on hover */
-  tr:hover {
+/* Highlight rows on hover */
+tr:hover {
     background-color: #ddd;
-  }
+}
   
-  /* Add borders to the table */
-  table, th, td {
+/* Add borders to the table */
+table, th, td {
     border: 1px solid #ddd;
-  }
+}
   
-  /* Center text in table cells */
-  td, th {
+/* Center text in table cells */
+td, th {
     text-align: center;
-  }
+}
   
   /* Add spacing between table cells */
-  table {
+table {
     border-spacing: 0;
     /* Adjust the spacing value as needed */
-  }
+}
   
-  .generate{
+.generate{
     justify-content: center;
     text-align: center;
     /* border: #302a8c solid 2px; */
     margin: 50% 30% 100px;
-  }
+}
 
-  b {
+b {
     padding: 10px;
-  }
-
-  
+}
