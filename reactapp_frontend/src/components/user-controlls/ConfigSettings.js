@@ -55,7 +55,7 @@ const ConfigSettings = () => {
             })
             setCheckBoxes(initialCheckBoxes)
             console.log(response)
-            alert('Reset Condiguration!')
+            alert('Reset Configuration!')
         } catch (error) {
             console.log(error)
         }
@@ -79,7 +79,7 @@ const ConfigSettings = () => {
                 "yearly": checkBoxes[3].state
             })
             console.log(response)
-            alert('Saved Condiguration!')
+            alert('Saved Configuration!')
         } catch (error) {
             console.log(error)
         }

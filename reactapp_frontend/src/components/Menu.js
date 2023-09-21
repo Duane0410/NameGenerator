@@ -108,8 +108,8 @@ const Menu = () => {
                     <div>
                         <a onClick={() => handleClick('/')} className="nav_logo nav_link">
                             <i className='bx bx-layer nav_logo-icon' /> 
-                            <span className="nav_logo-name">
-                                InfraNameGen
+                            <span className="nav_logo-name fs-4">
+                            Infrastructure<br/>Resource<br/>Name Generator
                             </span>
                         </a>
 
