@@ -14,7 +14,7 @@
 }
 
 .nav-space {
-    --nav-width: 250px;
+    --nav-width: 18%;
     --header-height: 3rem;
 }
 
@@ -32,8 +32,8 @@ a {
 
 .content {
     position: relative;
-    left: 200px;
-    width: 80%;
+    left: 15%;
+    width: 82%;
 }
 
 .header {
@@ -108,9 +108,14 @@ a {
 }
 
 .nav_logo-name {
+    width: 200px;
     color: var(--white-color);
     font-weight: 700;
     margin-left: 0rem;
+    font-size: 120%;
+    overflow: hidden;
+    white-space: wrap;
+    text-overflow: ellipsis;
 }
 
 .nav_link {

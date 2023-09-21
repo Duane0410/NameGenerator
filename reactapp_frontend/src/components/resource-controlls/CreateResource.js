@@ -8,7 +8,7 @@ import NameGenerate from './NameGenerate'
 import CreatableSelect from 'react-select/creatable';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
-const DESC_REGEX = /^([A-Z][a-zA-Z0-9-_,.()]{1,50}([ ][a-zA-Z0-9-_().\n,]{0,50}){0,100})$/
+const DESC_REGEX = /^[A-Z][a-zA-Z]*(.|\s)*$/
 
 const CreateResource = () => {
     const location = useLocation()

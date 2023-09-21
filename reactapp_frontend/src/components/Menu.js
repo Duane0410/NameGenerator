@@ -95,6 +95,13 @@ const Menu = () => {
             const putColor = document.getElementById(currentUrl);
             if (putColor?.classList) putColor.classList.add('active');
         }
+
+        if (['/resources', '/create', '/update'].includes(currentUrl)) {
+            document.getElementById('resource').classList.add('text-white')
+            setIsHomeDropdownOpen(true)
+        } else {
+            document.getElementById('resource').classList.remove('text-white')
+        }
     }, [currentUrl]);
 
     const toggleHomeDropdown = () => {
@@ -108,15 +115,15 @@ const Menu = () => {
                     <div>
                         <a onClick={() => handleClick('/')} className="nav_logo nav_link">
                             <i className='bx bx-layer nav_logo-icon' /> 
-                            <span className="nav_logo-name fs-4">
-                            Infrastructure<br/>Resource<br/>Name Generator
+                            <span className="nav_logo-name">
+                                Infrastructure Resource Name Generator
                             </span>
                         </a>
 
                         <div className="nav_list">
                             <div className="nav_link" onClick={toggleHomeDropdown}>
                                 <i className={`bx bx-grid-alt nav_icon ${isHomeDropdownOpen ? 'rotate-icon' : ''}`} />
-                                <span className={`nav_name ${(isHomeDropdownOpen) ? 'font-weight-bold' : ''}`}>
+                                <span id='resource' className='nav_name'>
                                     Resources {!isHomeDropdownOpen ? <FontAwesomeIcon icon={faChevronDown} />: <FontAwesomeIcon icon={faChevronUp} />}
                                 </span>
                             </div>
