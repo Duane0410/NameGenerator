@@ -62,6 +62,7 @@ const UpdateType = () => {
             })
             console.log(JSON.stringify(response?.data))
             navigate(`/`)
+            window.location.reload()
         } catch (error) {
             console.log('Error response - ', error)
             if (!error?.response) {

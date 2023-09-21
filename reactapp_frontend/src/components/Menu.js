@@ -21,12 +21,16 @@ const Menu = () => {
         { label: 'Option 2', path: '/team-controll' }
     ])
 
-    const needsReload = '/resources'
+    const safePages = ['/', '/set-schedule']
 
     const handleClick = (address) => {
-        setIsHomeDropdownOpen(false);
+        if (safePages.includes(currentUrl) || safePages.includes(address)) {
+            setIsHomeDropdownOpen(false);
+            navigate(`${address}`);
+            return
+        }
         navigate(`${address}`);
-        if (currentUrl === needsReload && address.includes(needsReload)) window.location.reload()
+        window.location.reload()
     };
 
     const getQueryParameter = (url, parameterName) => {
