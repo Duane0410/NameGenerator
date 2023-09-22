@@ -112,13 +112,17 @@ variables are:
     npm install
     ```
 
-3. Start the frontend application in development mode:
+3. Make sure to set up the necessary environment variables in a .env file for the frontend. The required environment variables are:
+
+- `REACT_APP_API_KEY` (used for the OpenAI token)
+
+4. Start the frontend application in development mode:
 
     ```bash
     npm start
     ```
 
-4. Open `http://localhost:3000` in your web browser to access the application.
+5. Open `http://localhost:3000` in your web browser to access the application.
 
 ### Available Scripts
 

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import process from 'process'
 
-const API_KEY = "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";
-
+const apiKey = process.env.REACT_APP_API_KEY
+console.log('api-',apiKey)
 function useOpenAI(category='Stone') {
     const [messages, setMessages]= useState([
     {
@@ -46,7 +47,7 @@ function useOpenAI(category='Stone') {
         await fetch("https://api.openai.com/v1/chat/completions", {
             method: "POST",
             headers:{
-                "Authorization": "Bearer " + API_KEY,
+                "Authorization": "Bearer " + apiKey,
                 "Content-Type" : "application/json" 
             },
             body: JSON.stringify(apireq)
