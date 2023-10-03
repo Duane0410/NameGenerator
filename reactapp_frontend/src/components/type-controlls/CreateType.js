@@ -114,7 +114,7 @@ const CreateType = () => {
     }
 
   return (
-    <div className="d-flex justify-content-center align-items-center 100-w vh-100 bg-primary ">
+    <div className="d-flex justify-content-center align-items-center 100-w vh-100">
         <div className='bg-white rounded p-5'>
             <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
                 {errMsg}
@@ -171,7 +171,7 @@ const CreateType = () => {
                         isClearable
                         options={options}
                         id='preference1'
-                        className='form-control mb-1'
+                        className='mb-1'
                         placeholder='Enter preferences'
                         autoComplete='off'
                         onChange={(newValue) => setNameSelectCategory(newValue)}

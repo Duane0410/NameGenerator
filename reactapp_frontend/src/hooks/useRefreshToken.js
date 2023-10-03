@@ -8,10 +8,8 @@ const useRefreshToken = () => {
         const response = await axios.get('/refresh', {
             withCredentials: true
         })
-        console.log('RefAuth - ', auth)
+        
         setAuth(prev => {
-            console.log('RData - ', JSON.stringify(prev))
-            console.log('RResponse - ', response.data)
             return { 
                 ...prev,
                 user: response.data.user,

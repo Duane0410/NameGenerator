@@ -1,0 +1,157 @@
+:root {
+    --lightWhite: #F1F6F9;
+    --lightWhite-rgb: 241, 246, 249;
+    --lightWhite-darker: #cddfea;
+    --lightWhite-darkest: #a9c8da;
+
+    --lightWhite-darkest-rgb: 127, 139, 159;
+
+    --backgroundBlue: #9BA4B4;
+    --backgroundBlue-rgb: 155, 164, 180;
+    --backgroundBlue-lighter: #b9c0ca;
+    --backgroundBlue-lightest: #d6dae0;
+    --backgroundBlue-darker: #7f8b9f;
+    --backgroundBlue-darkest: #657186;
+
+    --primaryBlue: #14274e;
+    --primaryBlue-rgb: 20, 39, 78;
+    --primaryBlue-darker: #091224;
+    --primaryBlue-darkest: #000000;
+
+    --secondaryBlue: #384766;
+    --secondaryBlue-rgb: 56, 71, 102;
+    --secondaryBlue-lighter: #4a5d87;
+    --secondaryBlue-lightest: #5e75a6;
+    --secondaryBlue-darker: #263045;
+    --secondaryBlue-darkest: #141924;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--secondaryBlue);
+    --bs-btn-border-color: var(--secondaryBlue);
+    --bs-btn-hover-bg: var(--secondaryBlue-lighter);
+    --bs-btn-hover-border-color: var(--secondaryBlue-lightest);
+    --bs-btn-focus-shadow-rgb: var(--secondaryBlue-rgb);
+    --bs-btn-active-bg: var(--secondaryBlue-lightest);
+    --bs-btn-active-border-color: var(--secondaryBlue-lightest);
+    --bs-btn-disabled-bg: var(--secondaryBlue);
+    --bs-btn-disabled-border-color: var(--secondaryBlue);
+}
+
+.bg-white {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--lightWhite-darkest-rgb),var(--bs-bg-opacity))!important;
+    color: var(--primaryBlue);
+}
+
+.form-control:focus {
+    color: var(--primaryBlue);
+    background-color: var(--backgroundBlue-lightest);
+    border-color: var(--backgroundBlue-lightest);
+    box-shadow: 0 0 0 0.25rem #0242a240;
+}
+
+.form-control:disabled {
+    background-color: var(--backgroundBlue-darkest);
+    border: var(--bs-border-width) solid var(--backgroundBlue-darkest);
+    opacity: 1;
+}
+
+.form-control {
+    color: var(--primaryBlue);
+    background-color: var(--backgroundBlue-lighter);
+    border: var(--bs-border-width) solid var(--backgroundBlue-lighter);
+}
+
+.input-group-text {
+    color: var(--bs-body-color);
+    background-color: var(--backgroundBlue-darkest);
+    border: var(--bs-border-width) solid var(--backgroundBlue-darkest);
+}
+
+.form-check-input {
+    --bs-form-check-bg: var(--bs-body-bg);
+    background-color: var(--lightWhite);
+    background-image: var(--bs-form-check-bg-image);
+    border: var(--bs-border-width) solid var(--lightWhite);
+}
+
+.table {
+    --bs-table-color: var(--primaryBlue);
+    --bs-table-bg: var(--backgroundBlue);
+    --bs-table-border-color: var(--bs-border-color);
+    --bs-table-striped-color: var(--primaryBlue);
+    --bs-table-active-color: var(--primaryBlue);
+    --bs-table-hover-color: var(--primaryBlue);
+    border-color: var(--backgroundBlue-darker);
+    vertical-align: middle;
+}
+
+th {
+    --bs-table-bg: var(--backgroundBlue-darkest);
+    text-align: center;
+}
+
+.card {
+    --bs-card-border-color: var(--lightWhite-darkest);
+    --bs-card-color: var(--primaryBlue);
+    --bs-card-bg: var(--lightWhite);
+    color: var(--bs-body-color);
+    background-color: var(--bs-card-bg);
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
+a {
+    color: var(--lightWhite);
+}
+
+.css-t3ipsp-control:focus-within {
+    background-color: var(--backgroundBlue-lightest);
+    border-color: var(--backgroundBlue-lightest);
+    box-shadow: 0 0 0 0.25rem #0242a240;
+}
+
+.css-1fdsijx-ValueContainer {
+    background-color: var(--backgroundBlue-lighter);
+    border-color: var(--backgroundBlue-lighter);
+}
+
+.css-1fdsijx-ValueContainer:focus-within {
+    background-color: var(--backgroundBlue-lightest);
+    border-color: var(--backgroundBlue-lightest);
+}
+
+.css-qbdosj-Input {
+    box-sizing: border-box;
+    background-color: var(--backgroundBlue-lighter);
+}
+
+.css-qbdosj-Input:focus-within {
+    box-sizing: border-box;
+    background-color: var(--backgroundBlue-lightest);
+    border-color: var(--backgroundBlue-lightest);
+}
+
+.css-3w2yfm-ValueContainer {
+    background-color: var(--backgroundBlue-lighter);
+}
+
+.css-3w2yfm-ValueContainer:focus-within {
+    background-color: var(--backgroundBlue-lightest);
+}
+
+.css-1xc3v61-indicatorContainer {
+    color: var(--primaryBlue);
+    background-color: var(--backgroundBlue-lighter);
+    border-color: var(--backgroundBlue-lighter);
+}
+
+.css-15lsz6c-indicatorContainer {
+    color: var(--primaryBlue);
+    background-color: var(--backgroundBlue-lightest);
+    border-color: var(--backgroundBlue-lightest);
+}
+
+.css-1hb7zxy-IndicatorsContainer {
+    background-color: var(--backgroundBlue-lighter);
+}

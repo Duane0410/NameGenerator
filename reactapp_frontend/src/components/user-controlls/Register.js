@@ -102,7 +102,7 @@ function Register() {
     }
 
     return(
-        <div className="d-flex justify-content-center align-items-center 100-w vh-100 bg-primary ">
+        <div className="d-flex justify-content-center align-items-center 100-w vh-100">
             <div className="p-5 rounded bg-white">
                 <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
                     {errMsg}

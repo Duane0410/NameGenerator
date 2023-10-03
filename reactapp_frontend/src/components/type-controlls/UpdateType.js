@@ -77,7 +77,7 @@ const UpdateType = () => {
     }
 
   return (
-    <div className="d-flex justify-content-center align-items-center 100-w vh-100 bg-primary ">
+    <div className="d-flex justify-content-center align-items-center 100-w vh-100">
         <div className='bg-white rounded p-5'>
             <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
                 {errMsg}

@@ -43,7 +43,7 @@ const ViewCard = () => {
     <div className='d-flex justify-content-center align-items-center vh-100'>
         {viewR
             ? 
-            <div className="w-40 vh-25 p-5 rounded bg-white my-5">
+            <div className="w-50 vh-25 p-5 rounded bg-white my-5">
                 <h1 className='mb-3'>
                     <b>Resource:</b>
                 </h1>

@@ -178,7 +178,7 @@ const CreateUpdateTeam = () => {
     }
 
   return (
-    <div className="d-flex-block justify-content-center align-items-center vh-100 bg-primary">
+    <div className="d-flex-block justify-content-center align-items-center vh-100">
         <div className='heading'>
             <button className="btn btn-dark position-absolute" onClick={goBack} style={{top: "10px", right: "20px"}}>Go back</button>
         </div>

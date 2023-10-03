@@ -138,7 +138,7 @@ const CreateResource = () => {
     }
 
    return (
-    <div className="d-flex-block justify-content-center align-items-center vh-100 bg-primary w-75" style={{"marginLeft": "15%"}}>
+    <div className="d-flex-block justify-content-center align-items-center vh-100 w-75" style={{"marginLeft": "15%"}}>
         <div className='bg-white rounded p-5'>
             <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
                 {errMsg}
@@ -254,7 +254,7 @@ const CreateResource = () => {
                         isMulti
                         isClearable
                         id='tags'
-                        className='form-control mb-1'
+                        className='mb-1'
                         placeholder='Enter tags'
                         autoComplete='off'
                         onChange={(newValue) => setTags(newValue)}

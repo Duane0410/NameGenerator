@@ -52,7 +52,6 @@ const Menu = () => {
                 const response = await axiosPrivate.get(`/resource-types`, {
                     signal: controller.signal,
                 });
-                console.log(response.data);
                 isMounted && setData(response.data);
             } catch (error) {
                 console.error(error);
@@ -80,8 +79,6 @@ const Menu = () => {
 
     useEffect(() => {
         const linkColor = document.querySelectorAll('.nav_link');
-        console.log('Current - ', currentUrl);
-        console.log('Full Current - ', fullUrl);
 
         const removeColor = () => {
             if (linkColor) {
@@ -152,7 +149,7 @@ const Menu = () => {
                             </span>
                         </a>
                     </div>
-                    <a className="nav_link btn btn-info text-light mx-4 w-75" onClick={signOut}>
+                    <a className="nav_link btn btn-danger text-light mx-4 w-75" onClick={signOut}>
                         <span><FontAwesomeIcon icon={faRightFromBracket} /> Sign Out</span>
                     </a>
                 </nav>

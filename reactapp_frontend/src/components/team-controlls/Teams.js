@@ -68,10 +68,10 @@ function Teams () {
                 <table className='table'>
                     <thead>
                         <tr>
-                            <th className='px-3 bg-light'>Team-ID</th>
-                            <th className='px-4 bg-light'>Leader</th>
-                            <th className='px-3 bg-light'>Members</th>
-                            <th className='px-4 bg-light'>Actions</th>
+                            <th className='px-3'>Team-ID</th>
+                            <th className='px-4'>Leader</th>
+                            <th className='px-3'>Members</th>
+                            <th className='px-4'>Actions</th>
                         </tr>
                     </thead>
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import process from 'process'
 
 const apiKey = process.env.REACT_APP_API_KEY
-console.log('api-',apiKey)
+
 function useOpenAI(category='Stone') {
     const [messages, setMessages]= useState([
     {

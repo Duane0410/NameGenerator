@@ -1,8 +1,8 @@
 .App {
-  background-color: #0d6efd;
-  font-family: 'Times New Roman', Times, serif;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding:  10px 35px;
+    font-family: 'Times New Roman', Times, serif;
+    min-height: 100%;
+    min-width: 100%;
+    padding:  10px 35px;
+    color: #14274E;
+    background-color: #cddfea;
 }

@@ -4,7 +4,7 @@
 }
 
 .heading{
-    color: aliceblue;
+    color: #14274E;
     display: flex;
 }
 .logout{
@@ -12,10 +12,6 @@
     position: absolute;
     top: 20; /* Adjust this value as needed */
     right: 0;
-}
-
-body{
-    background-color: #0d6efd;
 }
 
 .background{
@@ -28,20 +24,17 @@ body{
 }
 
 .card-container{
-    width:300px;
     overflow:hidden;
-    box-shadow: 0px 0px 15px -5px;
     text-align: center;
-    height: 250px;
-    background-color: aliceblue;
     transition: 0.3s;
     animation: ease-in;
 }
 
 .card-container:hover{
     transform:scale(1,1);
-    box-shadow:0px 0px 15px 0px ;
+    box-shadow:0px 0px 15px -5px ;
 }
+
 .card-sapce{
     margin-left: 20px;
     margin-right: 20px;

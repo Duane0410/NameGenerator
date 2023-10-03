@@ -37,7 +37,6 @@ function Login() {
             const response = await axiosPrivate.post(LOGIN_URL, 
                 JSON.stringify({ "user": user, "pass": pass })
             )
-            console.log(JSON.stringify(response?.data))
 
             const accessToken = response?.data?.accessToken
             const roles = response?.data?.roles
@@ -45,7 +44,6 @@ function Login() {
             const email= response?.data?.email
 
             setAuth({ user, pass, roles,email, teamID, accessToken })
-            console.log('Auth - ', auth)
             
             setUser('')
             setPass('')
@@ -67,7 +65,7 @@ function Login() {
     }
 
     return(
-        <div className="login template d-flex justify-content-center align-items-center 100-w vh-100 bg-primary">
+        <div className="d-flex justify-content-center align-items-center 100-w vh-100">
             <div className="w-40 p-5 rounded bg-white">
                 <p ref={errRef} className={errMsg ? 'text-danger' : 'd-none'} aria-live='assertive'>
                     {errMsg}

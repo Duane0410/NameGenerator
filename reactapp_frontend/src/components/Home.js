@@ -22,7 +22,6 @@ const Home = () => {
                 const response = await axiosPrivate.get(`/resource-types`, {
                     signal: controller.signal
                 })
-                console.log(response.data)
                 isMounted && setData(response.data)
             } catch (error) {
                 console.error(error)
@@ -49,7 +48,6 @@ const Home = () => {
                     const response = await axiosPrivate.delete(`/resource-types/${ID}`)
                     console.log(response)
                     window.location.reload()
-                    console.log('Trial')
                 } catch (error) {
                     console.error(error)
                 } finally {
@@ -63,7 +61,7 @@ const Home = () => {
     <div className='App'>
 
         <div className='heading'>
-            <h1 className='text-light py-4 px-4'>Resources:</h1>
+            <h1 className='py-4 px-4'>Resources:</h1>
             <h4 className='position-absolute' style={{right: "5%"}}>Welcome {auth.user}!</h4>
         </div>
 
@@ -104,7 +102,7 @@ const Home = () => {
             </div>
             :
             <div>
-                <h1 className='text-light fs-4 py-4 px-4'>No Resources Added!</h1>
+                <h1 className='fs-4 py-4 px-4'>No Resources Added!</h1>
                 
                 <div className="d-flex">
                     <div className="card card-container" style={{width: "18rem", margin: "0 10px 30px"}}>
