@@ -59,7 +59,7 @@ function Teams () {
             </div>
             <div></div>
 
-            <div className='w-100 bg-white rounded p-3 my-3' style={{width: '200%'}}>
+            <div className='w-100 bg-white-t rounded p-3 my-3' style={{width: '200%'}}>
                 <Link 
                     to={`/team-controll?action=${encodeURIComponent('create')}`}
                     className='btn btn-success position-relative mb-1' 

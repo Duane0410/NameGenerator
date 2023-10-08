@@ -1,29 +1,24 @@
 :root {
-    --lightWhite: #F1F6F9;
-    --lightWhite-rgb: 241, 246, 249;
-    --lightWhite-darker: #cddfea;
-    --lightWhite-darkest: #a9c8da;
-
-    --lightWhite-darkest-rgb: 127, 139, 159;
+    --lightWhiteBlue: #F1F6F9;
+    --lightWhiteBlue-rgb: 241, 246, 249;
+    --lightWhiteBlue-darker: #cddfea;
+    --lightWhiteBlue-darker-rgb: 205, 223, 234;
+    --lightWhiteBlue-darkest: #a9c8da;
+    --lightWhiteBlue-darkest-rgb: 127, 139, 159;
 
     --backgroundBlue: #9BA4B4;
-    --backgroundBlue-rgb: 155, 164, 180;
     --backgroundBlue-lighter: #b9c0ca;
     --backgroundBlue-lightest: #d6dae0;
-    --backgroundBlue-darker: #7f8b9f;
     --backgroundBlue-darkest: #657186;
 
     --primaryBlue: #14274e;
-    --primaryBlue-rgb: 20, 39, 78;
-    --primaryBlue-darker: #091224;
-    --primaryBlue-darkest: #000000;
 
     --secondaryBlue: #384766;
     --secondaryBlue-rgb: 56, 71, 102;
     --secondaryBlue-lighter: #4a5d87;
     --secondaryBlue-lightest: #5e75a6;
-    --secondaryBlue-darker: #263045;
-    --secondaryBlue-darkest: #141924;
+
+    --custom-white-darkest: #cccccc;
 }
 
 .btn-primary {
@@ -38,120 +33,80 @@
     --bs-btn-disabled-border-color: var(--secondaryBlue);
 }
 
-.bg-white {
+.bg-white-l {
     --bs-bg-opacity: 1;
-    background-color: rgba(var(--lightWhite-darkest-rgb),var(--bs-bg-opacity))!important;
+    background-color: rgba(var(--lightWhiteBlue-darkest-rgb),var(--bs-bg-opacity))!important;
     color: var(--primaryBlue);
 }
 
-.form-control:focus {
+.bg-white-l .form-control:focus {
     color: var(--primaryBlue);
     background-color: var(--backgroundBlue-lightest);
     border-color: var(--backgroundBlue-lightest);
     box-shadow: 0 0 0 0.25rem #0242a240;
 }
 
-.form-control:disabled {
+.bg-white-l .form-control:disabled {
     background-color: var(--backgroundBlue-darkest);
     border: var(--bs-border-width) solid var(--backgroundBlue-darkest);
     opacity: 1;
 }
 
-.form-control {
+.bg-white-l .form-control {
     color: var(--primaryBlue);
     background-color: var(--backgroundBlue-lighter);
     border: var(--bs-border-width) solid var(--backgroundBlue-lighter);
 }
 
-.input-group-text {
+.bg-white-l .input-group-text {
     color: var(--bs-body-color);
     background-color: var(--backgroundBlue-darkest);
     border: var(--bs-border-width) solid var(--backgroundBlue-darkest);
 }
 
-.form-check-input {
+.bg-white-l .form-check-input {
     --bs-form-check-bg: var(--bs-body-bg);
-    background-color: var(--lightWhite);
+    background-color: var(--lightWhiteBlue);
     background-image: var(--bs-form-check-bg-image);
-    border: var(--bs-border-width) solid var(--lightWhite);
+    border: var(--bs-border-width) solid var(--lightWhiteBlue);
+}
+
+.bg-white-t {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--lightWhiteBlue-rgb),var(--bs-bg-opacity))!important;
+    color: var(--primaryBlue);
 }
 
 .table {
     --bs-table-color: var(--primaryBlue);
-    --bs-table-bg: var(--backgroundBlue);
+    --bs-table-bg: var(--lightWhiteBlue);
     --bs-table-border-color: var(--bs-border-color);
     --bs-table-striped-color: var(--primaryBlue);
     --bs-table-active-color: var(--primaryBlue);
     --bs-table-hover-color: var(--primaryBlue);
-    border-color: var(--backgroundBlue-darker);
+    border-color: var(--custom-white-darkest);
     vertical-align: middle;
 }
 
 th {
-    --bs-table-bg: var(--backgroundBlue-darkest);
+    --bs-table-bg: var(--custom-white-darkest);
     text-align: center;
 }
 
 .card {
-    --bs-card-border-color: var(--lightWhite-darkest);
+    --bs-card-border-color: var(--lightWhiteBlue-darkest);
     --bs-card-color: var(--primaryBlue);
-    --bs-card-bg: var(--lightWhite);
+    --bs-card-bg: var(--lightWhiteBlue);
     color: var(--bs-body-color);
     background-color: var(--bs-card-bg);
     border: var(--bs-card-border-width) solid var(--bs-card-border-color);
 }
 
 a {
-    color: var(--lightWhite);
+    color: var(--lightWhiteBlue);
 }
 
 .css-t3ipsp-control:focus-within {
-    background-color: var(--backgroundBlue-lightest);
-    border-color: var(--backgroundBlue-lightest);
-    box-shadow: 0 0 0 0.25rem #0242a240;
-}
-
-.css-1fdsijx-ValueContainer {
-    background-color: var(--backgroundBlue-lighter);
-    border-color: var(--backgroundBlue-lighter);
-}
-
-.css-1fdsijx-ValueContainer:focus-within {
-    background-color: var(--backgroundBlue-lightest);
-    border-color: var(--backgroundBlue-lightest);
-}
-
-.css-qbdosj-Input {
-    box-sizing: border-box;
-    background-color: var(--backgroundBlue-lighter);
-}
-
-.css-qbdosj-Input:focus-within {
-    box-sizing: border-box;
-    background-color: var(--backgroundBlue-lightest);
-    border-color: var(--backgroundBlue-lightest);
-}
-
-.css-3w2yfm-ValueContainer {
-    background-color: var(--backgroundBlue-lighter);
-}
-
-.css-3w2yfm-ValueContainer:focus-within {
-    background-color: var(--backgroundBlue-lightest);
-}
-
-.css-1xc3v61-indicatorContainer {
-    color: var(--primaryBlue);
-    background-color: var(--backgroundBlue-lighter);
-    border-color: var(--backgroundBlue-lighter);
-}
-
-.css-15lsz6c-indicatorContainer {
-    color: var(--primaryBlue);
-    background-color: var(--backgroundBlue-lightest);
-    border-color: var(--backgroundBlue-lightest);
-}
-
-.css-1hb7zxy-IndicatorsContainer {
-    background-color: var(--backgroundBlue-lighter);
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, .25);
 }

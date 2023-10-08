@@ -76,7 +76,7 @@ function Resources () {
             </div>
             <div></div>
 
-            <div className='w-100 bg-white rounded p-3 my-3' style={{width: '200%'}}>
+            <div className='w-100 bg-white-t rounded p-3 my-3' style={{width: '200%'}}>
                 <Link 
                     // state={typeData}
                     to={`/create?resource=${encodeURIComponent(resource)}&categories=${encodeURIComponent(categories)}`}
