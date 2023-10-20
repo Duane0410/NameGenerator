@@ -86,42 +86,44 @@ const ConfigSettings = () => {
     }
 
   return (
-    <div className='bg-white w-75 rounded p-5 m-3 position-relative' style={{"left": "14%"}}>
-        <div>
-            <h1 className='p-4 mx-3'>Configure Email Schedule</h1>
-        </div>
-        <form className='px-5'>
-            {checkBoxes.map((checkbox) => (
-                <div key={checkbox.id} className="input-group mb-3">
-                    <div className="input-group-text">
-                        <input
-                            type='checkbox'
-                            id={checkbox.id}
-                            className='form-check-input mt-0'
-                            checked={checkbox.state ? true : false}
-                            onChange={() => {
-                                setCheckBoxes((prevCheckBoxes) =>
-                                    prevCheckBoxes.map((check) =>
-                                        check.id === checkbox.id ? { ...check, state: !check.state } : check
-                                    )
-                                )
-                            }}
-                        />
-                    </div>
-                    <div className='form-control'>
-                        {checkbox.state
-                            ? <span> Receive email <strong>{checkbox.label}</strong>.</span>
-                            : <span> Do not receive email <strong>{checkbox.label}</strong>.</span>
-                        }
-                    </div>
-                </div>
-            ))}
-            <br/>
-            <div className='d-flex'>
-                <button onClick={resetHandler} className="btn btn-primary w-50 btn-block mx-4">Reset</button> 
-                <button onClick={saveHandler} className="btn btn-primary w-50 btn-block mx-4">Save</button>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className='bg-white rounded p-5'>
+            <div>
+                <h1 className='p-4 mx-3'>Configure Email Schedule</h1>
             </div>
-        </form>
+            <form className='px-5'>
+                {checkBoxes.map((checkbox) => (
+                    <div key={checkbox.id} className="input-group mb-3">
+                        <div className="input-group-text">
+                            <input
+                                type='checkbox'
+                                id={checkbox.id}
+                                className='form-check-input mt-0'
+                                checked={checkbox.state ? true : false}
+                                onChange={() => {
+                                    setCheckBoxes((prevCheckBoxes) =>
+                                        prevCheckBoxes.map((check) =>
+                                            check.id === checkbox.id ? { ...check, state: !check.state } : check
+                                        )
+                                    )
+                                }}
+                            />
+                        </div>
+                        <div className='form-control'>
+                            {checkbox.state
+                                ? <span> Receive email <strong>{checkbox.label}</strong>.</span>
+                                : <span> Do not receive email <strong>{checkbox.label}</strong>.</span>
+                            }
+                        </div>
+                    </div>
+                ))}
+                <br/>
+                <div className='d-flex'>
+                    <button onClick={resetHandler} className="btn btn-primary w-50 btn-block mx-4">Reset</button>
+                    <button onClick={saveHandler} className="btn btn-primary w-50 btn-block mx-4">Save</button>
+                </div>
+            </form>
+        </div>
     </div>
   )
 }

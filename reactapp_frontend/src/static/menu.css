@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
 :root {
-    --first-color: #14274E;
-    --first-color-light: #394867;
+    --first-color: #14274d;
+    --first-color-light: #748290;
     --white-color: #EEEEEE;
     --normal-font-size: 1.1rem;
     --z-fixed: 100;
@@ -14,7 +14,7 @@
 }
 
 .nav-space {
-    --nav-width: 18%;
+    --nav-width: 240px;
     --header-height: 3rem;
 }
 
@@ -32,8 +32,8 @@ a {
 
 .content {
     position: relative;
-    left: 15%;
-    width: 82%;
+    left: 200px;
+    width: 80%;
 }
 
 .header {
